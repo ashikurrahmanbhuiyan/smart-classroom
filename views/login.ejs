@@ -1,0 +1,61 @@
+
+    <% if (error_msg) { %>
+        <p style="color: red;">
+            <%= error_msg %>
+        </p>
+        <% } %>
+
+    
+                    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="\style.css">
+</head>
+
+<body>
+
+
+
+    <div class="login-container">
+        <div class="login-section">
+            <h1>Choose Account Type</h1>
+            <div class="account-type">
+                <div id="teacher" class="active" onclick="selectAccount('teacher')">
+                    <img src="/teacher.png" alt="Teacher">
+                    <p>Teacher</p>
+                </div>
+                <div id="student" onclick="selectAccount('student')">
+                    <img src="/student.png" alt="student">
+                    <p>Student</p>
+                </div>
+            </div>
+
+            <form action="/teacher/login" method="post">
+                <p id="welcome-message">Hello Teacher. Log in</p>
+                <div>
+                    <% if (success_msg) { %>
+                        <p style="color: green;">
+                            <%= success_msg %>
+                        </p>
+                        <% } %>
+                </div>
+                <input type="email" id="email" placeholder="email" name="email">
+                <input type="password" id="password" placeholder="Password" name="password">
+                <div class="forgot-signup">
+                    <a href="#"></a>
+                    <a href="#">Forget password?</a>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div class="signup-section">
+            <h2>New Here?</h2>
+            <p>Sign up and discover a great amount of new opportunities!</p>
+            <a href="/teacher/register"><button>Sign Up as a teacher</button></a>
+            <a href="/register"><button>Sign Up as a student</button></a>
+        </div>
+    </div>
+
+    <script src="/log_in.js"></script>
