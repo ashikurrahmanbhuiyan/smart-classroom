@@ -1,38 +1,38 @@
 <!-- for error message that we wnat to show to the user -->
-    <% if (error_msg) { %>
-        <p style="color: red;">
-            <%= error_msg %>
-        </p>
-        <% } %>
+<% if (error_msg) { %>
+    <p style="color: red;">
+        <%= error_msg %>
+    </p>
+    <% } %>
 
-    
-                    
+
+
 <head>
     <title>Login Form</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
+
     <div class="login-container">
         <div class="login-section">
             <h1>Choose Account Type</h1>
             <div class="account-type">
-
                 <a href="/teacher/login">
-                    <div id="teacher" class="active">
-                        <img src="/teacher.png" alt="Teacher">
-                    <p>Teacher</p>
+                    <div id="teacher">
+                         <img src="/teacher.png" alt="Teacher">
+                        <p>Teacher</p>    
                     </div>
                 </a>
                 <a href="/student/login">
-                    <div id="student">
+                    <div id="student" class="active">
                         <img src="/student.png" alt="student">
                         <p>Student</p>
                     </div>
                 </a>
             </div>
 
-            <form action="/teacher/login" method="post">
+            <form action="/student/login" method="post">
                 <div>
                     <% if (success_msg) { %>
                         <p style="color: green;">
@@ -40,13 +40,13 @@
                         </p>
                         <% } %>
                 </div>
-                <input type="email" id="email" placeholder="Teacher Email" name="email">
-                <input type="password" id="password" placeholder="Teacher Password" name="password">
+                <input type="email" id="email" placeholder="Student Email" name="email">
+                <input type="password" id="password" placeholder="Student Password" name="password">
                 <div class="forgot-signup">
                     <a href="#"></a>
                     <a href="#">Forget password?</a>
                 </div>
-                <button type="submit">Login as a Teacher</button>
+                <button type="submit">Login as a Student</button>
             </form>
         </div>
         <div class="signup-section">

@@ -2,17 +2,15 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const { checkNotAuthenticatedteacher } = require('../config/auth');
-const User_teacher = require('../models/user_teacher');
+const { checkNotAuthenticatedstudent } = require('../config/auth');
+const User_student = require('../models/user_student');
 
-// Login Page (restricted for authenticated teacher)
-router.get('/login', checkNotAuthenticatedteacher, (req, res) => res.render('login'));
 
-// Register Page (restricted for authenticated teacher)
-router.get('/register', checkNotAuthenticatedteacher, (req, res) => res.render('register'));
+// Register Page (restricted for authenticated student)
+router.get('/register', checkNotAuthenticatedstudent, (req, res) => res.render('student_register'));
 
 // Register Handler
-router.post('/register', checkNotAuthenticatedteacher, async (req, res) => {
+router.post('/register', checkNotAuthenticatedstudent, async (req, res) => {
     const { name, email, password, password2 } = req.body;
     const errors = [];
     if (!name || !email || !password || !password2) {
@@ -32,28 +30,31 @@ router.post('/register', checkNotAuthenticatedteacher, async (req, res) => {
     }
 
     try {
-        const existingUser = await User_teacher.findOne({ email });
+        const existingUser = await User_student.findOne({ email });
         if (existingUser) {
             req.flash('success_msg', 'You are now registered and can log in');
             return res.render('register', { errors, name, email, password, password2 });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User_teacher({ name, email, password: hashedPassword });
+        const newUser = new User_student({ name, email, password: hashedPassword });
         await newUser.save();
         req.flash('success_msg', 'You are now registered and can log in');
-        res.redirect('/teacher/login');
+        res.redirect('/student/login');
     } catch (err) {
         console.error(err);
-        res.redirect('/teacher/register');
+        res.redirect('/student/register');
     }
 });
 
+// Login Page (restricted for authenticated student)
+router.get('/login', checkNotAuthenticatedstudent, (req, res) => res.render('student_login'));
+
 // Login Handler
-router.post('/login', checkNotAuthenticatedteacher, (req, res, next) => {
-    passport.authenticate('local-teacher', {
-        successRedirect: '/teacher/dashboard',
-        failureRedirect: '/teacher/login',
+router.post('/login', checkNotAuthenticatedstudent, (req, res, next) => {
+    passport.authenticate('local-student', {
+        successRedirect: '/student/dashboard',
+        failureRedirect: '/student/login',
         failureFlash: true,
     })(req, res, next);
 });
@@ -63,7 +64,7 @@ router.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) throw err;
         req.flash('success_msg', 'You are logged out');
-        res.redirect('/teacher/login');
+        res.redirect('/student/login');
     });
 });
 

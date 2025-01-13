@@ -1,19 +1,34 @@
-function checkAuthenticated(req, res, next) {
+function checkAuthenticatedteacher(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    // res.redirect('/users/login');
     res.redirect('/teacher/login');
 }
 
-function checkNotAuthenticated(req, res, next) {
+function checkNotAuthenticatedteacher(req, res, next) {
     if (req.isAuthenticated()) {
-        return res.redirect('/dashboard'); // Redirect to a protected page
+        return res.redirect('/teacher/dashboard'); // Redirect to a protected page
+    }
+    next();
+}
+
+function checkAuthenticatedstudent(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/student/login');
+}
+
+function checkNotAuthenticatedstudent(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('/student/dashboard'); // Redirect to a protected page
     }
     next();
 }
 
 module.exports = {
-    checkAuthenticated,
-    checkNotAuthenticated,
+    checkAuthenticatedteacher,
+    checkNotAuthenticatedteacher,
+    checkAuthenticatedstudent,
+    checkNotAuthenticatedstudent,
 };

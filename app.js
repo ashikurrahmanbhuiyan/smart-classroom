@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
-const path = require('path');
 
 // Initialize App
 const app = express();
 
 // Passport Config
 require('./config/passport')(passport);
+
 
 // MongoDB Connection
 mongoose
@@ -22,6 +22,8 @@ mongoose
 
 // EJS
 app.set('view engine', 'ejs');
+
+//use pablic folder for css and js
 app.use( express.static('public') );
 
 
@@ -54,8 +56,8 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/', require('./routes/index'));
-// app.use('/users', require('./routes/users'));
 app.use('/teacher', require('./routes/teacher'));
+app.use('/student', require('./routes/student'));
 
 // Start Server
 const PORT = 3000;
