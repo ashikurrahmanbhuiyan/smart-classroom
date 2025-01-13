@@ -94,7 +94,7 @@ input {
 
 .forgot-signup {
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     font-size: 12px;
 }
 

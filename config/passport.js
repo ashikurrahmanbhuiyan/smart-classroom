@@ -14,15 +14,13 @@ module.exports = function (passport) {
             try {
                 const user = await User_teacher.findOne({ email });
                 if (!user) {
-                    console.log('Email not registered');
-                    return done(null, false, { message: 'Email not registered' });
+                    return done(null, false, { message: 'Teacher Email not registered' });
                 }
 
                 const isMatch = await bcrypt.compare(password, user.password);
                 if (isMatch) {
                     return done(null, user);
                 } else {
-                    console.log('Password incorrect');
                     return done(null, false, { message: 'Password incorrect' });
                 }
             } catch (err) {
@@ -38,14 +36,12 @@ module.exports = function (passport) {
             try {
                 const user = await User_student.findOne({ email });
                 if (!user) {
-                    console.log('Email not registered');
-                    return done(null, false, { message: 'Email not registered' });
+                    return done(null, false, { message: 'Student Email not registered' });
                 }
                 const isMatch = await bcrypt.compare(password, user.password);
                 if (isMatch) {
                     return done(null, user);
                 } else {
-                    console.log('Password incorrect');
                     return done(null, false, { message: 'Password incorrect' });
                 }
             } catch (err) {

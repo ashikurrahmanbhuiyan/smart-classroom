@@ -12,28 +12,18 @@ router.get('/register', checkNotAuthenticatedstudent, (req, res) => res.render('
 // Register Handler
 router.post('/register', checkNotAuthenticatedstudent, async (req, res) => {
     const { name, email, password, password2 } = req.body;
-    const errors = [];
-    if (!name || !email || !password || !password2) {
-        errors.push({ msg: 'Please fill in all fields' });
-    }
-
-    if (password !== password2) {
-        errors.push({ msg: 'Passwords do not match' });
-    }
-
+    let error1, error2, error3;
     if (password.length < 6) {
-        errors.push({ msg: 'Password must be at least 6 characters' });
+        return res.render('student_register', { error1: 'Password must be at least 6 characters', name , email });
     }
-
-    if (errors.length > 0) {
-        return res.render('register', { errors, name, email, password, password2 });
+    if (password !== password2) {
+        return res.render('student_register', { error2: 'Passwords do not match', name, email });
     }
 
     try {
         const existingUser = await User_student.findOne({ email });
         if (existingUser) {
-            req.flash('success_msg', 'You are now registered and can log in');
-            return res.render('register', { errors, name, email, password, password2 });
+            return res.render('student_register', { error3: 'Email already registered', name, email});
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);

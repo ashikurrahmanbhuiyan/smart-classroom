@@ -1,11 +1,3 @@
-<!-- for error message that we wnat to show to the user -->
-    <% if (error_msg) { %>
-        <p style="color: red;">
-            <%= error_msg %>
-        </p>
-        <% } %>
-
-    
                     
 <head>
     <title>Login Form</title>
@@ -34,6 +26,14 @@
 
             <form action="/teacher/login" method="post">
                 <div>
+                     <!-- display error message from login in passport -->
+                    <% if (error) { %>
+                        <p style="color: red;">
+                            <%= error %>
+                        </p>
+                        <% } %>
+
+                    <!-- display success message of login-->
                     <% if (success_msg) { %>
                         <p style="color: green;">
                             <%= success_msg %>
@@ -43,7 +43,6 @@
                 <input type="email" id="email" placeholder="Teacher Email" name="email">
                 <input type="password" id="password" placeholder="Teacher Password" name="password">
                 <div class="forgot-signup">
-                    <a href="#"></a>
                     <a href="#">Forget password?</a>
                 </div>
                 <button type="submit">Login as a Teacher</button>

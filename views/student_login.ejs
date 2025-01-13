@@ -34,6 +34,14 @@
 
             <form action="/student/login" method="post">
                 <div>
+                    <!-- display error message for login from passport-->
+                    <% if (error) { %>
+                        <p style="color: red;">
+                            <%= error %>
+                        </p>
+                        <% } %>
+                
+                    <!-- display success message -->
                     <% if (success_msg) { %>
                         <p style="color: green;">
                             <%= success_msg %>
