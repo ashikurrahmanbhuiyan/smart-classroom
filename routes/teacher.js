@@ -6,6 +6,8 @@ const { checkNotAuthenticatedteacher } = require('../config/auth');
 const User_teacher = require('../models/user_teacher');
 const { log } = require('node:console');
 
+
+
 // Login Page (restricted for authenticated teacher)
 router.get('/login', checkNotAuthenticatedteacher, (req, res) => res.render('login'));
 
@@ -65,6 +67,35 @@ router.post("/update-name", async (req, res) => {
         const userTeacher = await User_teacher.updateOne(
             { email: email },  
             { $set: { name } } 
+        );
+        res.redirect('/teacher/dashboard')
+    }catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, message: 'Failed to update name' });
+    }
+});
+
+
+// for uploads profile pics
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination : function(req, file, cb){
+        return cb(null, './public/profilePics');
+    },
+    filename : function (req, file, cb){
+        return cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+const upload = multer({storage: storage});
+router.post("/update-profile-pic", upload.single("updateProfilePic"), async (req, res) => {
+    const { email } = req.body;
+    const picture = req.file ? req.file.filename : null;
+    try {
+        const userTeacher = await User_teacher.updateOne(
+            { email: email }, 
+            {$set : {picture : picture}} 
         );
         res.redirect('/teacher/dashboard')
     }catch (error) {
