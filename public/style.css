@@ -39,7 +39,7 @@ body {
 
 .signup-section {
     width: 40%;
-    background: linear-gradient(135deg, #45b8ae, #0e021d);
+    background: linear-gradient(135deg, #2D9078, #2F868C);
     color: white;
     display: flex;
     flex-direction: column;
@@ -99,7 +99,18 @@ input {
 }
 
 button {
-    background: #007BFF;
+    background-color: #20907A;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.signup-section button {
+    background: #181A1B;
     color: #fff;
     padding: 10px;
     border: none;
@@ -110,7 +121,13 @@ button {
 }
 
 button:hover {
-    background: #0056b3;
+    background-color: #20907A;
+    color: white;
+}
+
+.signup-section button:hover {
+    background: #fff;
+        color: #20907A;
 }
 
 a {
