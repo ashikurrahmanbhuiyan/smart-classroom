@@ -17,6 +17,9 @@ const teacherSchema = new mongoose.Schema({
     picture :{
         type : String
     },
+    position : {
+        type : String
+    },
     date: {
         type: Date,
         default: Date.now,

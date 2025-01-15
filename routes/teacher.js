@@ -65,11 +65,11 @@ router.post("/update-name", async (req, res) => {
     const { name, email } = req.body;
     try {
         const userTeacher = await User_teacher.updateOne(
-            { email: email },  
-            { $set: { name } } 
+            { email: email },
+            { $set: { name } }
         );
         res.redirect('/teacher/dashboard')
-    }catch (error) {
+    } catch (error) {
         console.error(error);
         res.status(500).send({ success: false, message: 'Failed to update name' });
     }
@@ -81,24 +81,49 @@ router.post("/update-name", async (req, res) => {
 const multer = require('multer');
 
 const storage = multer.diskStorage({
-    destination : function(req, file, cb){
+    destination: function (req, file, cb) {
         return cb(null, './public/profilePics');
     },
-    filename : function (req, file, cb){
+    filename: function (req, file, cb) {
         return cb(null, `${Date.now()}-${file.originalname}`);
     }
 });
-const upload = multer({storage: storage});
+const upload = multer({ storage: storage });
 router.post("/update-profile-pic", upload.single("updateProfilePic"), async (req, res) => {
     const { email } = req.body;
-    const picture = req.file ? req.file.filename : null;
+    var picture = req.file ? req.file.filename : null;
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.svg'];
+    if (!picture) {
+        picture = "img.jpg";
+    } else {
+        const validation = validExtensions.some(ext => picture.toLowerCase().endsWith(ext));
+        if (!validation) {
+            picture = "img.jpg";
+        }
+    }
     try {
         const userTeacher = await User_teacher.updateOne(
-            { email: email }, 
-            {$set : {picture : picture}} 
+            { email: email },
+            { $set: { picture: picture } }
         );
         res.redirect('/teacher/dashboard')
-    }catch (error) {
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, message: 'Failed to update name' });
+    }
+});
+
+
+// for updating positon
+router.post("/update-position", async (req, res) => {
+    const { position, email } = req.body;
+    try {
+        const userTeacher = await User_teacher.updateOne(
+            { email: email },
+            { $set: { position } }
+        );
+        res.redirect('/teacher/dashboard')
+    } catch (error) {
         console.error(error);
         res.status(500).send({ success: false, message: 'Failed to update name' });
     }

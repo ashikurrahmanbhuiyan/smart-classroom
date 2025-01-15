@@ -34,12 +34,13 @@
             <!-- for pic segment -->
             <div class="profile-photo">
                 <img src="/profilePics/<%=user.picture%>" alt="Theacher phto">
-                <button id = "picButton" type="submit">Edit photo</button>
+                <button id="picButton" type="submit">Edit photo</button>
                 <div id="picForm" style="display: none;">
-                    <form id="edit-form" method="post" action="/teacher/update-profile-pic" enctype="multipart/form-data">
-                        <input type="file" name="updateProfilePic" >
+                    <form id="edit-form" method="post" action="/teacher/update-profile-pic"
+                        enctype="multipart/form-data">
+                        <input type="file" name="updateProfilePic">
                         <input type="hidden" name="email" value=<%=user.email%> >
-                        <button id="picSubmit" type="submit">Submit</button>
+                        <button id="picSubmit" type="submit">Upload</button>
                     </form>
                 </div>
             </div>
@@ -47,7 +48,9 @@
             <!-- for name update -->
             <div class="profile-info">
                 <div class="profile-info-item" id="name">
-                    <h1><%= user.name %></h1>
+                    <h1>
+                        <%= user.name %>
+                    </h1>
                     <button id="nameButton"><img src="/img/edit.png" alt="edit"></button>
                 </div>
                 <div id="nameForm" style="display: none;">
@@ -59,11 +62,18 @@
                 </div>
 
 
+                <!-- for updationg positon -->
 
-
-                <div class="profile-info-item">
-                    <p>ASSOCIATE PROFESSOR at in Computer Science & Engineering (RU)</p>
-                    <button><img src="/img/edit.png" alt="edit"></button>
+                <div class="profile-info-item" id="position">
+                    <p><%= user.position%></p>
+                    <button id = "positionButton"><img src="/img/edit.png" alt="edit"></button>
+                </div>
+                <div id="positionForm" style="display: none;">
+                    <form id="edit-form" method="post" action="/teacher/update-position">
+                        <input type="text" name="position" value="<%= user.position %>" required>
+                        <input type="hidden" name="email" value=<%=user.email%> >
+                        <button id="positionSubmit" type="submit">Submit</button>
+                    </form>
                 </div>
             </div>
             <div class="img-ru-logo">
@@ -178,6 +188,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            // name update
             const nameButton = document.getElementById('nameButton');
             const name = document.getElementById('name');
             const nameForm = document.getElementById('nameForm');
@@ -193,9 +205,7 @@
             });
 
 
-
-
-
+            // profile pic update
 
             const picButton = document.getElementById('picButton');
             const picForm = document.getElementById('picForm');
@@ -206,6 +216,22 @@
             picSubmit.addEventListener('submit', async (event) => {
                 event.preventDefault();
                 picForm.style.display = 'none';
+            });
+
+
+            // position Update
+            const positionButton = document.getElementById('positionButton');
+            const position = document.getElementById('position');
+            const positionForm = document.getElementById('positionForm');
+            const positionSubmit = document.getElementById('positionSubmit')
+            positionButton.addEventListener('click', () => {
+                position.style.display = 'none';
+                positionForm.style.display = 'block';
+            });
+            positionSubmit.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                position.style.display = 'block';
+                positionForm.style.display = 'none';
             });
 
         });
