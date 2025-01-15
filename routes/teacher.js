@@ -172,4 +172,27 @@ router.post("/update-education", async (req, res) => {
         res.redirect('/teacher/dashboard');
     });
 
+
+    router.post("/update-research", async (req, res) => {
+        let {research, email} = req.body;
+        const pro = await User_teacher.findOne({email : email})
+        .then((interest) => {
+            if(interest){
+               interest.researchs.push({
+                    research : research 
+                    
+                });
+                interest.save();
+            }else{
+                const newRs = new User_teacher({
+                    researchs: [{
+                        research : research, 
+                    }]
+                });
+               newRs.save(); 
+            }
+        });
+        res.redirect('/teacher/dashboard');
+    });
+
 module.exports = router;

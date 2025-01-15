@@ -120,19 +120,21 @@
                 <div class="research-interest">
                     <h2 class="section-header">Research Interest : </h2>
                     <ul>
-                        <li>Artificial Intelligence</li>
-                        <li>Machine Learning</li>
-                        <li>Computer Vision</li>
-                        <li>Robotics</li>
+                        <% 
+                        const researchs = user.researchs; 
+                        researchs.forEach((element)=>{ 
+                        %>
+                            <li> <%= element.research %> </li>
+                        <% });
+                        %>
                     </ul>
-                    <button id="reacharch">Add new</button>
+                    <button id="researchButton">Add new</button>
 
-                    <div id="educationForm" style="display: none;">
-                        <form id="edit-form" method="post" action="/teacher/update-education">
-                            <input type="text" name="institute" value="<%= user.education %>" required><br>
-                            <input type="text" name="degree" value="<%= user.education %>" required><br>
+                    <div id="researchForm" style="display: none;">
+                        <form id="edit-form" method="post" action="/teacher/update-research">
+                            <input type="text" name="research" value="<%= user.research %>" required>
                             <input type="hidden" name="email" value=<%=user.email%> >
-                            <button id="educationSubmit" type="submit">Submit</button>
+                            <button id="researchSubmit" type="submit">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -301,6 +303,21 @@
                 event.preventDefault();
                 educationForm.style.display = 'none';
                 educationButton.style.display = 'block';
+            });
+
+
+            // research section
+            const researchButton = document.getElementById('researchButton');
+            const researchForm = document.getElementById('researchForm');
+            const researchSubmit = document.getElementById('researchSubmit')
+            researchButton.addEventListener('click', () => {
+                researchForm.style.display = 'block';
+                researchButton.style.display = 'none';
+            });
+            researchSubmit.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                researchForm.style.display = 'none';
+                researchButton.style.display = 'block';
             });
 
         });

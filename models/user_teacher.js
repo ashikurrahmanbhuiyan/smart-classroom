@@ -33,6 +33,13 @@ const teacherSchema = new mongoose.Schema({
             }
         }
     ],
+    researchs : [
+        {
+            research : {
+                type : String
+            }
+        }
+    ],
     date: {
         type: Date,
         default: Date.now,
