@@ -20,6 +20,14 @@ const teacherSchema = new mongoose.Schema({
     position : {
         type : String
     },
+    contact : {
+        type : String
+    },
+    education : [
+        {
+            name
+        }
+    ],
     date: {
         type: Date,
         default: Date.now,

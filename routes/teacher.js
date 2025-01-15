@@ -129,4 +129,21 @@ router.post("/update-position", async (req, res) => {
     }
 });
 
+
+// contact section
+
+router.post("/update-contact", async (req, res) => {
+    const { contact, email } = req.body;
+    try {
+        const userTeacher = await User_teacher.updateOne(
+            { email: email },
+            { $set: { contact } }
+        );
+        res.redirect('/teacher/dashboard')
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, message: 'Failed to update name' });
+    }
+});
+
 module.exports = router;
