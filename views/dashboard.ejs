@@ -65,8 +65,10 @@
                 <!-- for updationg positon -->
 
                 <div class="profile-info-item" id="position">
-                    <p><%= user.position%></p>
-                    <button id = "positionButton"><img src="/img/edit.png" alt="edit"></button>
+                    <p>
+                        <%= user.position%>
+                    </p>
+                    <button id="positionButton"><img src="/img/edit.png" alt="edit"></button>
                 </div>
                 <div id="positionForm" style="display: none;">
                     <form id="edit-form" method="post" action="/teacher/update-position">
@@ -93,7 +95,8 @@
                     <!-- Contact update -->
 
                     <div class="contact-info-item" id="contact">
-                        <p>Address: <%= user.contact%></p>
+                        <p>Address: <%= user.contact%>
+                        </p>
                         <button id="contactButton"><img src="/img/edit.png" alt="edit"></button>
                     </div>
 
@@ -122,20 +125,32 @@
                         <li>Computer Vision</li>
                         <li>Robotics</li>
                     </ul>
-                    <button>Add new</button>
+                    <button id="reacharch">Add new</button>
+
+                    <div id="educationForm" style="display: none;">
+                        <form id="edit-form" method="post" action="/teacher/update-education">
+                            <input type="text" name="institute" value="<%= user.education %>" required><br>
+                            <input type="text" name="degree" value="<%= user.education %>" required><br>
+                            <input type="hidden" name="email" value=<%=user.email%> >
+                            <button id="educationSubmit" type="submit">Submit</button>
+                        </form>
+                    </div>
                 </div>
 
                 <!-- Education Section -->
                 <div class="education">
                     <h2 class="section-header">Educational Background : </h2>
                     <div class="education-item">
-                        <h4>Rajshahi University</h4>
-                        <span>Master's degree, (M. Sc. in Computer Science & Engg.)</span>
+                        <% 
+                        const educations=user.educations; 
+                        educations.forEach((element)=>{ 
+                        %>
+                            <h4> <%= element.institute %> </h4>
+                            <span> <%= element.qualification %> </span>
+                        <% });
+                        %>
                     </div>
-                    <div class="education-item">
-                        <h4>Rajshahi University</h4>
-                        <span>Bachelor's degree, (B. Sc. in Computer Science & Engg.)</span>
-                    </div>
+
                     <button id="educationButton">Add new</button>
                     <div id="educationForm" style="display: none;">
                         <form id="edit-form" method="post" action="/teacher/update-education">

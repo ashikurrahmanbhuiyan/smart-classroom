@@ -146,4 +146,30 @@ router.post("/update-contact", async (req, res) => {
     }
 });
 
+
+// Educational Qualification
+
+router.post("/update-education", async (req, res) => {
+        let {institute, degree, email} = req.body;
+        const pro = await User_teacher.findOne({email : email})
+        .then((edu) => {
+            if(edu){
+                edu.educations.push({
+                    institute : institute, 
+                    qualification : degree
+                });
+                edu.save();
+            }else{
+                const newEdu = new User_teacher({
+                    educations: [{
+                        institute : institute, 
+                        qualification : degree 
+                    }]
+                });
+               newEdu.save(); 
+            }
+        });
+        res.redirect('/teacher/dashboard');
+    });
+
 module.exports = router;

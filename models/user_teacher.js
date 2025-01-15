@@ -23,9 +23,14 @@ const teacherSchema = new mongoose.Schema({
     contact : {
         type : String
     },
-    education : [
+    educations : [
         {
-            name
+            institute : {
+                type : String
+            },
+            qualification : {
+                type : String
+            }
         }
     ],
     date: {
