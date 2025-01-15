@@ -36,15 +36,23 @@
 
             </div>
             <div class="profile-info">
-                <div class="profile-info-item">
-                    <h1>A. F. M. MAHBUBUR RAHMAN</h1>
-                    <button><img src="/img/edit.png" alt="edit"></button>
+                <div class="profile-info-item" id="profile">
+                    <h1>
+                        <%= user.name %>
+                    </h1>
+                    <button id="button"><img src="/img/edit.png" alt="edit"></button>
+                </div>
+                <div id="edit-form-container" style="display: none;">
+                    <form id="edit-form" method="post" action="/teacher/update-name">
+                        <input type="text" name="name" value="<%= user.name %>" required>
+                        <input type="hidden" name="email" value=<%=user.email%> >
+                        <button id="submit" type="submit">Submit</button>
+                    </form>
                 </div>
                 <div class="profile-info-item">
                     <p>ASSOCIATE PROFESSOR at in Computer Science & Engineering (RU)</p>
                     <button><img src="/img/edit.png" alt="edit"></button>
                 </div>
-
             </div>
             <div class="img-ru-logo">
                 <img src="/img/ru_logo.png" alt="ru-logo">
@@ -155,6 +163,25 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('button');
+            const profile = document.getElementById('profile');
+            const form = document.getElementById('edit-form-container');
+            const submit = document.getElementById('submit')
+            button.addEventListener('click', () => {
+                profile.style.display = 'none';
+                form.style.display = 'block';
+            });
+            submit.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                profile.style.display = 'block';
+                form.style.display = 'none';
+            });
+
+        });
+    </script>
 </body>
 
 </html>

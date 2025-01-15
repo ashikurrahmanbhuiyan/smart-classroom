@@ -4,6 +4,7 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const { checkNotAuthenticatedteacher } = require('../config/auth');
 const User_teacher = require('../models/user_teacher');
+const { log } = require('node:console');
 
 // Login Page (restricted for authenticated teacher)
 router.get('/login', checkNotAuthenticatedteacher, (req, res) => res.render('login'));
@@ -56,6 +57,20 @@ router.get('/logout', (req, res) => {
         req.flash('success_msg', 'You are logged out');
         res.redirect('/teacher/login');
     });
+});
+
+router.post("/update-name", async (req, res) => {
+    const { name, email } = req.body;
+    try {
+        const userTeacher = await User_teacher.updateOne(
+            { email: email },  
+            { $set: { name } } 
+        );
+        res.redirect('/teacher/dashboard')
+    }catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, message: 'Failed to update name' });
+    }
 });
 
 module.exports = router;
