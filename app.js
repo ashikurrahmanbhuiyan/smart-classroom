@@ -24,7 +24,7 @@ require('./config/passport')(passport);
 
 // MongoDB Connection
 mongoose
-    .connect('mongodb://localhost:27017/login-system', {
+    .connect('mongodb://localhost:27017/smart-classroom', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
