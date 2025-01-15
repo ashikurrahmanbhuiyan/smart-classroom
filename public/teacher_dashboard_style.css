@@ -1,0 +1,310 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: gainsboro;
+    margin: 0;
+}
+
+.menu-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: green;
+}
+
+.menu-bar img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 15px;
+    margin-top: 0px;
+}
+
+.container1 {
+    display: flex;
+}
+
+.profile {
+    background: hsl(0, 0%, 95%);
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    /* margin-right: 10px; */
+    /* border-radius: 10px; */
+
+    /* box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1); */
+    padding: 10px;
+}
+
+.course-contain {
+    background: hsl(0, 0%, 96%);
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    /* margin-left: 10px; */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    padding: 10px;
+}
+
+.profile-header1 {
+    display: flex;
+}
+
+.profile-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* border-bottom: 2px solid #eee; */
+    padding-bottom: 20px;
+    /* border-radius: 10px; */
+    padding: 10px;
+    /* border: 1px solid gray; */
+    border-bottom: none;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35); */
+}
+
+.profile-photo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-photo button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.profile-photo img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+
+
+.profile-info {
+    flex: 1;
+    margin-left: 20px;
+    align-items: center;
+}
+
+.profile-info h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.profile-info p {
+    margin: 5px 0;
+    color: #666;
+}
+
+
+.img-ru-logo img {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.contact-info p {
+    color: #666;
+}
+
+.education,
+.courses,
+.research-interest,
+.contact-info {
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    padding-top: 0;
+    border: 1px solid gray;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+
+}
+
+.courses {
+    border: none;
+    padding-top: 10px;
+}
+
+.contact-info-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    line-height: .3;
+}
+
+/* line height and changing marginp p is same */
+/* .contact-info-item p {
+    margin: 10px;
+} */
+
+.profile-info-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: .3;
+}
+
+.section-header {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+
+
+.research-interest ul,
+.education p {
+    color: #666;
+    line-height: 1.6;
+}
+
+
+.education-item {
+    margin-bottom: 15px;
+}
+
+.education-item h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.education-item span {
+    color: #666;
+}
+
+.new-course {
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-course-btn,
+.research-interest button,
+.education button,
+.course-contain button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+
+
+}
+
+.courses .course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.744);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.course-item h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.course-item span {
+    color: #666;
+}
+
+.contact-info-item button,
+.profile-info-item button {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-info-item button {
+    background-color: gainsboro;
+}
+
+.contact-info-item img,
+.profile-info-item img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    right: 0;
+    /* Reset right alignment */
+    left: auto;
+    /* Align to the left */
+
+
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}

@@ -1,8 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="/teacher_dashboard_style.css">
+    <!-- bootstrap online -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+</head>
+
+<body>
+    <div class="menu-bar">
+        <div>
+            <h7>Smart classroom logo</h1>
+        </div>
+
+        <div class="dropdown">
+            <img src="/img/menu.png" alt="menu">
+            <div class="dropdown-content">
+                <a href="/teacher/profile">Profile</a>
+                <a href="/teacher/courses">Courses</a>
+                <a href="/teacher/logout">Log out</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-photo">
+                <img src="/img/img.jpg" alt="Theacher phto">
+                <button type="submit">Edit photo</button>
+
+            </div>
+            <div class="profile-info">
+                <div class="profile-info-item">
+                    <h1>A. F. M. MAHBUBUR RAHMAN</h1>
+                    <button><img src="/img/edit.png" alt="edit"></button>
+                </div>
+                <div class="profile-info-item">
+                    <p>ASSOCIATE PROFESSOR at in Computer Science & Engineering (RU)</p>
+                    <button><img src="/img/edit.png" alt="edit"></button>
+                </div>
+
+            </div>
+            <div class="img-ru-logo">
+                <img src="/img/ru_logo.png" alt="ru-logo">
+                <!-- <a href="/teacher/logout"><button>Log out</button></a> -->
+            </div>
+            <!-- </div> -->
+        </div>
+
+        <!-- container1 cintain the section and course part -->
+        <div class="container1">
+            <div class="profile">
+                <!-- Contact Info Section -->
+                <div class="contact-info">
+                    <h2 class="section-header">Contact Info :</h2>
+                    <div class="contact-info-item">
+                        <p>Address: Rajshahi</p>
+                        <button><img src="/img/edit.png" alt="edit"></button>
+                    </div>
+                    <div class="contact-info-item">
+                        <p>Email Address: m.r.kushal@gmail.com</p>
+                        <button><img src="/img/edit.png" alt="edit"></button>
+                    </div>
+                </div>
+
+                <!-- research interest cse -->
+                <div class="research-interest">
+                    <h2 class="section-header">Research Interest : </h2>
+                    <ul>
+                        <li>Artificial Intelligence</li>
+                        <li>Machine Learning</li>
+                        <li>Computer Vision</li>
+                        <li>Robotics</li>
+                    </ul>
+                    <button>Add new</button>
+                </div>
+
+                <!-- Education Section -->
+                <div class="education">
+                    <h2 class="section-header">Educational Background : </h2>
+                    <div class="education-item">
+                        <h4>Rajshahi University</h4>
+                        <span>Master's degree, (M. Sc. in Computer Science & Engg.)</span>
+                    </div>
+                    <div class="education-item">
+                        <h4>Rajshahi University</h4>
+                        <span>Bachelor's degree, (B. Sc. in Computer Science & Engg.)</span>
+                    </div>
+                    <button>Add new</button>
+                </div>
+
+            </div>
+
+            <div class="course-contain">
+                <!-- Courses Section -->
+                <div class="courses">
+                    <div class="new-course">
+                        <h2 class="section-header">Courses : </h2>
+                        <button class="new-course-btn">Add new course</button>
+                    </div>
+                    <div class="course-item">
+                        <div>
+                            <h4>English Language Arts</h4>
+                            <span>9 lessons/1 month - Ongoing Now</span>
+                        </div>
+                        <button>Open</button>
+                    </div>
+
+                    <div class="course-item">
+                        <div>
+                            <h4>Math</h4>
+                            <span>8 lessons/3 weeks - Start Soon</span>
+                        </div>
+                        <button>Open</button>
+                    </div>
+
+                    <div class="course-item">
+                        <div>
+                            <h4>Art History</h4>
+                            <span>10 lessons/3 weeks - Ongoing Now</span>
+                        </div>
+                        <button>Open</button>
+                    </div>
+
+                    <div class="course-item">
+                        <div>
+                            <h4>Architecture</h4>
+                            <span>59 lessons/5 months - Start Soon</span>
+                        </div>
+                        <button>Open</button>
+                    </div>
+                    <div class="course-item">
+                        <div>
+                            <h4>Architecture</h4>
+                            <span>59 lessons/5 months - Start Soon</span>
+                        </div>
+                        <button>Open</button>
+                    </div>
+                    <div class="course-item">
+                        <div>
+                            <h4>Architecture</h4>
+                            <span>59 lessons/5 months - Start Soon</span>
+                        </div>
+                        <button>Open</button>
+                    </div>
+                </div>
 
 
-    <h1>Dashboard</h1>
-    <p>Welcome teacher, <%= user.name %>, asalamualikum</p>
+            </div>
+        </div>
+    </div>
+</body>
 
-    <a href="/teacher/logout">Logout</a>
-
-   
+</html>
