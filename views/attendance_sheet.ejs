@@ -11,16 +11,13 @@
 <body>
     <div class="container">
         <h1>Attendance Sheet</h1>
-        <!-- <form id="attendance-form">
-            <input type="text" id="name" placeholder="Enter Name" required>
-            <input type="text" id="id" placeholder="Enter ID" required>
-            <button type="submit">Add Student</button>
-        </form> -->
 
-        <form id="attendance-form">
-            <input type="date" id="date" placeholder="Enter Date" required>
-            <button type="submit">Enter </button>
+        <form id="attandance-form1">
+            <h2>Set Date: </h2>
+            <input type="date" id="date" placeholder="Enter Date" name = "date" required>
         </form>
+            
+        
 
         <table id="attendance-table">
             <thead>
@@ -37,6 +34,7 @@
                             <td><%= user.email %></td>
                             <td><%= user.name %></td>
                             <td><button class="mark-attendance">Present</button></td>
+                            
                         </tr>
                     <% }) %>
                 <% } else { %>
@@ -47,21 +45,71 @@
 
             </tbody>
         </table>
+        <div class="submission-button">
+            <form action="/attendance_sheet/" method="post" id="attendance-form">
+                <button type="submit">Save the entry </button>
+            </form>
+        </div>
+        
     </div>
 
-    <script >
+   <script>
+    // Initialize attendanceArray from users
+    let users = <%- JSON.stringify(users) %>;
+    let attendanceArray = users.map(user => [user.email, 1]);
 
-        //Mark attendance functionality
+    // Reference to the table body
+    const tableBody = document.querySelector("#attendance-table tbody");
 
-        const tableBody = document.querySelector("#attendance-table tbody");
+    // Mark attendance functionality
+    tableBody.addEventListener("click", (e) => {
+        if (e.target.classList.contains("mark-attendance")) {
+            // Toggle Present/Absent state
+            e.target.textContent = e.target.textContent === "Present" ? "Absent" : "Present";
+            e.target.style.backgroundColor = e.target.textContent === "Present" ? "#28a745" : "#dc3545";
 
-            tableBody.addEventListener("click", (e) => {
-                if (e.target.classList.contains("mark-attendance")) {
-                    e.target.textContent = e.target.textContent === "Present" ? "Absent" : "Present";
-                    e.target.style.backgroundColor = e.target.textContent === "Present" ? "#28a745" : "#dc3545";
+            // Get email of the student
+            const emailToUpdate = e.target.parentElement.parentElement.children[0].textContent;
+
+            // Update attendanceArray
+            attendanceArray = attendanceArray.map(student => {
+                if (student[0] === emailToUpdate) {
+                    student[1] = student[1] === 1 ? 0 : 1;
                 }
+                return student;
             });
-    </script>
+        }
+    });
+
+    // Reference to the forms and inputs
+    const form = document.querySelector("#attendance-form");
+    //set default date is today
+    const dateInput = document.querySelector("#date");
+    const today = new Date();
+    const bangladeshOffset = 6 * 60; // Bangladesh is UTC+6
+    const todayInBangladesh = new Date(today.getTime() + bangladeshOffset * 60000);
+    const today1 = todayInBangladesh.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
+    dateInput.value = today1;
+
+    // Create hidden inputs
+    const hiddenInputAttendance = document.createElement('input');
+    hiddenInputAttendance.type = 'hidden';
+    hiddenInputAttendance.name = 'attendanceArray';
+    form.appendChild(hiddenInputAttendance);
+
+    const hiddenInputDate = document.createElement('input');
+    hiddenInputDate.type = 'hidden';
+    hiddenInputDate.name = 'date';
+    form.appendChild(hiddenInputDate);
+
+    // Update hidden inputs before form submission
+    form.addEventListener("submit", () => {
+        // Always get the current values dynamically
+        hiddenInputAttendance.value = JSON.stringify(attendanceArray);
+        hiddenInputDate.value = dateInput.value;
+    });
+</script>
+
 </body>
 
 </html>
