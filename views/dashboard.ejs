@@ -33,7 +33,11 @@
 
             <!-- for pic segment -->
             <div class="profile-photo">
+                <%if(user.picture){%>
                 <img src="/profilePics/<%=user.picture%>" alt="Theacher phto">
+                <% } else{ %>
+                <img src="/img/default.jpg" alt="Theacher phto">
+                <% } %>
                 <button id="picButton" type="submit">Edit photo</button>
                 <div id="picForm" style="display: none;">
                     <form id="edit-form" method="post" action="/teacher/update-profile-pic"

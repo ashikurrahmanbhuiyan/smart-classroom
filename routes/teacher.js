@@ -79,6 +79,8 @@ router.post("/update-name", async (req, res) => {
 // for uploads profile pics
 
 const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -88,29 +90,56 @@ const storage = multer.diskStorage({
         return cb(null, `${Date.now()}-${file.originalname}`);
     }
 });
-const upload = multer({ storage: storage });
+const fileFilter = (req, file, cb) => {
+    const allowedFileTypes = ['.jpg', '.jpeg', '.png', '.svg'];
+    const fileExtension = path.extname(file.originalname).toLowerCase();
+
+    if (allowedFileTypes.includes(fileExtension)) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
 router.post("/update-profile-pic", upload.single("updateProfilePic"), async (req, res) => {
     const { email } = req.body;
-    var picture = req.file ? req.file.filename : null;
-    const validExtensions = ['.jpg', '.jpeg', '.png', '.svg'];
-    if (!picture) {
-        picture = "img.jpg";
-    } else {
-        const validation = validExtensions.some(ext => picture.toLowerCase().endsWith(ext));
-        if (!validation) {
-            picture = "img.jpg";
-        }
-    }
+
     try {
+        const pic = await User_teacher.findOne({ email });
+        const oldPicture = pic.picture ? `./public/profilePics/${pic.picture}` : null;
+
+        picture = req.file ? req.file.filename : null;
+        const validExtensions = ['.jpg', '.jpeg', '.png', '.svg'];
+        if (!picture) {
+            return res.redirect('/teacher/dashboard');
+        } else {
+            const validation = validExtensions.some(ext => picture.toLowerCase().endsWith(ext));
+            if (!validation) {
+                return res.redirect('/teacher/dashboard');
+            }
+        }
         const userTeacher = await User_teacher.updateOne(
             { email: email },
             { $set: { picture: picture } }
         );
-        res.redirect('/teacher/dashboard')
+
+        if (oldPicture) {
+            fs.unlink(oldPicture, (err) => {
+                if (err) {
+
+                } else {
+
+                }
+            });
+        }
+
+        res.redirect('/teacher/dashboard');
     } catch (error) {
         console.error(error);
         res.status(500).send({ success: false, message: 'Failed to update name' });
     }
+
 });
 
 
@@ -150,49 +179,49 @@ router.post("/update-contact", async (req, res) => {
 // Educational Qualification
 
 router.post("/update-education", async (req, res) => {
-        let {institute, degree, email} = req.body;
-        const pro = await User_teacher.findOne({email : email})
+    let { institute, degree, email } = req.body;
+    const pro = await User_teacher.findOne({ email: email })
         .then((edu) => {
-            if(edu){
+            if (edu) {
                 edu.educations.push({
-                    institute : institute, 
-                    qualification : degree
+                    institute: institute,
+                    qualification: degree
                 });
                 edu.save();
-            }else{
+            } else {
                 const newEdu = new User_teacher({
                     educations: [{
-                        institute : institute, 
-                        qualification : degree 
+                        institute: institute,
+                        qualification: degree
                     }]
                 });
-               newEdu.save(); 
+                newEdu.save();
             }
         });
-        res.redirect('/teacher/dashboard');
-    });
+    res.redirect('/teacher/dashboard');
+});
 
 
-    router.post("/update-research", async (req, res) => {
-        let {research, email} = req.body;
-        const pro = await User_teacher.findOne({email : email})
+router.post("/update-research", async (req, res) => {
+    let { research, email } = req.body;
+    const pro = await User_teacher.findOne({ email: email })
         .then((interest) => {
-            if(interest){
-               interest.researchs.push({
-                    research : research 
-                    
+            if (interest) {
+                interest.researchs.push({
+                    research: research
+
                 });
                 interest.save();
-            }else{
+            } else {
                 const newRs = new User_teacher({
                     researchs: [{
-                        research : research, 
+                        research: research,
                     }]
                 });
-               newRs.save(); 
+                newRs.save();
             }
         });
-        res.redirect('/teacher/dashboard');
-    });
+    res.redirect('/teacher/dashboard');
+});
 
 module.exports = router;
