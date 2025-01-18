@@ -4,6 +4,7 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const { checkNotAuthenticatedteacher } = require('../config/auth');
 const User_teacher = require('../models/user_teacher');
+const Course = require('../models/course');
 const { log } = require('node:console');
 
 
@@ -16,7 +17,7 @@ router.get('/register', checkNotAuthenticatedteacher, (req, res) => res.render('
 
 // Register Handler
 router.post('/register', checkNotAuthenticatedteacher, async (req, res) => {
-    const { name, email, password, password2 } = req.body;
+    const { name, email, department, password, password2 } = req.body;
     let error1, error2, error3;
 
     if (password.length < 6) {
@@ -33,7 +34,7 @@ router.post('/register', checkNotAuthenticatedteacher, async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User_teacher({ name, email, password: hashedPassword });
+        const newUser = new User_teacher({ name, email, department, password: hashedPassword });
         await newUser.save();
         req.flash('success_msg', 'You are now registered and can log in');
         res.redirect('/teacher/login');
@@ -81,6 +82,7 @@ router.post("/update-name", async (req, res) => {
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const course = require('../models/course');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -223,5 +225,58 @@ router.post("/update-research", async (req, res) => {
         });
     res.redirect('/teacher/dashboard');
 });
+
+router.post("/add-course", async (req, res) => {
+    const { batch_name, course_name, course_title, email } = req.body;
+    const user = await User_teacher.findOne({ email: email });
+
+    const course = await Course.findOne({ department: user.department })
+        .then((uniqCourse) => {
+            if (uniqCourse) {
+                const batch = uniqCourse.departments.find((d) => d.batch_name === batch_name);
+                if (batch) {
+                    const course = batch.courses.push({
+                        teacher_email: user.email,
+                        course_name: course_name,
+                        course_title : course_title
+                    });
+
+                    uniqCourse.save();
+                } else {
+                    const course = uniqCourse.departments.push({
+                        batch_name: batch_name,
+                        courses: [
+                            {
+                                teacher_email: user.email,
+                                course_name: course_name,
+                                course_title : course_title
+                            }
+                        ],
+                    });
+                    uniqCourse.save();
+                }
+            } else {
+                const newCurse = new Course({
+                    department: user.department,
+                    departments: [
+                        {
+                            batch_name: batch_name,
+                            courses: [
+                                {
+                                    teacher_email: user.email,
+                                    course_name: course_name,
+                                    course_title : course_title
+                                }
+                            ],
+                        }
+                    ]
+                });
+                newCurse.save();
+            }
+        });
+    res.redirect('/teacher/dashboard');
+
+});
+
 
 module.exports = router;

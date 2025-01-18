@@ -34,19 +34,19 @@
             <!-- for pic segment -->
             <div class="profile-photo">
                 <%if(user.picture){%>
-                <img src="/profilePics/<%=user.picture%>" alt="Theacher phto">
-                <% } else{ %>
-                <img src="/img/default.jpg" alt="Theacher phto">
-                <% } %>
-                <button id="picButton" type="submit">Edit photo</button>
-                <div id="picForm" style="display: none;">
-                    <form id="edit-form" method="post" action="/teacher/update-profile-pic"
-                        enctype="multipart/form-data">
-                        <input type="file" name="updateProfilePic">
-                        <input type="hidden" name="email" value=<%=user.email%> >
-                        <button id="picSubmit" type="submit">Upload</button>
-                    </form>
-                </div>
+                    <img src="/profilePics/<%=user.picture%>" alt="Theacher phto">
+                    <% } else{ %>
+                        <img src="/img/default.jpg" alt="Theacher phto">
+                        <% } %>
+                            <button id="picButton" type="submit">Edit photo</button>
+                            <div id="picForm" style="display: none;">
+                                <form id="edit-form" method="post" action="/teacher/update-profile-pic"
+                                    enctype="multipart/form-data">
+                                    <input type="file" name="updateProfilePic">
+                                    <input type="hidden" name="email" value=<%=user.email%> >
+                                    <button id="picSubmit" type="submit">Upload</button>
+                                </form>
+                            </div>
             </div>
 
             <!-- for name update -->
@@ -69,7 +69,7 @@
                 <!-- for updationg positon -->
 
                 <div class="profile-info-item" id="position">
-                    <p>
+                    <p> Position :
                         <%= user.position%>
                     </p>
                     <button id="positionButton"><img src="/img/edit.png" alt="edit"></button>
@@ -116,7 +116,8 @@
 
                     <!-- Email section -->
                     <div class="contact-info-item">
-                        <p>Email Address: m.r.kushal@gmail.com</p>
+                        <p>Email Address: <%= user.email%>
+                        </p>
                     </div>
                 </div>
 
@@ -124,13 +125,12 @@
                 <div class="research-interest">
                     <h2 class="section-header">Research Interest : </h2>
                     <ul>
-                        <% 
-                        const researchs = user.researchs; 
-                        researchs.forEach((element)=>{ 
-                        %>
-                            <li> <%= element.research %> </li>
-                        <% });
-                        %>
+                        <% const researchs=user.researchs; researchs.forEach((element)=>{
+                            %>
+                            <li>
+                                <%= element.research %>
+                            </li>
+                            <% }); %>
                     </ul>
                     <button id="researchButton">Add new</button>
 
@@ -147,14 +147,15 @@
                 <div class="education">
                     <h2 class="section-header">Educational Background : </h2>
                     <div class="education-item">
-                        <% 
-                        const educations=user.educations; 
-                        educations.forEach((element)=>{ 
-                        %>
-                            <h4> <%= element.institute %> </h4>
-                            <span> <%= element.qualification %> </span>
-                        <% });
-                        %>
+                        <% const educations=user.educations; educations.forEach((element)=>{
+                            %>
+                            <h4>
+                                <%= element.institute %>
+                            </h4>
+                            <span>
+                                <%= element.qualification %>
+                            </span>
+                            <% }); %>
                     </div>
 
                     <button id="educationButton">Add new</button>
@@ -175,157 +176,191 @@
                 <div class="courses">
                     <div class="new-course">
                         <h2 class="section-header">Courses : </h2>
-                        <button class="new-course-btn">Add new course</button>
-                    </div>
-                    <div class="course-item">
-                        <div>
-                            <h4>English Language Arts</h4>
-                            <span>9 lessons/1 month - Ongoing Now</span>
-                        </div>
-                        <button>Open</button>
+                        <button class="new-course-btn" id="courseButton">Add new course</button>
                     </div>
 
-                    <div class="course-item">
-                        <div>
-                            <h4>Math</h4>
-                            <span>8 lessons/3 weeks - Start Soon</span>
-                        </div>
-                        <button>Open</button>
-                    </div>
 
-                    <div class="course-item">
-                        <div>
-                            <h4>Art History</h4>
-                            <span>10 lessons/3 weeks - Ongoing Now</span>
-                        </div>
-                        <button>Open</button>
-                    </div>
+                
 
-                    <div class="course-item">
-                        <div>
-                            <h4>Architecture</h4>
-                            <span>59 lessons/5 months - Start Soon</span>
-                        </div>
-                        <button>Open</button>
-                    </div>
-                    <div class="course-item">
-                        <div>
-                            <h4>Architecture</h4>
-                            <span>59 lessons/5 months - Start Soon</span>
-                        </div>
-                        <button>Open</button>
-                    </div>
-                    <div class="course-item">
-                        <div>
-                            <h4>Architecture</h4>
-                            <span>59 lessons/5 months - Start Soon</span>
-                        </div>
-                        <button>Open</button>
-                    </div>
+                    <% if (coursesByTeacher && coursesByTeacher.length > 0) { %>
+                        <% coursesByTeacher.forEach((course)=> { %>
+                            <div class="course-item">
+                                <div>
+                                    <%= course.batch_name %>
+                                    <br><button style="background-color: green; color : wheat">open</button>
+                                </div>
+                                <div>
+                                    <h4>
+                                        <%= course.course_name %>
+                                    </h4>
+                                    <span>
+                                        <%= course.course_title %>
+                                    </span>
+                                </div>
+                                <button style="color: gold; background-color: red; ">close</button>
+                            </div>
+                                <% }); %>
+                                    <% } else { %>
+                                    <h4 style="background-color: seashell; color:red; width:auto; left : 55%; position : absolute">
+                                        No course is now available</h4>
+                                    <% } %>
+                            </div>
                 </div>
-
-
             </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        <!-- Course form -->
+        <div class="formContainer" id="courseForm" style="display: none;">
+            <button class="deleteButton" id="cancelButton">
+                X
+            </button>
 
-            // name update
-            const nameButton = document.getElementById('nameButton');
-            const name = document.getElementById('name');
-            const nameForm = document.getElementById('nameForm');
-            const nameSubmit = document.getElementById('nameSubmit')
-            nameButton.addEventListener('click', () => {
-                name.style.display = 'none';
-                nameForm.style.display = 'block';
+            <h3 style="color:#4CAF50">Fill out a course:</h3>
+            <form method="post" action="/teacher/add-course">
+                <div>
+                    <label>Batch Name</label>
+                    <input type="text" name="batch_name" placeholder="cse-28" class="input" required />
+                </div>
+                <div>
+                    <label>Course Name</label>
+                    <input type="text" name="course_name" placeholder="Machine Learning" class="input"
+                        required />
+
+                </div>
+                <div>
+                    <label>Course Title</label>
+                    <input type="text" name="course_title" placeholder="CSE4211 : Machine Learnint" class="input"
+                        required />
+
+                </div>
+                <input type="hidden" name="email" value="<%= user.email%>">
+                <button type="submit" class="submit" id="courseSubmit">
+                    Submit
+                </button>
+            </form>
+        </div>
+
+
+        <!-- java script  -->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                // name update
+                const nameButton = document.getElementById('nameButton');
+                const name = document.getElementById('name');
+                const nameForm = document.getElementById('nameForm');
+                const nameSubmit = document.getElementById('nameSubmit')
+                nameButton.addEventListener('click', () => {
+                    name.style.display = 'none';
+                    nameForm.style.display = 'block';
+                });
+                nameSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    name.style.display = 'block';
+                    nameForm.style.display = 'none';
+                });
+
+
+                // profile pic update
+
+                const picButton = document.getElementById('picButton');
+                const picForm = document.getElementById('picForm');
+                const picSubmit = document.getElementById('picSubmit')
+                picButton.addEventListener('click', () => {
+                    picForm.style.display = 'block';
+                });
+                picSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    picForm.style.display = 'none';
+                });
+
+
+                // position Update
+                const positionButton = document.getElementById('positionButton');
+                const position = document.getElementById('position');
+                const positionForm = document.getElementById('positionForm');
+                const positionSubmit = document.getElementById('positionSubmit')
+                positionButton.addEventListener('click', () => {
+                    position.style.display = 'none';
+                    positionForm.style.display = 'block';
+                });
+                positionSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    position.style.display = 'block';
+                    positionForm.style.display = 'none';
+                });
+
+
+                // Contact section
+
+                const contactButton = document.getElementById('contactButton');
+                const contact = document.getElementById('contact');
+                const contactForm = document.getElementById('contactForm');
+                const contactSubmit = document.getElementById('contactSubmit')
+                contactButton.addEventListener('click', () => {
+                    contact.style.display = 'none';
+                    contactForm.style.display = 'block';
+                });
+                contactSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    contact.style.display = 'block';
+                    contactForm.style.display = 'none';
+                });
+
+
+                // Educational qualification
+                const educationButton = document.getElementById('educationButton');
+                const educationForm = document.getElementById('educationForm');
+                const educationSubmit = document.getElementById('educationSubmit')
+                educationButton.addEventListener('click', () => {
+                    educationForm.style.display = 'block';
+                    educationButton.style.display = 'none';
+                });
+                educationSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    educationForm.style.display = 'none';
+                    educationButton.style.display = 'block';
+                });
+
+
+                // research section
+                const researchButton = document.getElementById('researchButton');
+                const researchForm = document.getElementById('researchForm');
+                const researchSubmit = document.getElementById('researchSubmit')
+                researchButton.addEventListener('click', () => {
+                    researchForm.style.display = 'block';
+                    researchButton.style.display = 'none';
+                });
+                researchSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    researchForm.style.display = 'none';
+                    researchButton.style.display = 'block';
+                });
+
+
+                // course section
+                const courseButton = document.getElementById('courseButton');
+                const cancelButton = document.getElementById('cancelButton');
+                const courseForm = document.getElementById('courseForm');
+                const courseSubmit = document.getElementById('courseSubmit')
+
+                courseButton.addEventListener('click', () => {
+                    courseForm.style.display = 'block';
+                    courseButton.style.display = 'none';
+                });
+                cancelButton.addEventListener('click', () => {
+                    courseForm.style.display = 'none';
+                    courseButton.style.display = 'block';
+                });
+                courseSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    courseForm.style.display = 'none';
+                    courseButton.style.display = 'block';
+                });
+
             });
-            nameSubmit.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                name.style.display = 'block';
-                nameForm.style.display = 'none';
-            });
-
-
-            // profile pic update
-
-            const picButton = document.getElementById('picButton');
-            const picForm = document.getElementById('picForm');
-            const picSubmit = document.getElementById('picSubmit')
-            picButton.addEventListener('click', () => {
-                picForm.style.display = 'block';
-            });
-            picSubmit.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                picForm.style.display = 'none';
-            });
-
-
-            // position Update
-            const positionButton = document.getElementById('positionButton');
-            const position = document.getElementById('position');
-            const positionForm = document.getElementById('positionForm');
-            const positionSubmit = document.getElementById('positionSubmit')
-            positionButton.addEventListener('click', () => {
-                position.style.display = 'none';
-                positionForm.style.display = 'block';
-            });
-            positionSubmit.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                position.style.display = 'block';
-                positionForm.style.display = 'none';
-            });
-
-
-            // Contact section
-
-            const contactButton = document.getElementById('contactButton');
-            const contact = document.getElementById('contact');
-            const contactForm = document.getElementById('contactForm');
-            const contactSubmit = document.getElementById('contactSubmit')
-            contactButton.addEventListener('click', () => {
-                contact.style.display = 'none';
-                contactForm.style.display = 'block';
-            });
-            contactSubmit.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                contact.style.display = 'block';
-                contactForm.style.display = 'none';
-            });
-
-
-            // Educational qualification
-            const educationButton = document.getElementById('educationButton');
-            const educationForm = document.getElementById('educationForm');
-            const educationSubmit = document.getElementById('educationSubmit')
-            educationButton.addEventListener('click', () => {
-                educationForm.style.display = 'block';
-                educationButton.style.display = 'none';
-            });
-            educationSubmit.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                educationForm.style.display = 'none';
-                educationButton.style.display = 'block';
-            });
-
-
-            // research section
-            const researchButton = document.getElementById('researchButton');
-            const researchForm = document.getElementById('researchForm');
-            const researchSubmit = document.getElementById('researchSubmit')
-            researchButton.addEventListener('click', () => {
-                researchForm.style.display = 'block';
-                researchButton.style.display = 'none';
-            });
-            researchSubmit.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                researchForm.style.display = 'none';
-                researchButton.style.display = 'block';
-            });
-
-        });
-    </script>
+        </script>
 </body>
 
 </html>
