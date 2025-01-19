@@ -10,9 +10,9 @@
 
 <body>
     <h1>Attendance Sheet</h1>
+    <a href="/attendance_sheet">Add attendance</a>
     <table id="attendanceTable">
         <thead>
-            <tr>
                 <th>Names</th>
                 <!-- Dates will be dynamically added here -->
             </tr>
@@ -28,37 +28,59 @@
     const users = <%- JSON.stringify(users) -%>;
     const names = users.map(user => user.name);
 
+    const attendances = <%- JSON.stringify(attendances) %>;
+    const attendanceArray = attendances[0].attendance;
+    // console.log(attendanceArray[0].Info[i][1]);
+        // console.log(attendanceArray[0].Info[0][0]);
+        // console.log(attendanceArray[0].Info[0][1]);
+
+        // console.log(attendanceArray[0].Info[1][0]);
+        // console.log(attendanceArray[0].Info[1][1]);
 
     const table = document.getElementById("attendanceTable");
     const theadRow = table.querySelector("thead tr");
     const tbody = table.querySelector("tbody");
 
-    // Initialize table with names and 10 dates
+    // Initialize table with names and dates
     function initializeTable() {
-        // Add initial 10 dates to the header
-        for (let i = 1; i <= 10; i++) {
+        // Add dates to the header
+        for (let i = 0; i < attendanceArray.length; i++) {
             const th = document.createElement("th");
             th.textContent = `Date ${i}`;
+            th.textContent = attendanceArray[i].Date;
             theadRow.appendChild(th);
         }
 
         // Add names to the first column and attendance cells
+        let nameloop = 0;
         names.forEach(name => {
             const tr = document.createElement("tr");
 
             const nameCell = document.createElement("td");
             nameCell.textContent = name;
             tr.appendChild(nameCell);
-
-            // Add 10 attendance cells
-            for (let i = 0; i < 10; i++) {
+            
+            // attendance cells
+            for (let dateloop = 0; dateloop < attendanceArray.length; dateloop++) {
                 const td = document.createElement("td");
                 const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
+                checkbox.type = "checkbox";  
+                try {
+                    if (attendanceArray[dateloop].Info[nameloop][1] == "1") {
+                        checkbox.checked = true;
+                    }
+                    else {
+                        checkbox.checked = false;
+                    }
+                } catch (error) {
+                    checkbox.checked = false;
+                    
+                }
                 td.appendChild(checkbox);
+
                 tr.appendChild(td);
             }
-
+            nameloop++;
             tbody.appendChild(tr);
         });
     }

@@ -1,7 +1,8 @@
 body {
     font-family: Arial, sans-serif;
     background-color: gainsboro;
-    margin: 0;
+    margin: 0px;
+    padding: 0px;
 }
 
 .menu-bar {
@@ -14,7 +15,7 @@ body {
     flex-wrap: wrap;
 }
 
-.menu-bar img {
+.profile-header img {
     width: 50px;
     height: 50px;
     margin-right: 10px;
@@ -247,29 +248,20 @@ body {
 /* Dropdown styles */
 .dropdown {
     position:relative;
-    /* align-items: end; */
-    /* display: inline-block; */
-    margin-top: 0px;
-}
-
-.dropdown h4{
-    display: flex;
-    align-items: center;
-    color: #000;
+    display: inline-block;
 }
 
 .dropdown-content {
-    right: 0;
-    left: auto;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: 220px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    z-index: 1000;
 }
 
 .dropdown-content a {
+    font-size: larger;
     color: black;
     padding: 12px 16px;
     text-decoration: none;

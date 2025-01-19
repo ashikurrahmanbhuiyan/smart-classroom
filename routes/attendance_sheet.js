@@ -89,10 +89,12 @@ router.get('/all', async(req, res) => {
     try {
         // this is not well done, this need to be change later because data will fetch from enroll collection
         const users = await students.find({});
-        res.render('attendance_sheet_all', { users: users });
+        let course_name = "DBMS";
+        const attendances = await attendence_model.find({course_name: course_name});
+        res.render('attendance_sheet_all', { users: users , attendances: attendances});
     } catch (error) {
         console.error("Error fetching data:", error);
-        res.render('attendance_sheet', { users: [] });
+        res.render('attendance_sheet', { users: [] ,attendances: []});
     }
 });
 
