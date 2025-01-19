@@ -1,6 +1,15 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    margin-top: 0px;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #45a049;
 }
 
 table {

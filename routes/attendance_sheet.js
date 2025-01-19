@@ -98,4 +98,7 @@ router.get('/all', async(req, res) => {
     }
 });
 
+router.post('/all', async(req, res) => {
+});
+
 module.exports = router;
