@@ -13,12 +13,12 @@
         <h1>Attendance Sheet</h1>
 
         <form id="attandance-form1">
-            <h2>Set Date: </h2>
+            <!--<h2>Set Date: </h2> -->
             <input type="date" id="date" placeholder="Enter Date" name = "date" required>
         </form>
             
         
-
+        <h2 style="display: flex;justify-content: center;color: red;"><%= typeof problem !=='undefined' ? problem : '' %></h2>
         <table id="attendance-table">
             <thead>
                 <tr>
@@ -31,7 +31,7 @@
                 <% if (users && users.length> 0) { %>
                     <% users.forEach(user=> { %>
                         <tr>
-                            <td><%= user.email %></td>
+                            <td><%= user.student_id %></td>
                             <td><%= user.name %></td>
                             <td><button class="mark-attendance">Present</button></td>
                             
@@ -56,7 +56,7 @@
    <script>
     // Initialize attendanceArray from users
     let users = <%- JSON.stringify(users) %>;
-    let attendanceArray = users.map(user => [user.email, 1]);
+    let attendanceArray = users.map(user => [user.student_id, 1]);
 
     // Reference to the table body
     const tableBody = document.querySelector("#attendance-table tbody");
@@ -68,12 +68,12 @@
             e.target.textContent = e.target.textContent === "Present" ? "Absent" : "Present";
             e.target.style.backgroundColor = e.target.textContent === "Present" ? "#28a745" : "#dc3545";
 
-            // Get email of the student
-            const emailToUpdate = e.target.parentElement.parentElement.children[0].textContent;
-
+            // Get student_id of the student
+            const student_idToUpdate = e.target.parentElement.parentElement.children[0].textContent;
+            // console.log(student_idToUpdate);
             // Update attendanceArray
             attendanceArray = attendanceArray.map(student => {
-                if (student[0] === emailToUpdate) {
+                if (student[0] === student_idToUpdate) {
                     student[1] = student[1] === 1 ? 0 : 1;
                 }
                 return student;

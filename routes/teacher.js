@@ -69,7 +69,7 @@ router.post("/update-name", async (req, res) => {
             { email: email },
             { $set: { name } }
         );
-        res.redirect('/teacher/dashboard')
+        res.redirect('/teacher/edit_profile')
     } catch (error) {
         console.error(error);
         res.status(500).send({ success: false, message: 'Failed to update name' });
@@ -114,11 +114,11 @@ router.post("/update-profile-pic", upload.single("updateProfilePic"), async (req
         picture = req.file ? req.file.filename : null;
         const validExtensions = ['.jpg', '.jpeg', '.png', '.svg'];
         if (!picture) {
-            return res.redirect('/teacher/dashboard');
+            return res.redirect('/teacher/edit_profile');
         } else {
             const validation = validExtensions.some(ext => picture.toLowerCase().endsWith(ext));
             if (!validation) {
-                return res.redirect('/teacher/dashboard');
+                return res.redirect('/teacher/edit_profile');
             }
         }
         const userTeacher = await User_teacher.updateOne(
@@ -136,7 +136,7 @@ router.post("/update-profile-pic", upload.single("updateProfilePic"), async (req
             });
         }
 
-        res.redirect('/teacher/dashboard');
+        res.redirect('/teacher/edit_profile');
     } catch (error) {
         console.error(error);
         res.status(500).send({ success: false, message: 'Failed to update name' });
@@ -153,7 +153,7 @@ router.post("/update-position", async (req, res) => {
             { email: email },
             { $set: { position } }
         );
-        res.redirect('/teacher/dashboard')
+        res.redirect('/teacher/edit_profile')
     } catch (error) {
         console.error(error);
         res.status(500).send({ success: false, message: 'Failed to update name' });
@@ -170,7 +170,7 @@ router.post("/update-contact", async (req, res) => {
             { email: email },
             { $set: { contact } }
         );
-        res.redirect('/teacher/dashboard')
+        res.redirect('/teacher/edit_profile')
     } catch (error) {
         console.error(error);
         res.status(500).send({ success: false, message: 'Failed to update name' });
@@ -200,7 +200,7 @@ router.post("/update-education", async (req, res) => {
                 newEdu.save();
             }
         });
-    res.redirect('/teacher/dashboard');
+    res.redirect('/teacher/edit_profile');
 });
 
 
@@ -223,7 +223,7 @@ router.post("/update-research", async (req, res) => {
                 newRs.save();
             }
         });
-    res.redirect('/teacher/dashboard');
+    res.redirect('/teacher/edit_profile');
 });
 
 router.post("/add-course", async (req, res) => {
@@ -274,7 +274,7 @@ router.post("/add-course", async (req, res) => {
                 newCurse.save();
             }
         });
-    res.redirect('/teacher/dashboard');
+    res.redirect('/teacher/edit_profile');
 
 });
 

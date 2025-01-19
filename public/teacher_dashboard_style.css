@@ -10,6 +10,7 @@ body {
     align-items: center;
     color: green;
     padding: 10px;
+    padding-bottom: 0px;
     flex-wrap: wrap;
 }
 
@@ -23,7 +24,9 @@ body {
 .container {
     max-width: 1300px;
     margin: 15px auto;
+    margin-top: 0px;
     padding: 10px;
+    padding-top: 0px;
 }
 
 .container1 {
@@ -119,10 +122,10 @@ body {
 }
 
 .img-ru-logo img {
-    width: 130px;
-    height: 130px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    margin-right: 15px;
+    padding-right: 15px;
 }
 
 .contact-info p {
@@ -243,8 +246,16 @@ body {
 
 /* Dropdown styles */
 .dropdown {
-    position: relative;
-    display: inline-block;
+    position:relative;
+    /* align-items: end; */
+    /* display: inline-block; */
+    margin-top: 0px;
+}
+
+.dropdown h4{
+    display: flex;
+    align-items: center;
+    color: #000;
 }
 
 .dropdown-content {
