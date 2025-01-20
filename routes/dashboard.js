@@ -56,9 +56,14 @@ router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) 
 });
 
 
+
+
 router.get('/student/dashboard', checkAuthenticatedstudent, (req, res) =>
 
     res.render('studentDashboard/student_dashboard', { user: req.user })
 );
+
+
+
 
 module.exports = router;
