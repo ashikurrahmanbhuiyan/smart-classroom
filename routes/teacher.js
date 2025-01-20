@@ -10,10 +10,10 @@ const { log } = require('node:console');
 
 
 // Login Page (restricted for authenticated teacher)
-router.get('/login', checkNotAuthenticatedteacher, (req, res) => res.render('login'));
+router.get('/login', checkNotAuthenticatedteacher, (req, res) => res.render('teacherAuth/teacher_login'));
 
 // Register Page (restricted for authenticated teacher)
-router.get('/register', checkNotAuthenticatedteacher, (req, res) => res.render('register'));
+router.get('/register', checkNotAuthenticatedteacher, (req, res) => res.render('teacherAuth/teacher_register'));
 
 // Register Handler
 router.post('/register', checkNotAuthenticatedteacher, async (req, res) => {

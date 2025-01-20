@@ -7,7 +7,7 @@ const User_student = require('../models/user_student');
 
 
 // Register Page (restricted for authenticated student)
-router.get('/register', checkNotAuthenticatedstudent, (req, res) => res.render('student_register'));
+router.get('/register', checkNotAuthenticatedstudent, (req, res) => res.render('studentAuth/student_register'));
 
 // Register Handler
 router.post('/register', checkNotAuthenticatedstudent, async (req, res) => {
@@ -43,7 +43,7 @@ router.post('/register', checkNotAuthenticatedstudent, async (req, res) => {
 });
 
 // Login Page (restricted for authenticated student)
-router.get('/login', checkNotAuthenticatedstudent, (req, res) => res.render('student_login'));
+router.get('/login', checkNotAuthenticatedstudent, (req, res) => res.render('studentAuth/student_login'));
 
 // Login Handler
 router.post('/login', checkNotAuthenticatedstudent, (req, res, next) => {

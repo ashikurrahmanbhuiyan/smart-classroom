@@ -70,6 +70,7 @@ app.use('/teacher', require('./routes/teacher'));
 app.use('/student', require('./routes/student'));
 app.use('/attendance_sheet', require('./routes/attendance_sheet'));
 
+
 // Start Server
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
