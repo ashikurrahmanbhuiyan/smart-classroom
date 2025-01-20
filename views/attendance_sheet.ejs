@@ -14,11 +14,13 @@
 
         <form id="attandance-form1">
             <!--<h2>Set Date: </h2> -->
-            <input type="date" id="date" placeholder="Enter Date" name = "date" required>
+            <input type="date" id="date" placeholder="Enter Date" name="date" required>
         </form>
-            
-        
-        <h2 style="display: flex;justify-content: center;color: red;"><%= typeof problem !=='undefined' ? problem : '' %></h2>
+
+
+        <h2 style="display: flex;justify-content: center;color: red;">
+            <%= typeof problem !=='undefined' ? problem : '' %>
+        </h2>
         <table id="attendance-table">
             <thead>
                 <tr>
@@ -31,86 +33,93 @@
                 <% if (users && users.length> 0) { %>
                     <% users.forEach(user=> { %>
                         <tr>
-                            <td><%= user.student_id %></td>
-                            <td><%= user.name %></td>
-                            <td><button class="mark-attendance">Present</button></td>
-                            
+                            <td>
+                                <%= user.student_id %>
+                            </td>
+                            <td>
+                                <%= user.name %>
+                            </td>
+                            <td>
+                                <button class="mark-attendance">Present</button>
+                            </td>
+
                         </tr>
-                    <% }) %>
-                <% } else { %>
-                        <tr>
-                            <td colspan="3">No users found.</td>
-                        </tr>
-                    <% } %>
+                        <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="3">No users found.</td>
+                                </tr>
+                                <% } %>
 
             </tbody>
         </table>
         <div class="submission-button">
-            <form action="/attendance_sheet/" method="post" id="attendance-form">
+            <form action="/attendance_sheet/save/" method="post" id="attendance-form">
                 <a href="/attendance_sheet/all">View All</a>
                 <a href="/">Home</a>
+                <input type="hidden" name="course_name" value="<%= course_name %>">
                 <button type="submit">Save the entry </button>
             </form>
         </div>
-        
+
     </div>
 
-   <script>
-    // Initialize attendanceArray from users
-    let users = <%- JSON.stringify(users) %>;
-    let attendanceArray = users.map(user => [user.student_id, 1]);
+    <script>
+        // Initialize attendanceArray from users
+        let users = <% - JSON.stringify(users) %>;
+        let attendanceArray = users.map(user => [user.student_id, 1]);
 
-    // Reference to the table body
-    const tableBody = document.querySelector("#attendance-table tbody");
+        // Reference to the table body
+        const tableBody = document.querySelector("#attendance-table tbody");
 
-    // Mark attendance functionality
-    tableBody.addEventListener("click", (e) => {
-        if (e.target.classList.contains("mark-attendance")) {
-            // Toggle Present/Absent state
-            e.target.textContent = e.target.textContent === "Present" ? "Absent" : "Present";
-            e.target.style.backgroundColor = e.target.textContent === "Present" ? "#28a745" : "#dc3545";
+        // Mark attendance functionality
+        tableBody.addEventListener("click", (e) => {
+            if (e.target.classList.contains("mark-attendance")) {
+                // Toggle Present/Absent state
+                e.target.textContent = e.target.textContent === "Present" ? "Absent" : "Present";
+                e.target.style.backgroundColor = e.target.textContent === "Present" ? "#28a745" : "#dc3545";
 
-            // Get student_id of the student
-            const student_idToUpdate = e.target.parentElement.parentElement.children[0].textContent;
-            // console.log(student_idToUpdate);
-            // Update attendanceArray
-            attendanceArray = attendanceArray.map(student => {
-                if (student[0] === student_idToUpdate) {
-                    student[1] = student[1] === 1 ? 0 : 1;
-                }
-                return student;
-            });
-        }
-    });
+                // Get student_id of the student
+                const student_idToUpdate = e.target.parentElement.parentElement.children[0].textContent;
 
-    // Reference to the forms and inputs
-    const form = document.querySelector("#attendance-form");
-    //set default date is today
-    const dateInput = document.querySelector("#date");
-    const today = new Date();
-    const bangladeshOffset = 6 * 60; // Bangladesh is UTC+6
-    const todayInBangladesh = new Date(today.getTime() + bangladeshOffset * 60000);
-    const today1 = todayInBangladesh.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
-    dateInput.value = today1;
+                // Update attendanceArray
+                attendanceArray = attendanceArray.map(student => {
+                    if (student[0] === student_idToUpdate) {
+                        student[1] = student[1] === 1 ? 0 : 1;
+                    }
+                    return student;
+                });
+            }
+        });
 
-    // Create hidden inputs
-    const hiddenInputAttendance = document.createElement('input');
-    hiddenInputAttendance.type = 'hidden';
-    hiddenInputAttendance.name = 'attendanceArray';
-    form.appendChild(hiddenInputAttendance);
+        // Reference to the forms and inputs
+        const form = document.querySelector("#attendance-form");
+        //set default date is today
+        const dateInput = document.querySelector("#date");
+        const today = new Date();
+        const bangladeshOffset = 6 * 60; // Bangladesh is UTC+6
+        const todayInBangladesh = new Date(today.getTime() + bangladeshOffset * 60000);
+        const today1 = todayInBangladesh.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
+        dateInput.value = today1;
 
-    const hiddenInputDate = document.createElement('input');
-    hiddenInputDate.type = 'hidden';
-    hiddenInputDate.name = 'date';
-    form.appendChild(hiddenInputDate);
+        // Create hidden inputs
+        const hiddenInputAttendance = document.createElement('input');
+        hiddenInputAttendance.type = 'hidden';
+        hiddenInputAttendance.name = 'attendanceArray';
+        form.appendChild(hiddenInputAttendance);
 
-    // Update hidden inputs before form submission
-    form.addEventListener("submit", () => {
-        // Always get the current values dynamically
-        hiddenInputAttendance.value = JSON.stringify(attendanceArray);
-        hiddenInputDate.value = dateInput.value;
-    });
-</script>
+        const hiddenInputDate = document.createElement('input');
+        hiddenInputDate.type = 'hidden';
+        hiddenInputDate.name = 'date';
+        form.appendChild(hiddenInputDate);
+
+        // Update hidden inputs before form submission
+        form.addEventListener("submit", () => {
+            // Always get the current values dynamically
+            hiddenInputAttendance.value = JSON.stringify(attendanceArray);
+            hiddenInputDate.value = dateInput.value;
+        });
+    </script>
 
 </body>
 

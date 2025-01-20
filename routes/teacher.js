@@ -274,7 +274,7 @@ router.post("/add-course", async (req, res) => {
                 newCurse.save();
             }
         });
-    res.redirect('/teacher/edit_profile');
+    res.redirect('/teacher/dashboard');
 
 });
 

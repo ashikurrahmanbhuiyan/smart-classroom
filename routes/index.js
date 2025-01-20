@@ -11,8 +11,6 @@ router.get('/', (req, res) => res.redirect('/teacher/login'));
 
 // Dashboard (protected, requires authentication)
 router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => {
-
-
     const findCourses = await Course.findOne({ department: req.user.department });
     var coursesByTeacher;
     if (findCourses) {
@@ -30,7 +28,6 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
     }
     res.render('dashboard', { user: req.user, coursesByTeacher});
 });
-
 
 router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) => {
 

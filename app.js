@@ -22,7 +22,7 @@ require('./config/passport')(passport);
 // .catch((err) => console.log(err));
 
 
-// MongoDB Connection
+// MongoDB Connection locally
 mongoose
     .connect('mongodb://localhost:27017/smart-classroom')
     .then(() => console.log('MongoDB Connected'))

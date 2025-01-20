@@ -4,58 +4,35 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-router.get('/', async(req, res) => {
+
+//no need for authentication those post method because it is only accessible by teacher by button click
+router.post('/', async(req, res) => {
     try {
+        const course_name = req.body.course_name;
         // this is not well done, this need to be change later because data will fetch from enroll collection
         const users = await students.find({ });
-        res.render('attendance_sheet', { users: users });
+        res.render('attendance_sheet', { users: users,course_name: course_name });
     } catch (error) {
         console.error("Error fetching data:", error);
-        res.render('attendance_sheet',{users:[]});
+        res.render('attendance_sheet', { users: [], course_name: course_name });
     }
 });
 
-router.post('/',async (req,res)=>{
+
+router.post('/save',async (req,res)=>{
     const attendanceArray = req.body.attendanceArray;    
-
-    //loop attendanceArray
-    //for each student in attendanceArray
     const attendanceArrayJSON = JSON.parse(attendanceArray);
-
+    console.log(req.body)
 
 
     const date = req.body.date;
-    const courseName = "DBMS";
-    //find course name in course collection and push new attendance
-    // try {
-    //     const course1 = await attendence_model.findOne({ course_name: courseName })
-    //         .then((UpdateAttendance) => {
-    //             if (UpdateAttendance) {
-    //                 UpdateAttendance.attendance.push({
-    //                     Date: date,
-    //                     Info: attendanceArrayJSON
-    //                     });
-    //                 UpdateAttendance.save();
-    //             } else {
-    //             const newAttendence = new attendence_model({
-    //                 attendance: [{
-    //                         Date: date,
-    //                         Info: attendanceArrayJSON
-    //                     }]
-    //                 });
-    //                 newAttendence.save();
-    //             }
-    //         // console.log(UpdateAttendance.attendance[0].Info[0][0]);
-    //         res.redirect('/attendance_sheet/all')
-    //         });
-        
-        
-    // } catch (error) {
-    //     res.redirect('/attendance_sheet');
-    // }
+    const course_name = req.body.course_name;
+    // this is not well done, this need to be change later because data will fetch from enroll collection
+    const users = await students.find({});
+    const attendances = await attendence_model.find({ course_name: course_name });
 
     try {
-        let UpdateAttendance = await attendence_model.findOne({ course_name: courseName });
+        let UpdateAttendance = await attendence_model.findOne({ course_name: course_name });
         if (UpdateAttendance) {
             UpdateAttendance.attendance.push({
                 Date: date,
@@ -71,34 +48,31 @@ router.post('/',async (req,res)=>{
             });
             await newAttendence.save(); // Ensure save errors are caught
         }
-        res.redirect('/attendance_sheet/all');
+        res.render('attendance_sheet_all', { users: users, attendances: attendances, course_name: course_name });
     } catch (error) {
         try {
             // this is not well done, this need to be change later because data will fetch from enroll collection
             const users = await students.find({});
-            res.render('attendance_sheet', { users: users,problem:"Cann't update attendence" });
+            res.render('attendance_sheet', { users: users,problem:"Cann't update attendence",course_name:course_name });
         } catch (error) {
             console.error("Error fetching data:", error);
-            res.render('attendance_sheet', { users: [] });
+            res.render('attendance_sheet', { users: [], course_name: "" });
         }
     }
 
 });
 
-router.get('/all', async(req, res) => {
+router.post('/all', async(req, res) => {
     try {
         // this is not well done, this need to be change later because data will fetch from enroll collection
         const users = await students.find({});
-        let course_name = "DBMS";
+        const course_name = req.body.course_name;
         const attendances = await attendence_model.find({course_name: course_name});
-        res.render('attendance_sheet_all', { users: users , attendances: attendances});
+        res.render('attendance_sheet_all', { users: users, attendances: attendances, course_name: course_name });
     } catch (error) {
         console.error("Error fetching data:", error);
-        res.render('attendance_sheet', { users: [] ,attendances: []});
+        res.render('attendance_sheet', { users: [], attendances: [], course_name: course_name });
     }
-});
-
-router.post('/all', async(req, res) => {
 });
 
 module.exports = router;

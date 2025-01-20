@@ -16,7 +16,11 @@
         <h3 style="padding-right: 20px;">resourse Sharing</h3>
     </div>
 
-    <a href="/attendance_sheet">Add attendance</a>
+
+    <form method="post" action="/attendance_sheet">
+        <input type="hidden" name="course_name" value="<%= course_name %>">
+        <button style="background-color: green; color : wheat">open</button>
+    </form>
     <a href="/">Home</a>
     <table id="attendanceTable">
         <thead>

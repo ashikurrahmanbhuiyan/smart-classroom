@@ -11,26 +11,6 @@
 </head>
 
 <body>
-    <!-- <div class="menu-bar">
-        <div>
-            <h7>Smart classroom logo</h1>
-        </div>
-
-        <div class="dropdown">
-            <h4>
-                Menu
-                <img src="/img/menu.png" alt="menu" class menu-bar-img>
-            </h4>
-            
-            <div class="dropdown-content">
-                <a href="/teacher/dashboard">Dashboard</a>
-                <a href="/teacher/edit_profile">Edit profile</a>
-                <a href="/teacher/setting">Setting</a>
-                <a href="/teacher/logout">Log out</a>
-            </div>
-        </div>
-
-    </div> -->
     <div class="container">
         
         <!-- Profile Header -->
@@ -53,15 +33,7 @@
                     <% } else{ %>
                         <img src="/img/default.jpg" alt="Theacher phto">
                         <% } %>
-                            <!-- <button id="picButton" type="submit">Edit photo</button>
-                            <div id="picForm" style="display: none;">
-                                <form id="edit-form" method="post" action="/teacher/update-profile-pic"
-                                    enctype="multipart/form-data">
-                                    <input type="file" name="updateProfilePic">
-                                    <input type="hidden" name="email" value=<%=user.email%> >
-                                    <button id="picSubmit" type="submit">Upload</button>
-                                </form>
-                            </div> -->
+                    
             </div>
 
             <!-- for name update -->
@@ -70,15 +42,7 @@
                     <h1>
                         <%= user.name %>
                     </h1>
-                    <!-- <button id="nameButton"><img src="/img/edit.png" alt="edit"></button> -->
-                </div>
-                <!-- <div id="nameForm" style="display: none;">
-                    <form id="edit-form" method="post" action="/teacher/update-name">
-                        <input type="text" name="name" value="<%= user.name %>" required>
-                        <input type="hidden" name="email" value=<%=user.email%> >
-                        <button id="nameSubmit" type="submit">Submit</button>
-                    </form>
-                </div> -->
+                    
 
 
                 <!-- for updationg positon -->
@@ -89,19 +53,11 @@
                     </p>
                     <!-- <button id="positionButton"><img src="/img/edit.png" alt="edit"></button> -->
                 </div>
-                <!-- <div id="positionForm" style="display: none;">
-                    <form id="edit-form" method="post" action="/teacher/update-position">
-                        <input type="text" name="position" value="<%= user.position %>" required>
-                        <input type="hidden" name="email" value=<%=user.email%> >
-                        <button id="positionSubmit" type="submit">Submit</button>
-                    </form>
-                </div> -->
+                
             </div>
             <div class="img-ru-logo">
                 <img src="/img/ru_logo.png" alt="ru-logo">
-                <!-- <a href="/teacher/logout"><button>Log out</button></a> -->
             </div>
-            <!-- </div> -->
         </div>
 
         <!-- container1 cintain the section and course part -->
@@ -118,15 +74,6 @@
                         </p>
                         <!-- <button id="contactButton"><img src="/img/edit.png" alt="edit"></button> -->
                     </div>
-
-                    <!-- <div id="contactForm" style="display: none;">
-                        <form id="edit-form" method="post" action="/teacher/update-contact">
-                            <input type="text" name="contact" value="<%= user.contact %>" required>
-                            <input type="hidden" name="email" value=<%=user.email%> >
-                            <button id="contactSubmit" type="submit">Submit</button>
-                        </form>
-                    </div> -->
-
 
 
                     <!-- Email section -->
@@ -147,15 +94,6 @@
                             </li>
                             <% }); %>
                     </ul>
-                    <!-- <button id="researchButton">Add new</button>
-
-                    <div id="researchForm" style="display: none;">
-                        <form id="edit-form" method="post" action="/teacher/update-research">
-                            <input type="text" name="research" value="<%= user.research %>" required>
-                            <input type="hidden" name="email" value=<%=user.email%> >
-                            <button id="researchSubmit" type="submit">Submit</button>
-                        </form>
-                    </div> -->
                 </div>
 
                 <!-- Education Section -->
@@ -173,16 +111,6 @@
                             <% }); %>
                     </div>
 
-                    <!-- <button id="educationButton">Add new</button>
-
-                    <div id="educationForm" style="display: none;">
-                        <form id="edit-form" method="post" action="/teacher/update-education">
-                            <input type="text" name="institute" value="<%= user.education %>" required><br>
-                            <input type="text" name="degree" value="<%= user.education %>" required><br>
-                            <input type="hidden" name="email" value=<%=user.email%> >
-                            <button id="educationSubmit" type="submit">Submit</button>
-                        </form>
-                    </div> -->
                 </div>
 
             </div>
@@ -204,10 +132,11 @@
                                 <div>
                                     <%= course.batch_name %>
                                     <br>
-                                    <form method="get" action="/attendance_sheet/all">
+                                    <form method="post" action="/attendance_sheet/all">
+                                        <input type="hidden" name="course_name" value="<%= course.course_name %>">
                                         <button style="background-color: green; color : wheat">open</button>
                                     </form>
-                                </div>
+                                </div
                                 <div>
                                     <h4>
                                         <%= course.course_name %>
@@ -264,100 +193,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-
-        // name update
-        // const nameButton = document.getElementById('nameButton');
-        // const name = document.getElementById('name');
-        // const nameForm = document.getElementById('nameForm');
-        // const nameSubmit = document.getElementById('nameSubmit')
-        // nameButton.addEventListener('click', () => {
-        //     name.style.display = 'none';
-        //     nameForm.style.display = 'block';
-        // });
-        // nameSubmit.addEventListener('submit', async (event) => {
-        //     event.preventDefault();
-        //     name.style.display = 'block';
-        //     nameForm.style.display = 'none';
-        // });
-
-
-        // profile pic update
-
-        // const picButton = document.getElementById('picButton');
-        // const picForm = document.getElementById('picForm');
-        // const picSubmit = document.getElementById('picSubmit')
-        // picButton.addEventListener('click', () => {
-        //     picForm.style.display = 'block';
-        // });
-        // picSubmit.addEventListener('submit', async (event) => {
-        //     event.preventDefault();
-        //     picForm.style.display = 'none';
-        // });
-
-
-        // position Update
-        // const positionButton = document.getElementById('positionButton');
-        // const position = document.getElementById('position');
-        // const positionForm = document.getElementById('positionForm');
-        // const positionSubmit = document.getElementById('positionSubmit')
-        // positionButton.addEventListener('click', () => {
-        //     position.style.display = 'none';
-        //     positionForm.style.display = 'block';
-        // });
-        // positionSubmit.addEventListener('submit', async (event) => {
-        //     event.preventDefault();
-        //     position.style.display = 'block';
-        //     positionForm.style.display = 'none';
-        // });
-
-
-        // Contact section
-
-        // const contactButton = document.getElementById('contactButton');
-        // const contact = document.getElementById('contact');
-        // const contactForm = document.getElementById('contactForm');
-        // const contactSubmit = document.getElementById('contactSubmit')
-        // contactButton.addEventListener('click', () => {
-        //     contact.style.display = 'none';
-        //     contactForm.style.display = 'block';
-        // });
-        // contactSubmit.addEventListener('submit', async (event) => {
-        //     event.preventDefault();
-        //     contact.style.display = 'block';
-        //     contactForm.style.display = 'none';
-        // });
-
-
-        // Educational qualification
-        // const educationButton = document.getElementById('educationButton');
-        // const educationForm = document.getElementById('educationForm');
-        // const educationSubmit = document.getElementById('educationSubmit')
-        // educationButton.addEventListener('click', () => {
-        //     educationForm.style.display = 'block';
-        //     educationButton.style.display = 'none';
-        // });
-        // educationSubmit.addEventListener('submit', async (event) => {
-        //     event.preventDefault();
-        //     educationForm.style.display = 'none';
-        //     educationButton.style.display = 'block';
-        // });
-
-
-        // research section
-        // const researchButton = document.getElementById('researchButton');
-        // const researchForm = document.getElementById('researchForm');
-        // const researchSubmit = document.getElementById('researchSubmit')
-        // researchButton.addEventListener('click', () => {
-        //     researchForm.style.display = 'block';
-        //     researchButton.style.display = 'none';
-        // });
-        // researchSubmit.addEventListener('submit', async (event) => {
-        //     event.preventDefault();
-        //     researchForm.style.display = 'none';
-        //     researchButton.style.display = 'block';
-        // });
-
-
         // course section
         const courseButton = document.getElementById('courseButton');
         const cancelButton = document.getElementById('cancelButton');
