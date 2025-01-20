@@ -66,7 +66,7 @@
 
     <script>
         // Initialize attendanceArray from users
-        let users = <% - JSON.stringify(users) %>;
+        const users = <%- JSON.stringify(users) %>;
         let attendanceArray = users.map(user => [user.student_id, 1]);
 
         // Reference to the table body
@@ -84,7 +84,7 @@
 
                 // Update attendanceArray
                 attendanceArray = attendanceArray.map(student => {
-                    if (student[0] === student_idToUpdate) {
+                    if (student[0] == Number( student_idToUpdate)) {
                         student[1] = student[1] === 1 ? 0 : 1;
                     }
                     return student;

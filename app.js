@@ -13,27 +13,19 @@ require('./config/passport')(passport);
 
 
 // Mongodb on cloud
- db_password = '6Lakak5cTioy3sSW';
- mongoose.connect('mongodb+srv://ashikurrahmanbhuiyan:6Lakak5cTioy3sSW@cluster0.89kxn.mongodb.net/smart_classroom?retryWrites=true&w=majority&appName=smart_classroom', {
-    useNewUrlParser: true,
-     useUnifiedTopology: true })
-.then(() => console.log('MongoDB Connected'))
-.catch((err) => console.log(err));
+//  db_password = '6Lakak5cTioy3sSW';
+//  mongoose.connect('mongodb+srv://ashikurrahmanbhuiyan:6Lakak5cTioy3sSW@cluster0.89kxn.mongodb.net/smart_classroom?retryWrites=true&w=majority&appName=smart_classroom', {
+//     useNewUrlParser: true,
+//      useUnifiedTopology: true })
+// .then(() => console.log('MongoDB Connected'))
+// .catch((err) => console.log(err));
 
 
-<<<<<<< HEAD
 // MongoDB Connection locally
 mongoose
     .connect('mongodb://localhost:27017/smart-classroom')
     .then(() => console.log('MongoDB Connected'))
     .catch((err) => console.log(err));
-=======
-// MongoDB Connection
-//mongoose
-//    .connect('mongodb://localhost:27017/smart-classroom')
-//    .then(() => console.log('MongoDB Connected'))
-//    .catch((err) => console.log(err));
->>>>>>> refs/remotes/origin/main
 
 // EJS
 app.set('view engine', 'ejs');

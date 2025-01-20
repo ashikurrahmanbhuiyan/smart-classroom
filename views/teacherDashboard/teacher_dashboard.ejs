@@ -15,9 +15,10 @@
         
         <!-- Profile Header -->
         <div class="profile-header">
+        
             <div class="dropdown">
                 <img src="/img/menu.png" alt="menu">
-                
+        
                 <div class="dropdown-content">
                     <a href="/teacher/dashboard">Dashboard</a>
                     <a href="/teacher/edit_profile">Edit profile</a>
@@ -25,7 +26,7 @@
                     <a href="/teacher/logout">Log out</a>
                 </div>
             </div>
-
+        
             <!-- for pic segment -->
             <div class="profile-photo">
                 <%if(user.picture){%>
@@ -33,31 +34,55 @@
                     <% } else{ %>
                         <img src="/img/default.jpg" alt="Theacher phto">
                         <% } %>
-                    
+                            <!-- <button id="picButton" type="submit">Edit photo</button>
+                                    <div id="picForm" style="display: none;">
+                                        <form id="edit-form" method="post" action="/teacher/update-profile-pic"
+                                            enctype="multipart/form-data">
+                                            <input type="file" name="updateProfilePic">
+                                            <input type="hidden" name="email" value=<%=user.email%> >
+                                            <button id="picSubmit" type="submit">Upload</button>
+                                        </form>
+                                    </div> -->
             </div>
-
+        
             <!-- for name update -->
             <div class="profile-info">
                 <div class="profile-info-item" id="name">
                     <h1>
                         <%= user.name %>
                     </h1>
-                    
-
-
+                    <!-- <button id="nameButton"><img src="/img/edit.png" alt="edit"></button> -->
+                </div>
+                <!-- <div id="nameForm" style="display: none;">
+                            <form id="edit-form" method="post" action="/teacher/update-name">
+                                <input type="text" name="name" value="<%= user.name %>" required>
+                                <input type="hidden" name="email" value=<%=user.email%> >
+                                <button id="nameSubmit" type="submit">Submit</button>
+                            </form>
+                        </div> -->
+        
+        
                 <!-- for updationg positon -->
-
+        
                 <div class="profile-info-item" id="position">
                     <p> Position :
                         <%= user.position%>
                     </p>
                     <!-- <button id="positionButton"><img src="/img/edit.png" alt="edit"></button> -->
                 </div>
-                
+                <!-- <div id="positionForm" style="display: none;">
+                            <form id="edit-form" method="post" action="/teacher/update-position">
+                                <input type="text" name="position" value="<%= user.position %>" required>
+                                <input type="hidden" name="email" value=<%=user.email%> >
+                                <button id="positionSubmit" type="submit">Submit</button>
+                            </form>
+                        </div> -->
             </div>
             <div class="img-ru-logo">
                 <img src="/img/ru_logo.png" alt="ru-logo">
+                <!-- <a href="/teacher/logout"><button>Log out</button></a> -->
             </div>
+            <!-- </div> -->
         </div>
 
         <!-- container1 cintain the section and course part -->
@@ -136,7 +161,7 @@
                                         <input type="hidden" name="course_name" value="<%= course.course_name %>">
                                         <button style="background-color: green; color : wheat">open</button>
                                     </form>
-                                </div
+                                </div>
                                 <div>
                                     <h4>
                                         <%= course.course_name %>

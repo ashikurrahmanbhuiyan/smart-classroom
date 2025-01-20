@@ -75,7 +75,7 @@ body {
 }
 
 .profile-header {
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -247,15 +247,8 @@ body {
 
 /* Dropdown styles */
 .dropdown {
-    position:relative;
+    position: relative;
     display: inline-block;
-    margin-right: 10px;
-}
-
-.dropdown img{
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
 }
 
 .dropdown-content {
@@ -297,9 +290,9 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
     position: absolute;
-    top:30%;
-    left :35%;
-    position : fixed;
+    top: 30%;
+    left: 35%;
+    position: fixed;
 }
 
 
