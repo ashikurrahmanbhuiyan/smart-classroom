@@ -26,7 +26,7 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
     }else{
         coursesByTeacher = null;
     }
-    res.render('dashboard', { user: req.user, coursesByTeacher});
+    res.render('teacherDashboard/teacher_dashboard', { user: req.user, coursesByTeacher});
 });
 
 router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) => {
@@ -49,13 +49,18 @@ router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) 
     } else {
         coursesByTeacher = null;
     }
-    res.render('edit_profile', { user: req.user, coursesByTeacher });
+    res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher });
 });
+
+
 
 
 router.get('/student/dashboard', checkAuthenticatedstudent, (req, res) =>
 
-    res.render('student_dashboard', { user: req.user })
+    res.render('studentDashboard/student_dashboard', { user: req.user })
 );
+
+
+
 
 module.exports = router;

@@ -11,10 +11,17 @@ router.post('/', async(req, res) => {
         const course_name = req.body.course_name;
         // this is not well done, this need to be change later because data will fetch from enroll collection
         const users = await students.find({ });
+<<<<<<< HEAD
         res.render('attendance_sheet', { users: users,course_name: course_name });
     } catch (error) {
         console.error("Error fetching data:", error);
         res.render('attendance_sheet', { users: [], course_name: course_name });
+=======
+        res.render('attendance/attendance_sheet', { users: users });
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.render('attendance/attendance_sheet',{users:[]});
+>>>>>>> refs/remotes/origin/main
     }
 });
 
@@ -53,10 +60,17 @@ router.post('/save',async (req,res)=>{
         try {
             // this is not well done, this need to be change later because data will fetch from enroll collection
             const users = await students.find({});
+<<<<<<< HEAD
             res.render('attendance_sheet', { users: users,problem:"Cann't update attendence",course_name:course_name });
         } catch (error) {
             console.error("Error fetching data:", error);
             res.render('attendance_sheet', { users: [], course_name: "" });
+=======
+            res.render('attendance/attendance_sheet', { users: users,problem:"Cann't update attendence" });
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            res.render('attendance/attendance_sheet', { users: [] });
+>>>>>>> refs/remotes/origin/main
         }
     }
 
@@ -68,10 +82,17 @@ router.post('/all', async(req, res) => {
         const users = await students.find({});
         const course_name = req.body.course_name;
         const attendances = await attendence_model.find({course_name: course_name});
+<<<<<<< HEAD
         res.render('attendance_sheet_all', { users: users, attendances: attendances, course_name: course_name });
     } catch (error) {
         console.error("Error fetching data:", error);
         res.render('attendance_sheet', { users: [], attendances: [], course_name: course_name });
+=======
+        res.render('attendance/attendance_sheet_all', { users: users , attendances: attendances});
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.render('attendance/attendance_sheet', { users: [] ,attendances: []});
+>>>>>>> refs/remotes/origin/main
     }
 });
 
