@@ -26,9 +26,6 @@ router.post('/save', async (req, res) => {
 
     const date = req.body.date;
     const course_name = req.body.course_name;
-    // this is not well done, this need to be change later because data will fetch from enroll collection
-    const users = await students.find({});
-    const attendances = await attendence_model.find({ course_name: course_name });
 
     try {
         let UpdateAttendance = await attendence_model.findOne({ course_name: course_name });
@@ -47,6 +44,10 @@ router.post('/save', async (req, res) => {
             });
             await newAttendence.save(); // Ensure save errors are caught
         }
+
+        // this is not well done, this need to be change later because data will fetch from enroll collection
+        const users = await students.find({});
+        const attendances = await attendence_model.find({ course_name: course_name });
         res.render('attendance/attendance_sheet_all', { users: users, attendances: attendances, course_name: course_name });
     } catch (error) {
         try {
