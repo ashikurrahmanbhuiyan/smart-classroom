@@ -1,0 +1,47 @@
+<div class="profile-header">
+
+    <!-- Dropdown Menu-->
+    <div class="dropdown">
+        <img src="/img/menu.png" alt="menu">
+
+        <div class="dropdown-content">
+            <a href="/teacher/dashboard">Dashboard</a>
+            <a href="/teacher/edit_profile">Edit profile</a>
+            <a href="/teacher/setting">Setting</a>
+            <a href="/teacher/logout">Log out</a>
+        </div>
+    </div>
+
+
+    <!-- for pic segment -->
+    <div class="profile-photo">
+        <%if(user.picture){%>
+            <img src="/profilePics/<%=user.picture%>" alt="Theacher phto">
+            <% } else{ %>
+                <img src="/img/default.jpg" alt="Theacher phto">
+                <% } %>
+    </div>
+
+    <!-- for name update -->
+    <div class="profile-info">
+        <div class="profile-info-item" id="name">
+            <h1>
+                <%= user.name %>
+            </h1>
+        </div>
+
+
+        <!-- for updationg positon -->
+        <div class="profile-info-item" id="position">
+            <p> Position :
+                <%= user.position%>
+            </p>
+
+        </div>
+
+
+    </div>
+    <div class="img-ru-logo">
+        <img src="/img/ru_logo.png" alt="ru-logo">
+    </div>
+</div>

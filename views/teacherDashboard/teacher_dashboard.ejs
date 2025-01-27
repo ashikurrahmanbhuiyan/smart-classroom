@@ -13,133 +13,29 @@
 <body>
     <div class="container">
         
-        <!-- Profile Header -->
-        <div class="profile-header">
+        <!-- Imported Profile Header of the dashboard including
+                dropdown menu,
+                profile picture, 
+                name, 
+                position,
+                RU logo
+        -->
         
-            <div class="dropdown">
-                <img src="/img/menu.png" alt="menu">
-        
-                <div class="dropdown-content">
-                    <a href="/teacher/dashboard">Dashboard</a>
-                    <a href="/teacher/edit_profile">Edit profile</a>
-                    <a href="/teacher/setting">Setting</a>
-                    <a href="/teacher/logout">Log out</a>
-                </div>
-            </div>
-        
-            <!-- for pic segment -->
-            <div class="profile-photo">
-                <%if(user.picture){%>
-                    <img src="/profilePics/<%=user.picture%>" alt="Theacher phto">
-                    <% } else{ %>
-                        <img src="/img/default.jpg" alt="Theacher phto">
-                        <% } %>
-                            <!-- <button id="picButton" type="submit">Edit photo</button>
-                                    <div id="picForm" style="display: none;">
-                                        <form id="edit-form" method="post" action="/teacher/update-profile-pic"
-                                            enctype="multipart/form-data">
-                                            <input type="file" name="updateProfilePic">
-                                            <input type="hidden" name="email" value=<%=user.email%> >
-                                            <button id="picSubmit" type="submit">Upload</button>
-                                        </form>
-                                    </div> -->
-            </div>
-        
-            <!-- for name update -->
-            <div class="profile-info">
-                <div class="profile-info-item" id="name">
-                    <h1>
-                        <%= user.name %>
-                    </h1>
-                    <!-- <button id="nameButton"><img src="/img/edit.png" alt="edit"></button> -->
-                </div>
-                <!-- <div id="nameForm" style="display: none;">
-                            <form id="edit-form" method="post" action="/teacher/update-name">
-                                <input type="text" name="name" value="<%= user.name %>" required>
-                                <input type="hidden" name="email" value=<%=user.email%> >
-                                <button id="nameSubmit" type="submit">Submit</button>
-                            </form>
-                        </div> -->
-        
-        
-                <!-- for updationg positon -->
-        
-                <div class="profile-info-item" id="position">
-                    <p> Position :
-                        <%= user.position%>
-                    </p>
-                    <!-- <button id="positionButton"><img src="/img/edit.png" alt="edit"></button> -->
-                </div>
-                <!-- <div id="positionForm" style="display: none;">
-                            <form id="edit-form" method="post" action="/teacher/update-position">
-                                <input type="text" name="position" value="<%= user.position %>" required>
-                                <input type="hidden" name="email" value=<%=user.email%> >
-                                <button id="positionSubmit" type="submit">Submit</button>
-                            </form>
-                        </div> -->
-            </div>
-            <div class="img-ru-logo">
-                <img src="/img/ru_logo.png" alt="ru-logo">
-                <!-- <a href="/teacher/logout"><button>Log out</button></a> -->
-            </div>
-            <!-- </div> -->
-        </div>
+        <%- include('partial_dashboard/profile_header') %>
 
         <!-- container1 cintain the section and course part -->
+         
         <div class="container1">
-            <div class="profile">
-
-                <!-- Contact Info Section -->
-                <div class="contact-info">
-                    <h2 class="section-header">Contact Info :</h2>
-
-                    <!-- Contact update -->
-
-                    <div class="contact-info-item" id="contact">
-                        <p>Address: <%= user.contact%>
-                        </p>
-                        <!-- <button id="contactButton"><img src="/img/edit.png" alt="edit"></button> -->
-                    </div>
+            
+            <!-- Imported Profile Section of tacher including 
+                    contact info, 
+                    research interest, 
+                    education background            
+            -->
+            <%- include('partial_dashboard/profile_Info') %>
 
 
-                    <!-- Email section -->
-                    <div class="contact-info-item">
-                        <p>Email Address: <%= user.email%>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- research interest cse -->
-                <div class="research-interest">
-                    <h2 class="section-header">Research Interest : </h2>
-                    <ul>
-                        <% const researchs=user.researchs; researchs.forEach((element)=>{
-                            %>
-                            <li>
-                                <%= element.research %>
-                            </li>
-                            <% }); %>
-                    </ul>
-                </div>
-
-                <!-- Education Section -->
-                <div class="education">
-                    <h2 class="section-header">Educational Background : </h2>
-                    <div class="education-item">
-                        <% const educations=user.educations; educations.forEach((element)=>{
-                            %>
-                            <h4>
-                                <%= element.institute %>
-                            </h4>
-                            <span>
-                                <%= element.qualification %>
-                            </span>
-                            <% }); %>
-                    </div>
-
-                </div>
-
-            </div>
+            <!-- Course Section -->
 
             <div class="course-contain">
 

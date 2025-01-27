@@ -1,0 +1,80 @@
+<div class="profile">
+
+    <!-- Contact Info Section -->
+    <div class="contact-info">
+        <h2 class="section-header">Contact Info :</h2>
+
+        <!-- Contact update -->
+
+        <div class="contact-info-item" id="contact">
+            <p>Address: <%= user.contact%>
+            </p>
+            <button id="contactButton"><img src="/img/edit.png" alt="edit"></button>
+        </div>
+
+        <div id="contactForm" style="display: none;">
+            <form id="edit-form" method="post" action="/teacher/update-contact">
+                <input type="text" name="contact" value="<%= user.contact %>" required>
+                <input type="hidden" name="email" value=<%=user.email%> >
+                <button id="contactSubmit" type="submit">Submit</button>
+            </form>
+        </div>
+
+
+
+        <!-- Email section -->
+        <div class="contact-info-item">
+            <p>Email Address: <%= user.email%>
+            </p>
+        </div>
+    </div>
+
+    <!-- research interest cse -->
+    <div class="research-interest">
+        <h2 class="section-header">Research Interest : </h2>
+        <ul>
+            <% const researchs=user.researchs; researchs.forEach((element)=>{
+                %>
+                <li>
+                    <%= element.research %>
+                </li>
+                <% }); %>
+        </ul>
+        <button id="researchButton">Add new</button>
+
+        <div id="researchForm" style="display: none;">
+            <form id="edit-form" method="post" action="/teacher/update-research">
+                <input type="text" name="research" value="<%= user.research %>" required>
+                <input type="hidden" name="email" value=<%=user.email%> >
+                <button id="researchSubmit" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Education Section -->
+    <div class="education">
+        <h2 class="section-header">Educational Background : </h2>
+        <div class="education-item">
+            <% const educations=user.educations; educations.forEach((element)=>{
+                %>
+                <h4>
+                    <%= element.institute %>
+                </h4>
+                <span>
+                    <%= element.qualification %>
+                </span>
+                <% }); %>
+        </div>
+
+        <button id="educationButton">Add new</button>
+        <div id="educationForm" style="display: none;">
+            <form id="edit-form" method="post" action="/teacher/update-education">
+                <input type="text" name="institute" value="<%= user.education %>" required><br>
+                <input type="text" name="degree" value="<%= user.education %>" required><br>
+                <input type="hidden" name="email" value=<%=user.email%> >
+                <button id="educationSubmit" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,54 @@
+<div class="profile">
+
+    <!-- Contact Info Section -->
+    <div class="contact-info">
+        <h2 class="section-header">Contact Info :</h2>
+
+        <!-- Contact update -->
+
+        <div class="contact-info-item" id="contact">
+            <p>
+                Address: <%= user.contact%>
+            </p>
+        </div>
+
+
+        <!-- Email section -->
+        <div class="contact-info-item">
+            <p>
+                Email Address: <%= user.email%>
+            </p>
+        </div>
+    </div>
+
+    <!-- research interest cse -->
+    <div class="research-interest">
+        <h2 class="section-header">Research Interest : </h2>
+        <ul>
+            <% const researchs=user.researchs; researchs.forEach((element)=>{
+                %>
+                <li>
+                    <%= element.research %>
+                </li>
+                <% }); %>
+        </ul>
+    </div>
+
+    <!-- Education Section -->
+    <div class="education">
+        <h2 class="section-header">Educational Background : </h2>
+        <div class="education-item">
+            <% const educations=user.educations; educations.forEach((element)=>{
+                %>
+                <h4>
+                    <%= element.institute %>
+                </h4>
+                <span>
+                    <%= element.qualification %>
+                </span>
+                <% }); %>
+        </div>
+
+    </div>
+
+</div>
