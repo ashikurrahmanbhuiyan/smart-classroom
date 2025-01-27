@@ -1,4 +1,4 @@
-const attendence_model = require('../models/attendence_model');
+const attendence_model = require('../models/attendance_model');
 const students = require('../models/user_student');
 const express = require('express');
 const router = express.Router();

@@ -216,10 +216,23 @@ body {
     line-height: 1.6;
 }
 
+.course-item1{
+    margin: 10px;
+    width: 90%;
+    display: flex;
+    justify-content:first baseline;
+    align-items: center;
+}
+
+
 .course-item h4 {
     margin: 0;
     font-size: 16px;
     color: #333;
+}
+
+.course-item button {
+    
 }
 
 .course-item span {
@@ -249,6 +262,12 @@ body {
 .dropdown {
     position: relative;
     display: inline-block;
+}
+.dropdown img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    cursor: pointer;
 }
 
 .dropdown-content {
@@ -288,13 +307,21 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 400px;
     position: absolute;
     top: 30%;
     left: 35%;
-    position: fixed;
 }
 
+.formHeader{
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.Addcourse{
+    /* padding: 20px; */
+    padding-right: 20px;
+}
 
 .deleteButton {
     position: absolute;
@@ -308,9 +335,16 @@ body {
     height: 25px;
     cursor: pointer;
     font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+}
+
+.select_input {
+    width: 105.5%;
+    background-color: #ffff;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
 .input {
@@ -322,7 +356,8 @@ body {
 }
 
 .submit {
-    width: 100%;
+    width: 105.5%;
+    justify-content: center;
     padding: 10px;
     background-color: #4caf50;
     color: #fff;

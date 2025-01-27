@@ -18,9 +18,8 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
             department.courses
                 .filter(course => course.teacher_email === req.user.email)
                 .map(course => ({
-                    batch_name: department.batch_name,
+                    year_semester: department.year_semester,
                     course_name: course.course_name,
-                    course_title : course.course_title
                 }))
         );
     }else{
@@ -49,7 +48,7 @@ router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) 
     } else {
         coursesByTeacher = null;
     }
-    res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher });
+     res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher });
 });
 
 

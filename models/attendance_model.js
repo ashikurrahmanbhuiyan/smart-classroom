@@ -5,7 +5,19 @@ const attendenceSheetSchema = new mongoose.Schema({
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'user_student',
     // },
+    department: {
+        type: String,
+        required: true,
+    },
+    year_semester: {
+        type: String,
+        required: true,
+    },
     course_name: {
+        type: String,
+        required: true,
+    },
+    teacher_email: {
         type: String,
         required: true,
     },

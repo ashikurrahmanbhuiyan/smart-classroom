@@ -3,10 +3,11 @@ const mongoose = require('mongoose');
 const courseSchema = new mongoose.Schema({
     department : {
         type : String,
+        required : true
     },
     departments : [
         {
-            batch_name : {
+            year_semester : {
                 type : String,
                 required : true
             },
@@ -17,9 +18,9 @@ const courseSchema = new mongoose.Schema({
                         type : String,
                         required : true
                     },
-                    course_title : {
-                        type : String
-                    }, 
+                    // course_title : {
+                    //     type : String
+                    // }, 
                     course_name : {
                         type : String,
                         required : true

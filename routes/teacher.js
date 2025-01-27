@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const { checkNotAuthenticatedteacher } = require('../config/auth');
 const User_teacher = require('../models/user_teacher');
 const Course = require('../models/course');
+const Attendance = require('../models/attendance_model');
 const { log } = require('node:console');
 
 
@@ -227,29 +228,42 @@ router.post("/update-research", async (req, res) => {
 });
 
 router.post("/add-course", async (req, res) => {
-    const { batch_name, course_name, course_title, email } = req.body;
+    // const { batch_name, course_name, course_title, email } = req.body;
+    const { dept_name, course_name, year, semester, email } = req.body;
+    const year_semester = year + " " + semester;
     const user = await User_teacher.findOne({ email: email });
 
-    const course = await Course.findOne({ department: user.department })
+    //update in attendance collection
+    const attendance_course = new Attendance({
+        department: dept_name,
+        year_semester: year_semester,
+        course_name: course_name,
+        teacher_email: user.email
+    });
+    attendance_course.save();
+
+    const course = await Course.findOne({ department: dept_name })
         .then((uniqCourse) => {
             if (uniqCourse) {
-                const batch = uniqCourse.departments.find((d) => d.batch_name === batch_name);
-                if (batch) {
-                    const course = batch.courses.push({
+
+                //update in course collection
+                const FindYear = uniqCourse.departments.find((d) => d.year_semester === year_semester);
+                if (FindYear) {
+                    const course = FindYear.courses.push({
                         teacher_email: user.email,
                         course_name: course_name,
-                        course_title : course_title
+                        // course_title : course_title
                     });
 
                     uniqCourse.save();
                 } else {
                     const course = uniqCourse.departments.push({
-                        batch_name: batch_name,
+                        year_semester: year_semester,
                         courses: [
                             {
                                 teacher_email: user.email,
                                 course_name: course_name,
-                                course_title : course_title
+                                // course_title : course_title
                             }
                         ],
                     });
@@ -257,15 +271,15 @@ router.post("/add-course", async (req, res) => {
                 }
             } else {
                 const newCurse = new Course({
-                    department: user.department,
+                    department: dept_name,
                     departments: [
                         {
-                            batch_name: batch_name,
+                            year_semester: year_semester,
                             courses: [
                                 {
                                     teacher_email: user.email,
                                     course_name: course_name,
-                                    course_title : course_title
+                                    // course_title : course_title
                                 }
                             ],
                         }
@@ -273,7 +287,12 @@ router.post("/add-course", async (req, res) => {
                 });
                 newCurse.save();
             }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send({ success: false, message: 'Failed to add course' });
         });
+
     res.redirect('/teacher/dashboard');
 
 });
