@@ -1,5 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
+        font-family: monospace;
+            font-size: 20px;
     margin: 20px;
     margin-top: 0px;
 }
@@ -29,7 +30,13 @@ th {
     background-color: #f4f4f4;
 }
 
-.add-date-btn {
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.add-attendance-btn,.return-btn {
     padding: 10px 15px;
     background-color: #4CAF50;
     color: white;
@@ -38,6 +45,11 @@ th {
     cursor: pointer;
 }
 
-.add-date-btn:hover {
+.return-btn a {
+    text-decoration: none;
+    color: white;
+}
+
+.add-attendance-btn:hover, .return-btn:hover {
     background-color: #45a049;
 }

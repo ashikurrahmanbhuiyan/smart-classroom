@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://e7.pngegg.com/pngimages/617/177/png-clipart-university-of-rajshahi-beauty-parlour-logo-others-miscellaneous-text-thumbnail.png" type="image/x-icon" />
     <title>Attendance Sheet</title>
     <link rel="stylesheet" href="/attendance/attendance_sheet_all.css">
 </head>
@@ -19,9 +20,12 @@
 
     <form method="post" action="/attendance_sheet">
         <input type="hidden" name="course_name" value="<%= course_name %>">
-        <button style="background-color: green; color : wheat">open</button>
+        <div class="form-buttons">
+                <button class="return-btn"><a href="/">Return Home ⤶</a></button>
+            
+            <button class="add-attendance-btn">Add New Attendance</button>
+        </div>
     </form>
-    <a href="/">Home</a>
     <table id="attendanceTable">
         <thead>
                 <th>Names</th>
@@ -32,7 +36,6 @@
             <!-- Names will be dynamically added here -->
         </tbody>
     </table>
-    <button class="add-date-btn" onclick="addDate()">Add Date</button>
 
     <script>
 
@@ -97,21 +100,21 @@
     }
 
     // Add a new date column
-    function addDate() {
-        const dateCount = theadRow.children.length;
-        const newTh = document.createElement("th");
-        newTh.textContent = `Date ${dateCount}`;
-        theadRow.appendChild(newTh);
+    // function addDate() {
+    //     const dateCount = theadRow.children.length;
+    //     const newTh = document.createElement("th");
+    //     newTh.textContent = `Date ${dateCount}`;
+    //     theadRow.appendChild(newTh);
 
-        // Add a new attendance cell for each person
-        tbody.querySelectorAll("tr").forEach(row => {
-            const newTd = document.createElement("td");
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            newTd.appendChild(checkbox);
-            row.appendChild(newTd);
-        });
-    }
+    //     // Add a new attendance cell for each person
+    //     tbody.querySelectorAll("tr").forEach(row => {
+    //         const newTd = document.createElement("td");
+    //         const checkbox = document.createElement("input");
+    //         checkbox.type = "checkbox";
+    //         newTd.appendChild(checkbox);
+    //         row.appendChild(newTd);
+    //     });
+    // }
 
     // Initialize the table on page load
     initializeTable();
