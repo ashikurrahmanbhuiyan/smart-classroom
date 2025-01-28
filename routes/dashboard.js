@@ -14,21 +14,23 @@ router.get('/', (req, res) => res.redirect('/teacher/login'));
 
 // teacher dashboard
 router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => {
-    const findCourses = await Course.findOne({ department: req.user.department });
+    const findCourses = await Course.find();
     var coursesByTeacher;
-    if (findCourses) {
-        coursesByTeacher = findCourses.sessionYear.flatMap(department =>
+    if(findCourses.length > 0){
+    coursesByTeacher = findCourses.flatMap(course =>
+        course.sessionYear.flatMap(department =>
             department.courses
-                .filter(course => course.teacher_email === req.user.email)
-                .map(course => ({
+                .filter(c => c.teacher_email === req.user.email)
+                .map(c => ({
                     year_semester: department.year_semester,
-                    course_name: course.course_name,
+                    course_name: c.course_name,
                 }))
-        );
-    } else {
+        )
+    );
+    }else{
         coursesByTeacher = null;
     }
-    res.render('teacherDashboard/teacher_dashboard', { user: req.user, coursesByTeacher });
+     res.render('teacherDashboard/teacher_dashboard', { user: req.user, coursesByTeacher});
 });
 
 
@@ -36,21 +38,23 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
 
 // teacher edit profile
 router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) => {
-    const findCourses = await Course.findOne({ department: req.user.department });
+    const findCourses = await Course.find();
     var coursesByTeacher;
-    if (findCourses) {
-        coursesByTeacher = findCourses.sessionYear.flatMap(department =>
+    if(findCourses.length > 0){
+    coursesByTeacher = findCourses.flatMap(course =>
+        course.sessionYear.flatMap(department =>
             department.courses
-                .filter(course => course.teacher_email === req.user.email)
-                .map(course => ({
+                .filter(c => c.teacher_email === req.user.email)
+                .map(c => ({
                     year_semester: department.year_semester,
-                    course_name: course.course_name,
+                    course_name: c.course_name,
                 }))
-        );
-    } else {
+        )
+    );
+    }else{
         coursesByTeacher = null;
     }
-    res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher });
+     res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher});
 });
 
 
@@ -70,7 +74,7 @@ router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
 
     var coursesByTeacher = [];
     if (findCourses) {
-       for(d of findCourses.departments){
+       for(let d of findCourses.sessionYear){
             if(d.year_semester === semester){
                 for(let course of d.courses){
                     const teacher = await Teacher.findOne({ email :  course.teacher_email});

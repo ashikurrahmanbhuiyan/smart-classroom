@@ -100,7 +100,9 @@ ul li a:hover {
     color: #2c3e50;
 }
 
-
+.attendance{
+    margin-left: auto;
+}
 .attendance-bar {
     width: 100%;
     height: 20px;
@@ -128,7 +130,8 @@ ul li a:hover {
     color: #fff;
 }
 
-.status.available {
+.status.online {
+    margin-left: auto;
     background-color: #2ecc71;
 }
 

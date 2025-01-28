@@ -46,16 +46,16 @@
         <div class="main-content">
             <div class="section card">
                 <div style="text-align: center; font-weight: bold;">
-                    Department : <%= student_user.department %>
+                    Department : <%= student_user.department %> <br>
                 </div>
                 <div class="courses">
                     <% if (admmited_courses && admmited_courses.length> 0) { %>
                         <% admmited_courses.forEach((course)=> { %>
                             <div class="course-item">
                                 <div class="course-item1">
-                                    <div>
+                                    <div class="imag">
                                         <%if(course.teacher_picture){%>
-                                            <img src="/profilePics/<%=course.teacher_picture%>" alt="Theacher phto">
+                                            <img src="/profilePics/<%= course.teacher_picture %>" alt="Theacher phto">
                                             <% } else{ %>
                                                 <img src="/img/default.jpg" alt="Theacher phto"><br>
                                                 <% } %>
@@ -65,18 +65,26 @@
                                         <h5>
                                             Teacher Name: <%= course.teacher %>
                                         </h5>
-                                        <h6>
+                                        <p>
                                             Teacher Email: <%= course.teacher_email %>
-                                        </h6>
-                                        <h6>
+                                        </p>
+                                        <p>Teacher Dept. <%= course.teacher_department %>
+                                        </p>
+                                        <p>
                                             Subject: <%= course.course_name %>
-                                        </h6>
-
-                                        <span>
-                                            Year : <%= course.year_semester[0] %> |
-                                                Semester : <%= course.year_semester[2] %>
-                                        </span>
+                                        </p>
                                     </div>
+                                    
+                                    <div class="attendance">
+                                        <div class="attendance-bar">
+                                            <div class="attendance-progress" style="width: 85%;"></div>
+                                        </div>
+                                        <p>Attendance: <strong>85%</strong></p>
+                                    </div>
+                                    <div class="status online">
+                                        <p>online</p>
+                                    </div>
+
                                 </div>
                             </div>
                             <% }); %>
@@ -90,18 +98,6 @@
         </div>
 
 
-
-
-
-        <div class="section card">
-            <h2>Attendance</h2>
-            <div class="attendance">
-                <div class="attendance-bar">
-                    <div class="attendance-progress" style="width: 85%;"></div>
-                </div>
-                <p>Overall Attendance: <strong>85%</strong></p>
-            </div>
-        </div>
 
         <div class="section card">
             <h2>Class Test Marks</h2>
@@ -128,20 +124,7 @@
             </table>
         </div>
 
-        <div class="section card">
-            <h2>Teacher Availability</h2>
-            <div class="teacher-status">
-                <div class="status available">
-                    <p><strong>Dr. Ali (CSE)</strong>: Available</p>
-                </div>
-                <div class="status offline">
-                    <p><strong>Prof. Manik (Math)</strong>: Offline</p>
-                </div>
-                <div class="status available">
-                    <p><strong>Dr. Sharif (Physics)</strong>: Available</p>
-                </div>
-            </div>
-        </div>
+      
 
         <div class="section card">
             <h2>Resources</h2>
@@ -162,16 +145,16 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const picButton = document.getElementById('picButton');
-                const picForm = document.getElementById('picForm');
-                const picSubmit = document.getElementById('picSubmit')
-                picButton.addEventListener('click', () => {
-                    picForm.style.display = 'block';
-                    picButton.style.display = 'none';
-                });
-                picSubmit.addEventListener('submit', async (event) => {
-                    event.preventDefault();
-                    picForm.style.display = 'none';
-                    picButton.style.display = 'block'
-                });
+        const picForm = document.getElementById('picForm');
+        const picSubmit = document.getElementById('picSubmit')
+        picButton.addEventListener('click', () => {
+            picForm.style.display = 'block';
+            picButton.style.display = 'none';
+        });
+        picSubmit.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            picForm.style.display = 'none';
+            picButton.style.display = 'block'
+        });
     });
 </script>
