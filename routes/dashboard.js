@@ -73,9 +73,11 @@ router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
     const semester = req.user.year_semester;
 
     var coursesByTeacher = [];
+    var year;
     if (findCourses) {
        for(let d of findCourses.sessionYear){
             if(d.year_semester === semester){
+                year = d.year_semester;
                 for(let course of d.courses){
                     const teacher = await Teacher.findOne({ email :  course.teacher_email});
                     coursesByTeacher.push({
@@ -90,9 +92,10 @@ router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
         };
     } else {
         coursesByTeacher = null;
+        year = null;
     }
     
-    res.render('studentDashboard/student_dashboard', { student_user: req.user, admmited_courses : coursesByTeacher })
+    res.render('studentDashboard/student_dashboard', { student_user: req.user, year, admmited_courses : coursesByTeacher })
 });
 
 
