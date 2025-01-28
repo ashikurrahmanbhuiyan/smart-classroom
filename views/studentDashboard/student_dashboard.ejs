@@ -24,37 +24,31 @@
 
         <div class="main-content">
             <div class="section card">
+                <div style="text-align: center; font-weight: bold;">
+                    Department : <%= student_user.department %>
+                </div>
                 <div class="courses">
-                    <div class="new-course">
-                        <h2 class="section-header">Courses : </h2>
-                        <button class="new-course-btn" id="courseButton">Add new course</button>
-                    </div>
-
-
-
-                    <% if (coursesByTeacher && coursesByTeacher.length > 0) { %>
-                        <% coursesByTeacher.forEach((course)=> { %>
+                    <% if (admmited_courses && admmited_courses.length > 0) { %>
+                        <% admmited_courses.forEach((course)=> { %>
                             <div class="course-item">
                                 <div class="course-item1">
                                     <div>
-                                        <h4>
+                                        <h5>
+                                            Teacher Name: <%= course.teacher %>
+                                        </h5>
+                                        <h5>
                                             Subject: <%= course.course_name %>
-                                        </h4>
+                                        </h5>
+                                        <h5>
+                                            Teacher Email: <%= course.teacher_email %>
+                                        </h5>
+
                                         <span>
                                             Year : <%= course.year_semester[0] %> |
                                             Semester : <%= course.year_semester[2] %>
                                         </span>
                                     </div>
-
-                                    <div>
-                                        <button style="margin-left: 30px;">Schedule</button>
-                                    </div>
-                                </div>
-
-                                <form method="post" action="/attendance_sheet/all">
-                                    <input type="hidden" name="course_name" value="<%= course.course_name %>">
-                                    <button style="font-family: fantasy;font-size: 24px;background-color: #4CAF50;">open</button>
-                                </form>
+                                </div>  
                             </div>
                                 <% }); %>
                                     <% } else { %>

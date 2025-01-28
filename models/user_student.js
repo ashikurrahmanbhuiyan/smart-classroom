@@ -19,9 +19,8 @@ const studentSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    batch : {
-        type : String,
-        required : true
+    year_semester : {
+        type  : String
     },
     password: {
         type: String,

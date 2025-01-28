@@ -161,3 +161,32 @@ table tr:hover {
 
 
 
+/* course */
+.courses {
+    border: none;
+}
+
+.course-item1{
+    margin: 10px;
+    width: 90%;
+    display: flex;
+    justify-content:first baseline;
+    align-items: center;
+}
+
+.course-item h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.courses .course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.744);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}

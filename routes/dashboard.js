@@ -4,7 +4,7 @@ const { checkAuthenticatedteacher } = require('../config/auth');
 const { checkAuthenticatedstudent } = require('../config/auth');
 const { authenticate } = require('passport');
 const Course = require('../models/course');
-
+const Teacher = require('../models/user_teacher');
 
 // Home Page (public)
 router.get('/', (req, res) => res.redirect('/teacher/login'));
@@ -49,24 +49,31 @@ router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) 
 
 router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
 
+
     const findCourses = await Course.findOne({ department: req.user.department });
 
+    const semester = req.user.year_semester;
 
-    var coursesByTeacher;
+    var coursesByTeacher = [];
     if (findCourses) {
-        coursesByTeacher = findCourses.departments.flatMap(department =>
-            department.courses
-                .filter(course => course.teacher_email === req.user.email)
-                .map(course => ({
-                    batch_name: department.batch_name,
-                    course_name: course.course_name,
-                }))
-        );
+       for(d of findCourses.departments){
+            if(d.year_semester === semester){
+                for(let course of d.courses){
+                    const teacher = await Teacher.findOne({ email :  course.teacher_email});
+                    coursesByTeacher.push({
+                        teacher_email : course.teacher_email,
+                        course_name : course.course_name,
+                        year_semester : d.year_semester,
+                        teacher : teacher.name
+                    });
+                } 
+            }
+        };
     } else {
         coursesByTeacher = null;
     }
-
-    res.render('studentDashboard/student_dashboard', { student_user: req.user, admidet_courses: coursesByTeacher })
+    
+    res.render('studentDashboard/student_dashboard', { student_user: req.user, admmited_courses : coursesByTeacher })
 });
 
 
