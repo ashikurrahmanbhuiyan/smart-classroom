@@ -65,4 +65,70 @@ router.get('/logout', (req, res) => {
     });
 });
 
+
+
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        return cb(null, './public/studentPics');
+    },
+    filename: function (req, file, cb) {
+        return cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+const fileFilter = (req, file, cb) => {
+    const allowedFileTypes = ['.jpg', '.jpeg', '.png', '.svg'];
+    const fileExtension = path.extname(file.originalname).toLowerCase();
+
+    if (allowedFileTypes.includes(fileExtension)) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+router.post("/update-profile-pic", upload.single("updateProfilePic"), async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const pic = await User_student.findOne({ email });
+        const oldPicture = pic.picture ? `./public/studentPics/${pic.picture}` : null;
+
+        picture = req.file ? req.file.filename : null;
+        const validExtensions = ['.jpg', '.jpeg', '.png', '.svg'];
+        if (!picture) {
+            return res.redirect('/student/dashboard');
+        } else {
+            const validation = validExtensions.some(ext => picture.toLowerCase().endsWith(ext));
+            if (!validation) {
+                return res.redirect('/student/dashboard');
+            }
+        }
+        const userTeacher = await User_student.updateOne(
+            { email: email },
+            { $set: { picture: picture } }
+        );
+
+        if (oldPicture) {
+            fs.unlink(oldPicture, (err) => {
+                if (err) {
+
+                } else {
+
+                }
+            });
+        }
+
+        res.redirect('/student/dashboard');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, message: 'Failed to update name' });
+    }
+
+});
+
 module.exports = router;

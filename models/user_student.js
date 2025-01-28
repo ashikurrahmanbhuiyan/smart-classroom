@@ -22,6 +22,9 @@ const studentSchema = new mongoose.Schema({
     year_semester : {
         type  : String
     },
+    picture : {
+        type : String
+    },
     password: {
         type: String,
         required: true,

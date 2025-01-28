@@ -13,7 +13,11 @@
         <header class="header">
             <div class="profile-header">
                 <div class="profile-picture">
-                    <img src="/img/default.jpg" alt="">
+                    <%if(student_user.picture){%>
+                        <img src="/studentPics/<%=student_user.picture%>" alt="Theacher phto">
+                        <% } else{ %>
+                            <img src="/img/default.jpg" alt="Theacher phto">
+                            <% } %>
                 </div>
                 <div class="profile-details">
                     <h1>
@@ -27,6 +31,17 @@
             </div>
         </header>
 
+        <!-- profile pic -->
+        <button id="picButton" type="submit">Edit photo</button>
+        <div id="picForm" style="display: none;">
+            <form id="edit-form" method="post" action="/student/update-profile-pic" enctype="multipart/form-data">
+                <input type="file" name="updateProfilePic">
+                <input type="hidden" name="email" value=<%=student_user.email%> >
+                <button id="picSubmit" type="submit">Upload</button>
+            </form>
+        </div>
+
+        <!--  -->
 
         <div class="main-content">
             <div class="section card">
@@ -38,27 +53,30 @@
                         <% admmited_courses.forEach((course)=> { %>
                             <div class="course-item">
                                 <div class="course-item1">
-                                    <%if(course.teacher_picture){%>
-                                        <img src="/profilePics/<%=course.teacher_picture%>" alt="Theacher phto">
-                                        <% } else{ %>
-                                            <img src="/img/default.jpg" alt="Theacher phto">
-                                            <% } %>
-                                                <div>
-                                                    <h5>
-                                                        Teacher Name: <%= course.teacher %>
-                                                    </h5>
-                                                    <h5>
-                                                        Subject: <%= course.course_name %>
-                                                    </h5>
-                                                    <h5>
-                                                        Teacher Email: <%= course.teacher_email %>
-                                                    </h5>
+                                    <div>
+                                        <%if(course.teacher_picture){%>
+                                            <img src="/profilePics/<%=course.teacher_picture%>" alt="Theacher phto">
+                                            <% } else{ %>
+                                                <img src="/img/default.jpg" alt="Theacher phto"><br>
+                                                <% } %>
+                                                    <button class="enroll">enroll</button>
+                                    </div>
+                                    <div class="course">
+                                        <h5>
+                                            Teacher Name: <%= course.teacher %>
+                                        </h5>
+                                        <h6>
+                                            Teacher Email: <%= course.teacher_email %>
+                                        </h6>
+                                        <h6>
+                                            Subject: <%= course.course_name %>
+                                        </h6>
 
-                                                    <span>
-                                                        Year : <%= course.year_semester[0] %> |
-                                                            Semester : <%= course.year_semester[2] %>
-                                                    </span>
-                                                </div>
+                                        <span>
+                                            Year : <%= course.year_semester[0] %> |
+                                                Semester : <%= course.year_semester[2] %>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <% }); %>
@@ -70,49 +88,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -181,3 +156,22 @@
 </body>
 
 </html>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const picButton = document.getElementById('picButton');
+                const picForm = document.getElementById('picForm');
+                const picSubmit = document.getElementById('picSubmit')
+                picButton.addEventListener('click', () => {
+                    picForm.style.display = 'block';
+                    picButton.style.display = 'none';
+                });
+                picSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    picForm.style.display = 'none';
+                    picButton.style.display = 'block'
+                });
+    });
+</script>
