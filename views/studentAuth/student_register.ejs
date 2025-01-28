@@ -12,7 +12,14 @@
                 <input type="text" name="name" id="name" placeholder="Enter your name"
                     value="<%= typeof name !== 'undefined' ? name : '' %>" required>
             </div>
-
+            <div class="form-group">
+                <label for="email">Email : </label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" 
+                        value="<%= typeof email !== 'undefined' ? email : '' %>" required>
+                <div class="error_show">
+                    <%= typeof error3 !=='undefined' ? error3 : '' %>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="Student ID">Student ID : </label>
                 <input type="text" id="student_id" name="student_id" placeholder="Enter your student id"
@@ -21,14 +28,31 @@
                     <%= typeof error4 !=='undefined' ? error4 : '' %>
                 </div>
             </div>
-
             <div class="form-group">
-                <label for="email">Email : </label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" 
-                        value="<%= typeof email !== 'undefined' ? email : '' %>" required>
+                <label for="Student ID">Department Name : </label>
+                <input type="text" id="department" name="department" placeholder="Enter your department name"
+                    value="<%= typeof department !== 'undefined' ? department : '' %>" required>
                 <div class="error_show">
-                    <%= typeof error3 !=='undefined' ? error3 : '' %>
+                    <%= typeof error4 !=='undefined' ? error4 : '' %>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="Select Year">Select Year :</label>
+                <select name="year" class="select_input" id="year_options" required>
+                    <option value="" disabled selected>year</option>
+                    <option value="1">1st year</option>
+                    <option value="2">2st year</option>
+                    <option value="3">3st year</option>
+                    <option value="4">4st year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Select Semester">Select Semester : </label>
+                <select name="semester" class="select_input" id="semester_options" required>
+                    <option value="" disabled selected>semester</option>
+                    <option value="1">1st semester</option>
+                    <option value="2">2st semester</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="password">Password : </label>

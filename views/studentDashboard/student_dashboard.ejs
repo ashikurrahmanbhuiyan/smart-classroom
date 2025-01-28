@@ -1,97 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Profile</title>
     <link rel="stylesheet" href="/dashboard/student_dashboard_style.css">
 </head>
+
 <body>
     <div class="container">
         <header class="header">
             <div class="profile-header">
                 <div class="profile-picture">
-                    <img src="/img/default.jpg" alt="">
+                    <%if(student_user.picture){%>
+                        <img src="/studentPics/<%=student_user.picture%>" alt="Theacher phto">
+                        <% } else{ %>
+                            <img src="/img/default.jpg" alt="Theacher phto">
+                            <% } %>
                 </div>
                 <div class="profile-details">
-                    <h1>Rakib</h1>
-                    <p>Student ID: 2010576143</p>
-                    <p>Email: rakib@example.com</p>
-                    <p>Phone: 01776050480</p>
+                    <h1>
+                        <%= student_user.name %>
+                    </h1>
+                    <p>Student ID: <%= student_user.student_id %>
+                    </p>
+                    <p>Email: <%= student_user.email %>
+                    </p>
                 </div>
             </div>
         </header>
 
+        <!-- profile pic -->
+        <button id="picButton" type="submit">Edit photo</button>
+        <div id="picForm" style="display: none;">
+            <form id="edit-form" method="post" action="/student/update-profile-pic" enctype="multipart/form-data">
+                <input type="file" name="updateProfilePic">
+                <input type="hidden" name="email" value=<%=student_user.email%> >
+                <button id="picSubmit" type="submit">Upload</button>
+            </form>
+        </div>
+
+        <!--  -->
 
         <div class="main-content">
             <div class="section card">
-                <h2>Admitted Courses</h2>
-                <ul>
-                    <li>Computer Science 101</li>
-                    <li>Mathematics 201</li>
-                    <li>Physics 301</li>
-                </ul>
-            </div>
-
-            <div class="section card">
-                <h2>Attendance</h2>
-                <div class="attendance">
-                    <div class="attendance-bar">
-                        <div class="attendance-progress" style="width: 85%;"></div>
-                    </div>
-                    <p>Overall Attendance: <strong>85%</strong></p>
+                <div style="text-align: center; font-weight: bold;">
+                    Department : <%= student_user.department %>
                 </div>
-            </div>
+                <div class="courses">
+                    <% if (admmited_courses && admmited_courses.length> 0) { %>
+                        <% admmited_courses.forEach((course)=> { %>
+                            <div class="course-item">
+                                <div class="course-item1">
+                                    <div>
+                                        <%if(course.teacher_picture){%>
+                                            <img src="/profilePics/<%=course.teacher_picture%>" alt="Theacher phto">
+                                            <% } else{ %>
+                                                <img src="/img/default.jpg" alt="Theacher phto"><br>
+                                                <% } %>
+                                                    <button class="enroll">enroll</button>
+                                    </div>
+                                    <div class="course">
+                                        <h5>
+                                            Teacher Name: <%= course.teacher %>
+                                        </h5>
+                                        <h6>
+                                            Teacher Email: <%= course.teacher_email %>
+                                        </h6>
+                                        <h6>
+                                            Subject: <%= course.course_name %>
+                                        </h6>
 
-            <div class="section card">
-                <h2>Class Test Marks</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Test</th>
-                            <th>Date</th>
-                            <th>Marks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Math Test 1</td>
-                            <td>01/01/2025</td>
-                            <td>10/15</td>
-                        </tr>
-                        <tr>
-                            <td>CSE Test 1</td>
-                            <td>10/01/2025</td>
-                            <td>9/10</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="section card">
-                <h2>Teacher Availability</h2>
-                <div class="teacher-status">
-                    <div class="status available">
-                        <p><strong>Dr. Ali (CSE)</strong>: Available</p>
-                    </div>
-                    <div class="status offline">
-                        <p><strong>Prof. Manik (Math)</strong>: Offline</p>
-                    </div>
-                    <div class="status available">
-                        <p><strong>Dr. Sharif (Physics)</strong>: Available</p>
-                    </div>
+                                        <span>
+                                            Year : <%= course.year_semester[0] %> |
+                                                Semester : <%= course.year_semester[2] %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                                <% } else { %>
+                                    <h4
+                                        style="background-color: seashell; color:red; width:auto; left : 55%; position : absolute">
+                                        No course is now available</h4>
+                                    <% } %>
                 </div>
-            </div>
-
-            <div class="section card">
-                <h2>Resources</h2>
-                <ul>
-                    <li><a href="#">Lecture Notes - Week 1</a></li>
-                    <li><a href="#">Math Practice Quiz</a></li>
-                    <li><a href="#">Physics Study Guide</a></li>
-                </ul>
             </div>
         </div>
+
+
+
+
+
+        <div class="section card">
+            <h2>Attendance</h2>
+            <div class="attendance">
+                <div class="attendance-bar">
+                    <div class="attendance-progress" style="width: 85%;"></div>
+                </div>
+                <p>Overall Attendance: <strong>85%</strong></p>
+            </div>
+        </div>
+
+        <div class="section card">
+            <h2>Class Test Marks</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Test</th>
+                        <th>Date</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Math Test 1</td>
+                        <td>01/01/2025</td>
+                        <td>10/15</td>
+                    </tr>
+                    <tr>
+                        <td>CSE Test 1</td>
+                        <td>10/01/2025</td>
+                        <td>9/10</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section card">
+            <h2>Teacher Availability</h2>
+            <div class="teacher-status">
+                <div class="status available">
+                    <p><strong>Dr. Ali (CSE)</strong>: Available</p>
+                </div>
+                <div class="status offline">
+                    <p><strong>Prof. Manik (Math)</strong>: Offline</p>
+                </div>
+                <div class="status available">
+                    <p><strong>Dr. Sharif (Physics)</strong>: Available</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section card">
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="#">Lecture Notes - Week 1</a></li>
+                <li><a href="#">Math Practice Quiz</a></li>
+                <li><a href="#">Physics Study Guide</a></li>
+            </ul>
+        </div>
+    </div>
     </div>
 </body>
+
 </html>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const picButton = document.getElementById('picButton');
+                const picForm = document.getElementById('picForm');
+                const picSubmit = document.getElementById('picSubmit')
+                picButton.addEventListener('click', () => {
+                    picForm.style.display = 'block';
+                    picButton.style.display = 'none';
+                });
+                picSubmit.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    picForm.style.display = 'none';
+                    picButton.style.display = 'block'
+                });
+    });
+</script>

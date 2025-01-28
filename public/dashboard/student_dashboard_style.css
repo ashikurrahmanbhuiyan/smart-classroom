@@ -66,7 +66,7 @@ body {
 
 
 .section {
-    background-color: #fff;
+    background-color:beige;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;
@@ -161,3 +161,59 @@ table tr:hover {
 
 
 
+/* course */
+.courses {
+    border: none;
+}
+
+.course-item1{
+    margin: 10px;
+    width: 90%;
+    display: flex;
+    justify-content:first baseline;
+    align-items: center;
+}
+
+.course-item h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.courses .course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.744);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+img{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.enroll{
+    background-color:#2ecc71;
+    position : relative;
+    border: #e74c3c;
+    width: 50%;
+    border-radius: 10%;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    color: #f5f5f5;
+    cursor: pointer;
+    
+}
+.enroll:hover{
+    background-color:#1498c0;
+}
+.course{
+    color: rgb(58, 53, 71);
+    background-color: beige;
+    border-radius: 10%;
+}

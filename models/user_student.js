@@ -15,6 +15,16 @@ const studentSchema = new mongoose.Schema({
         require: true,
         unique:true,
     },
+    department : {
+        type : String,
+        required : true
+    },
+    year_semester : {
+        type  : String
+    },
+    picture : {
+        type : String
+    },
     password: {
         type: String,
         required: true,

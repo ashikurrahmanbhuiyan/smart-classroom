@@ -9,7 +9,6 @@ const courseSchema = new mongoose.Schema({
         {
             year_semester : {
                 type : String,
-                required : true
             },
             
             courses : [
@@ -18,9 +17,6 @@ const courseSchema = new mongoose.Schema({
                         type : String,
                         required : true
                     },
-                    // course_title : {
-                    //     type : String
-                    // }, 
                     course_name : {
                         type : String,
                         required : true
