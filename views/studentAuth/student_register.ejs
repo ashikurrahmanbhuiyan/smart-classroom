@@ -21,6 +21,22 @@
                     <%= typeof error4 !=='undefined' ? error4 : '' %>
                 </div>
             </div>
+            <div class="form-group">
+                <label for=" Department Name">Department : </label>
+                <input type="text" id="department" name="department" placeholder="Enter your department name"
+                    value="<%= typeof department !== 'undefined' ? department : '' %>" required>
+                <div class="error_show">
+                    <%= typeof error4 !=='undefined' ? error4 : '' %>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Batch Name">Batch Name : </label>
+                <input type="text" id="batch" name="batch" placeholder="Enter your batch name"
+                    value="<%= typeof batch !== 'undefined' ? batch : '' %>" required>
+                <div class="error_show">
+                    <%= typeof error4 !=='undefined' ? error4 : '' %>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label for="email">Email : </label>

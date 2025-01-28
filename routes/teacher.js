@@ -228,7 +228,6 @@ router.post("/update-research", async (req, res) => {
 });
 
 router.post("/add-course", async (req, res) => {
-    // const { batch_name, course_name, course_title, email } = req.body;
     const { dept_name, course_name, year, semester, email } = req.body;
     const year_semester = year + " " + semester;
     const user = await User_teacher.findOne({ email: email });
@@ -252,7 +251,6 @@ router.post("/add-course", async (req, res) => {
                     const course = FindYear.courses.push({
                         teacher_email: user.email,
                         course_name: course_name,
-                        // course_title : course_title
                     });
 
                     uniqCourse.save();
@@ -263,7 +261,6 @@ router.post("/add-course", async (req, res) => {
                             {
                                 teacher_email: user.email,
                                 course_name: course_name,
-                                // course_title : course_title
                             }
                         ],
                     });
@@ -279,7 +276,6 @@ router.post("/add-course", async (req, res) => {
                                 {
                                     teacher_email: user.email,
                                     course_name: course_name,
-                                    // course_title : course_title
                                 }
                             ],
                         }

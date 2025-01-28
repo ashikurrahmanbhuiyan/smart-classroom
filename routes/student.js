@@ -11,7 +11,7 @@ router.get('/register', checkNotAuthenticatedstudent, (req, res) => res.render('
 
 // Register Handler
 router.post('/register', checkNotAuthenticatedstudent, async (req, res) => {
-    const { name, student_id, email, password, password2 } = req.body;
+    const { name, student_id, department, batch, email, password, password2 } = req.body;
     let error1, error2, error3,error4;
     if (password.length < 6) {
         return res.render('student_register', { error1: 'Password must be at least 6 characters', name, student_id , email });
@@ -32,7 +32,7 @@ router.post('/register', checkNotAuthenticatedstudent, async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User_student({ name, student_id, email, password: hashedPassword });
+        const newUser = new User_student({ name, student_id, department, batch, email, password: hashedPassword });
         await newUser.save();
         req.flash('success_msg', 'You are now registered and can log in');
         res.redirect('/student/login');

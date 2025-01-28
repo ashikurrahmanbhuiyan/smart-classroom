@@ -9,27 +9,45 @@ const Course = require('../models/course');
 // Home Page (public)
 router.get('/', (req, res) => res.redirect('/teacher/login'));
 
-// Dashboard (protected, requires authentication)
+
+
+
+
+// Teacher Dashboard (protected, requires authentication)
 router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => {
-    const findCourses = await Course.findOne({ department: req.user.department });
+    const findCourses = await Course.find();
     var coursesByTeacher;
-    if (findCourses) {
-         coursesByTeacher = findCourses.departments.flatMap(department =>
+    if(findCourses.length > 0){
+    coursesByTeacher = findCourses.flatMap(course =>
+        course.departments.flatMap(department =>
             department.courses
-                .filter(course => course.teacher_email === req.user.email)
-                .map(course => ({
+                .filter(c => c.teacher_email === req.user.email)
+                .map(c => ({
                     year_semester: department.year_semester,
-                    course_name: course.course_name,
+                    course_name: c.course_name,
                 }))
-        );
+        )
+    );
     }else{
         coursesByTeacher = null;
     }
     res.render('teacherDashboard/teacher_dashboard', { user: req.user, coursesByTeacher});
 });
 
-router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) => {
 
+router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) => {
+     res.render('teacherDashboard/edit_teacher_profile', { user: req.user});
+});
+
+
+
+
+
+// student dashboard
+
+
+
+router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
 
     const findCourses = await Course.findOne({ department: req.user.department });
 
@@ -42,22 +60,14 @@ router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) 
                 .map(course => ({
                     batch_name: department.batch_name,
                     course_name: course.course_name,
-                    course_title: course.course_title
                 }))
         );
     } else {
         coursesByTeacher = null;
     }
-     res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher });
+
+    res.render('studentDashboard/student_dashboard', { student_user: req.user, admidet_courses: coursesByTeacher })
 });
-
-
-
-
-router.get('/student/dashboard', checkAuthenticatedstudent, (req, res) =>
-
-    res.render('studentDashboard/student_dashboard', { user: req.user })
-);
 
 
 

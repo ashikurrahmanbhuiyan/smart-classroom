@@ -15,6 +15,14 @@ const studentSchema = new mongoose.Schema({
         require: true,
         unique:true,
     },
+    department : {
+        type : String,
+        required : true
+    },
+    batch : {
+        type : String,
+        required : true
+    },
     password: {
         type: String,
         required: true,
