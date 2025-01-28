@@ -233,7 +233,7 @@ router.post("/add-course", async (req, res) => {
     const year_semester = year + " " + semester;
     const user = await User_teacher.findOne({ email: email });
 
-    //update in attendance collection
+    //add new attendance collection
     const attendance_course = new Attendance({
         department: dept_name,
         year_semester: year_semester,
@@ -242,12 +242,12 @@ router.post("/add-course", async (req, res) => {
     });
     attendance_course.save();
 
+    
+    //update or add new course collection
     const course = await Course.findOne({ department: dept_name })
         .then((uniqCourse) => {
             if (uniqCourse) {
-
-                //update in course collection
-                const FindYear = uniqCourse.departments.find((d) => d.year_semester === year_semester);
+                const FindYear = uniqCourse.sessionYear.find((d) => d.year_semester === year_semester);
                 if (FindYear) {
                     const course = FindYear.courses.push({
                         teacher_email: user.email,
@@ -257,7 +257,7 @@ router.post("/add-course", async (req, res) => {
 
                     uniqCourse.save();
                 } else {
-                    const course = uniqCourse.departments.push({
+                    const course = uniqCourse.sessionYear.push({
                         year_semester: year_semester,
                         courses: [
                             {

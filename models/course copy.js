@@ -5,7 +5,7 @@ const courseSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    sessionYear : [
+    departments : [
         {
             year_semester : {
                 type : String,
@@ -25,22 +25,22 @@ const courseSchema = new mongoose.Schema({
                         type : String,
                         required : true
                     },
-                    course_schedule : [
-                        {
-                            day : {
-                                type : String,
-                                required : true
-                            },
-                            start_time : {
-                                type : String,
-                                required : true
-                            },
-                            end_time : {
-                                type : String,
-                                required : true 
-                            }
-                        }
-                    ]
+                    // course_schedule : [
+                    //     {
+                    //         day : {
+                    //             type : String,
+                    //             required : true
+                    //         },
+                    //         start_time : {
+                    //             type : String,
+                    //             required : true
+                    //         },
+                    //         end_time : {
+                    //             type : String,
+                    //             required : true 
+                    //         }
+                    //     }
+                    // ]
                 }
             ]
         }

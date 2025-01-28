@@ -14,7 +14,7 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
     const findCourses = await Course.findOne({ department: req.user.department });
     var coursesByTeacher;
     if (findCourses) {
-         coursesByTeacher = findCourses.departments.flatMap(department =>
+        coursesByTeacher = findCourses.sessionYear.flatMap(department =>
             department.courses
                 .filter(course => course.teacher_email === req.user.email)
                 .map(course => ({
@@ -36,7 +36,7 @@ router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) 
 
     var coursesByTeacher;
     if (findCourses) {
-        coursesByTeacher = findCourses.departments.flatMap(department =>
+        coursesByTeacher = findCourses.sessionYear.flatMap(department =>
             department.courses
                 .filter(course => course.teacher_email === req.user.email)
                 .map(course => ({

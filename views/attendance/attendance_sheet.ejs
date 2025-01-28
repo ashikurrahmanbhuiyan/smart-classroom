@@ -12,9 +12,10 @@
     <div class="container">
         <h1>Attendance Sheet</h1>
 
-        <form id="attandance-form1">
+        <form id="attandance-form1" class="dateForm">
             <!--<h2>Set Date: </h2> -->
-            <input type="date" id="date" placeholder="Enter Date" name="date" required>
+            <input type="date" id="date" name="date" required>
+            <input type="hidden">
         </form>
 
 
@@ -53,14 +54,23 @@
 
             </tbody>
         </table>
-        <div class="submission-button">
-            <form action="/attendance_sheet/save/" method="post" id="attendance-form">
-                <a href="/attendance_sheet/all">View All</a>
-                <a href="/">Home</a>
-                <input type="hidden" name="course_name" value="<%= course_name %>">
-                <button type="submit">Save the entry </button>
-            </form>
-        </div>
+        <!-- <div class="submission-button"> -->
+            
+                <div class="submission-buttons">
+                    <div>
+                        <form method="post" action="/attendance_sheet/all">
+                            <input type="hidden" name="course_name" value="<%= course_name %>">
+                            <button class="return-button">Back</button>
+                        </form>
+                    </div>
+                    <form action="/attendance_sheet/save/" method="post" id="attendance-form">
+                        <input type="hidden" name="course_name" value="<%= course_name %>">
+                        <button type="submit">Save the entry </button>
+                    </form>
+                </div>
+            
+        <!-- </div> -->
+    
 
     </div>
 
@@ -96,11 +106,15 @@
         const form = document.querySelector("#attendance-form");
         //set default date is today
         const dateInput = document.querySelector("#date");
-        const today = new Date();
+        const newDate = new Date();
         const bangladeshOffset = 6 * 60; // Bangladesh is UTC+6
-        const todayInBangladesh = new Date(today.getTime() + bangladeshOffset * 60000);
-        const today1 = todayInBangladesh.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
-        dateInput.value = today1;
+        const todayInBangladesh = new Date(newDate.getTime() + bangladeshOffset * 60000);
+        const bdDate = todayInBangladesh.toISOString().split('T')[0]; // Get date in YYYY-MM-DD format
+        //show date value
+        dateInput.value = bdDate;
+        //save date value format
+        const dateTimeFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: 'long' });
+        const formatBdDate = dateTimeFormatter.format(todayInBangladesh)
 
         // Create hidden inputs
         const hiddenInputAttendance = document.createElement('input');
@@ -117,7 +131,8 @@
         form.addEventListener("submit", () => {
             // Always get the current values dynamically
             hiddenInputAttendance.value = JSON.stringify(attendanceArray);
-            hiddenInputDate.value = dateInput.value;
+            // hiddenInputDate.value = dateInput.value;
+            hiddenInputDate.value = formatBdDate
         });
     </script>
 

@@ -14,7 +14,8 @@ body {
 }
 
 table {
-    width: 100%;
+    display:inline-block;
+    /* width: 100%; */
     border-collapse: collapse;
     margin-bottom: 20px;
 }
@@ -27,7 +28,9 @@ td {
 }
 
 th {
+    min-width:80px;
     background-color: #f4f4f4;
+    font-size: 15px;
 }
 
 .form-buttons {

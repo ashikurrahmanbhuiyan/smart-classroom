@@ -1,3 +1,5 @@
+
+
 body {
         font-family: monospace;
             font-size: 20px;
@@ -9,8 +11,9 @@ body {
 .container {
     width: 80%;
     margin: 20px auto;
+    /* margin-top: 0px; */
     background: #fff;
-    padding-top: 5px;
+    padding-top: 0px;
     padding-bottom: 20px;
     padding-left: 70px ;
     padding-right: 70px;
@@ -31,9 +34,11 @@ form {
     
 }
 
+
+
 input {
     padding: 10px;
-    font-size: 16px;
+    font-size: 22px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -74,10 +79,18 @@ tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.submission-button{
+.submission-buttons{
+    width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     margin-top: 20px;
     margin-right: 20px;
-    
+}
+
+.return-button {
+    top: 30%;
+    left: 35%;
+    font-family: fantasy;
+    font-size: 17px;
+    background-color: #e9ed30;
 }

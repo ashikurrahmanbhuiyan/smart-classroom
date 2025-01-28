@@ -134,6 +134,7 @@ body {
     color: #666;
 }
 
+.today-class,
 .education,
 .courses,
 .research-interest,
@@ -143,10 +144,6 @@ body {
     padding: 10px;
     border: 1px solid gray;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
-}
-
-.courses {
-    border: none;
 }
 
 .contact-info-item {
@@ -302,7 +299,7 @@ body {
 
 /* course form */
 
-.formContainer {
+.formContainer, .scheduleContainer {
     background-color: #f4f4f4;
     border: 2px solid #4caf50;
     padding: 20px;
@@ -312,6 +309,11 @@ body {
     position: absolute;
     top: 30%;
     left: 35%;
+}
+
+.scheduleContainer {
+    top: 40%;
+    left: 20%;
 }
 
 .formHeader{
@@ -356,7 +358,6 @@ body {
 }
 
 .submit {
-    
     width: 105.5%;
     justify-content: center;
     padding: 10px;

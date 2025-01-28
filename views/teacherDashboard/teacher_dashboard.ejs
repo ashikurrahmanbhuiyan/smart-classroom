@@ -42,29 +42,24 @@
             <div class="course-contain">
 
                 <!-- Upcoming class Section -->
-                <div class="Today's-class">
-                    <h2 class="section-header">Upcoming Class : </h2>
-                    <div class="upcoming-class-item">
-                        <h4>Course Name : </h4>
-                        <span>Machine Learning</span>
-                        <h4>Time : </h4>
-                        <span>10:00 AM</span>
-                        <h4>Date : </h4>
-                        <span>12/12/2020</span>
+                <div class="today-class">
+                    <h2 class="section-header">Today's Class : </h2>
+                    <div class="today-class-item">
+                        <h5>Course Name : Machine Learning</h5>
+                        <h5>Time : 10:00 AM</h5>    
                     </div>
                 </div>
 
                 <!-- Courses Section -->
                 <div class="courses">
                     <div class="new-course">
-                        <h2 class="section-header">Courses : </h2>
+                        <h2 class="section-header" style="margin-left: 7px;">Courses : </h2>
                         <button class="new-course-btn" id="courseButton">Add new course</button>
                     </div>
 
 
-
                     <% if (coursesByTeacher && coursesByTeacher.length > 0) { %>
-                        <% coursesByTeacher.forEach((course)=> { %>
+                        <% coursesByTeacher.forEach((course,index)=> { %>
                             <div class="course-item">
                                 <div class="course-item1">
                                     <div>
@@ -78,13 +73,18 @@
                                     </div>
 
                                     <div>
-                                        <button style="margin-left: 30px;">Schedule</button>
+                                        <button style="margin-left: 30px;" id="scheduleButton<%=index%>" class="scheduleButton" value="<%= course.course_name %>">
+                                            Schedule
+                                        </button>
+                                        <%index++%>
                                     </div>
                                 </div>
 
                                 <form method="post" action="/attendance_sheet/all">
                                     <input type="hidden" name="course_name" value="<%= course.course_name %>">
-                                    <button style="font-family: fantasy;font-size: 24px;background-color: #4CAF50;">open</button>
+                                    <button style="font-family: fantasy;font-size: 24px;background-color: #4CAF50;">
+                                        open
+                                    </button>
                                 </form>
                             </div>
                                 <% }); %>
@@ -101,13 +101,14 @@
         <div class="formContainer" id="courseForm" style="display: none;">
             <div class="formHeader">
                 <h2 style="color:#4CAF50">Create a new course :</h2>
-                <button class="deleteButton" id="cancelButton">
+                <button class="deleteButton" id="cousreCancel">
                     ❌
                 </button>
 
             </div>
-            <form class="Addcourse" method="post" action="/teacher/add-course">
 
+
+            <form class="Addcourse" method="post" action="/teacher/add-course">
                 <div>
                     <label>Course Name :</label>
                     <input type="text" name="course_name" placeholder="Machine Learning" class="input" required />
@@ -149,6 +150,46 @@
                 </button>
             </form>
         </div>
+
+
+        <!-- schedule the classes -->
+         
+        <div class="scheduleContainer" id="scheduleForm" style="display: none;">
+            <div class="formHeader">
+                <h2 style="color:#4CAF50">Schedule course :</h2>
+                <button class="deleteButton" id="scheduleCancel">
+                    ❌
+                </button>
+        
+            </div>
+        
+        
+            <form class="Addcourse" method="post" action="/teacher/add-course">        
+                <div>
+                    <label for="options">Select Day :</label>
+                    <select name="day" class="select_input" id="day_options" required>
+                        <option value="" disabled selected>Day</option>
+                        <option value="1">Sunday</option>
+                        <option value="2">Monday</option>
+                        <option value="3">Tuesday</option>
+                        <option value="4">Wednesday</option>
+                        <option value="5">Thursday</option>
+                    </select>
+                </div>
+                <div>
+                    <label >Start Time :</label>
+                    <input type="time" name="start_time" class="input" required />
+
+                    <label >End Time :</label>
+                    <input type="time" name="end_time" class="input" required />
+                </div>
+        
+                <input type="hidden" name="email" value="<%= user.email%>">
+                <button type="submit" class="submit" id="scheduleSubmit">
+                    Submit
+                </button>
+            </form>
+        </div>
 </body>
 
         <!-- java script  -->
@@ -160,7 +201,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         // course section
         const courseButton = document.getElementById('courseButton');
-        const cancelButton = document.getElementById('cancelButton');
+        const cancelButton = document.getElementById('cousreCancel');
         const courseForm = document.getElementById('courseForm');
         const courseSubmit = document.getElementById('courseSubmit')
 
@@ -178,7 +219,40 @@
             courseButton.style.display = 'block';
         });
 
+
+
+        // schedule section
+        const scheduleButton = document.querySelectorAll('.scheduleButton');
+        const scheduleForm = document.getElementById('scheduleForm');
+        const scheduleCancel = document.getElementById('scheduleCancel');
+        const scheduleSubmit = document.getElementById('scheduleSubmit');
+
+        scheduleButton.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                document.getElementById(`scheduleButton${index}`).style.display = 'none';
+                scheduleForm.style.display = 'block';
+            });
+        });
+
+        scheduleCancel.addEventListener('click', () => {
+            scheduleForm.style.display = 'none';
+            scheduleButton.forEach((btn, index) => {
+                document.getElementById(`scheduleButton${index}`).style.display = 'block';
+            });
+        });
+
+        scheduleSubmit.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            scheduleForm.style.display = 'none';
+            scheduleButton.style.display = 'block';
+        });
+
+
+
     });
+        
+
+        
 </script>
 
 </html>

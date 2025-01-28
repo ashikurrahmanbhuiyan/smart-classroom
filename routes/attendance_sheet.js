@@ -5,7 +5,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 
-
+router.get('/', async (req, res) => {
+    res.redirect('/teacher/dashboard');
+});
 
 //no need for authentication those post method because it is only accessible by teacher by button click
 router.post('/', async(req, res) => {
@@ -68,6 +70,9 @@ router.post('/save', async (req, res) => {
 
 });
 
+router.get('/all', async (req, res) => {
+    res.redirect('/teacher/dashboard');
+});
 
 router.post('/all', async(req, res) => {
     try {
