@@ -50,19 +50,26 @@
                     <% if (coursesByTeacher && coursesByTeacher.length > 0) { %>
                         <% coursesByTeacher.forEach((course)=> { %>
                             <div class="course-item">
-                                <div>
-                                    <%= course.batch_name %>
-                                    <br><button style="background-color: green; color : wheat">open</button>
+                                <div class="course-item1">
+                                    <div>
+                                        <h4>
+                                            Subject: <%= course.course_name %>
+                                        </h4>
+                                        <span>
+                                            Year : <%= course.year_semester[0] %> |
+                                            Semester : <%= course.year_semester[2] %>
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        <button style="margin-left: 30px;">Schedule</button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4>
-                                        <%= course.course_name %>
-                                    </h4>
-                                    <span>
-                                        <%= course.course_title %>
-                                    </span>
-                                </div>
-                                <button style="color: gold; background-color: red; ">close</button>
+
+                                <form method="post" action="/attendance_sheet/all">
+                                    <input type="hidden" name="course_name" value="<%= course.course_name %>">
+                                    <button style="font-family: fantasy;font-size: 24px;background-color: #4CAF50;">open</button>
+                                </form>
                             </div>
                                 <% }); %>
                                     <% } else { %>

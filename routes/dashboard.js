@@ -36,7 +36,23 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
 
 
 router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) => {
-     res.render('teacherDashboard/edit_teacher_profile', { user: req.user});
+    const findCourses = await Course.find();
+    var coursesByTeacher;
+    if(findCourses.length > 0){
+    coursesByTeacher = findCourses.flatMap(course =>
+        course.departments.flatMap(department =>
+            department.courses
+                .filter(c => c.teacher_email === req.user.email)
+                .map(c => ({
+                    year_semester: department.year_semester,
+                    course_name: c.course_name,
+                }))
+        )
+    );
+    }else{
+        coursesByTeacher = null;
+    }
+     res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher});
 });
 
 
@@ -64,7 +80,8 @@ router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
                         teacher_email : course.teacher_email,
                         course_name : course.course_name,
                         year_semester : d.year_semester,
-                        teacher : teacher.name
+                        teacher : teacher.name,
+                        teacher_picture : teacher.picture
                     });
                 } 
             }

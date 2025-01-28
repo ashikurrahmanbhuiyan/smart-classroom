@@ -190,3 +190,9 @@ table tr:hover {
     margin-bottom: 15px;
     line-height: 1.6;
 }
+img{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
