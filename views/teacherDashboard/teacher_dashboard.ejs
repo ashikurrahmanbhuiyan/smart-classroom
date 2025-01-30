@@ -63,16 +63,21 @@
                             <div class="course-item">
                                 <div class="course-item1">
                                     <div>
-                                        <h4>
+                                        <p style="margin: 0px;">
                                             Subject: <%= course.course_name %>
-                                        </h4>
+                                        </p>
+                                            Dept : <%= course.department %>
+                                        </span></br>
                                         <span>
                                             Year : <%= course.year_semester[0] %> |
                                             Semester : <%= course.year_semester[2] %>
                                         </span>
+                                        
                                     </div>
 
                                     <div>
+                                        <input type="hidden" id="department<%=index%>" value="<%= course.department %>">
+                                        <input type="hidden" id="year_semester<%=index%>" value="<%= course.year_semester %>">
                                         <button style="margin-left: 30px;" id="scheduleButton<%=index%>" class="scheduleButton" value="<%= course.course_name %>">
                                             Schedule
                                         </button>
@@ -98,15 +103,14 @@
         </div>
 
         <!-- Course form -->
+
         <div class="formContainer" id="courseForm" style="display: none;">
             <div class="formHeader">
                 <h2 style="color:#4CAF50">Create a new course :</h2>
                 <button class="deleteButton" id="cousreCancel">
                     ❌
                 </button>
-
             </div>
-
 
             <form class="Addcourse" method="post" action="/teacher/add-course">
                 <div>
@@ -146,22 +150,26 @@
         </div>
 
 
+
         <!-- schedule the classes -->
          
-        <div class="scheduleContainer" id="scheduleForm" style="display: none;">
+        <div class="scheduleContainer" id="scheduleContainer" style="display: none;">
+            <!-- fetch previous schedule from database -->
+
+
+
+
             <div class="formHeader">
-                <h2 style="color:#4CAF50">Schedule course :</h2>
+                <h2 style="color:#4CAF50" id="scheduleHeaderH2"></h2>
                 <button class="deleteButton" id="scheduleCancel">
                     ❌
                 </button>
-        
             </div>
         
-        
-            <form class="Addcourse" method="post" action="/teacher/add-course">        
+            <form class="AddSchudle" id="AddSchudle" method="post" action="/teacher/add-schedule">        
                 <div>
                     <label for="options">Select Day :</label>
-                    <select name="day" class="select_input" id="day_options" required>
+                    <select name="select_day" class="select_input" id="day_options" required>
                         <option value="" disabled selected>Day</option>
                         <option value="1">Sunday</option>
                         <option value="2">Monday</option>
@@ -178,10 +186,10 @@
                     <input type="time" name="end_time" class="input" required />
                 </div>
         
-                <input type="hidden" name="email" value="<%= user.email%>">
-                <button type="submit" class="submit" id="scheduleSubmit">
-                    Submit
-                </button>
+                <input type="hidden" name="course_name" id="SchedulecourseName" value="">
+                <input type="hidden" name="department" id="Scheduledepartment" value="">
+                <input type="hidden" name="year_semester" id="Scheduleyear_semester" value="">
+                <button type="submit" class="submit" id="scheduleSubmit"> Submit </button>
             </form>
         </div>
 </body>
@@ -191,6 +199,10 @@
 <script>
     // we will get the user email from the hidden input field
     // const user = document.getElementById('getUser').value;
+    const Course = require('../models/course');
+    const Schedule = require('../models/schedule');
+    console.log('course', Course);
+    console.log('schedule', Schedule);
 
     document.addEventListener('DOMContentLoaded', () => {
         // course section
@@ -217,19 +229,23 @@
 
         // schedule section
         const scheduleButton = document.querySelectorAll('.scheduleButton');
-        const scheduleForm = document.getElementById('scheduleForm');
+        const scheduleContainer = document.getElementById('scheduleContainer');
         const scheduleCancel = document.getElementById('scheduleCancel');
         const scheduleSubmit = document.getElementById('scheduleSubmit');
 
         scheduleButton.forEach((button, index) => {
             button.addEventListener('click', () => {
                 document.getElementById(`scheduleButton${index}`).style.display = 'none';
-                scheduleForm.style.display = 'block';
+                document.getElementById('scheduleHeaderH2').innerHTML = `Schedule ${button.value} course : `;
+                document.getElementById('SchedulecourseName').value = button.value;
+                document.getElementById('Scheduledepartment').value = document.getElementById(`department${index}`).value;
+                document.getElementById('Scheduleyear_semester').value = document.getElementById(`year_semester${index}`).value;   
+                scheduleContainer.style.display = 'block';
             });
         });
 
         scheduleCancel.addEventListener('click', () => {
-            scheduleForm.style.display = 'none';
+            scheduleContainer.style.display = 'none';
             scheduleButton.forEach((btn, index) => {
                 document.getElementById(`scheduleButton${index}`).style.display = 'block';
             });
@@ -237,7 +253,7 @@
 
         scheduleSubmit.addEventListener('submit', async (event) => {
             event.preventDefault();
-            scheduleForm.style.display = 'none';
+            scheduleContainer.style.display = 'none';
             scheduleButton.style.display = 'block';
         });
 

@@ -29,11 +29,9 @@ const courseSchema = new mongoose.Schema({
                             },
                             start_time : {
                                 type : String,
-                                required : true
                             },
                             end_time : {
                                 type : String,
-                                required : true 
                             }
                         }
                     ]

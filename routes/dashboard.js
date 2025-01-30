@@ -22,6 +22,7 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
             department.courses
                 .filter(c => c.teacher_email === req.user.email)
                 .map(c => ({
+                    department: course.department,
                     year_semester: department.year_semester,
                     course_name: c.course_name,
                 }))

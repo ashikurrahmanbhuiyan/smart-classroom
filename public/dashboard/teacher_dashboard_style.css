@@ -127,7 +127,6 @@ body {
     width: 100px;
     height: 100px;
     object-fit: cover;
-    padding-right: 15px;
 }
 
 .contact-info p {
@@ -319,7 +318,7 @@ body {
     margin-bottom: 0px;
 }
 
-.Addcourse{
+.Addcourse, .AddSchudle {
     /* padding: 20px; */
     padding-right: 20px;
 }

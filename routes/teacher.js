@@ -84,6 +84,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const course = require('../models/course');
+const { console } = require('node:inspector');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -269,7 +270,7 @@ router.post("/add-course", async (req, res) => {
             } else {
                 const newCurse = new Course({
                     department: dept_name,
-                    departments: [
+                    sessionYear: [
                         {
                             year_semester: year_semester,
                             courses: [
@@ -292,6 +293,25 @@ router.post("/add-course", async (req, res) => {
     res.redirect('/teacher/dashboard');
 
 });
+
+
+router.post("/add-schedule", async (req, res) => {
+    const { select_day, start_time, end_time, course_name , department,year_semester} = req.body;
+    const course = await Course.findOne({ department: department });
+    const schedule = course.sessionYear.find((d) => d.year_semester === year_semester).courses.find((c) => c.course_name === course_name).course_schedule;
+
+    const newSchedule = {
+        day: select_day,
+        start_time: start_time,
+        end_time: end_time
+    };
+    schedule.push(newSchedule);
+    course.save();
+
+    res.redirect('/teacher/dashboard');
+});
+
+
 
 
 module.exports = router;
