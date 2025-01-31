@@ -10,6 +10,7 @@ const { log } = require('node:console');
 
 
 
+
 // Login Page (restricted for authenticated teacher)
 router.get('/login', checkNotAuthenticatedteacher, (req, res) => res.render('teacherAuth/teacher_login'));
 
@@ -309,6 +310,27 @@ router.post("/add-schedule", async (req, res) => {
     course.save();
 
     res.redirect('/teacher/dashboard');
+});
+
+
+// router.post("/api/user", async (req, res) => {
+//     try {
+//         const { name, email } = req.body;
+//         //const newUser = new User({ name, email });
+//         //await newUser.save();
+//         res.status(201).json({ message: "User saved successfully", user: name });
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// });
+
+
+
+router.post("/api/schedule", async (req, res) => {
+    const { course_name,department,year_semester } = req.body;
+    const course = await Course.findOne({ department: department });
+    const schedule = course.sessionYear.find((d) => d.year_semester == year_semester).courses.find((c) => c.course_name == course_name).course_schedule;
+    res.status(200).json({ schedule: schedule });
 });
 
 

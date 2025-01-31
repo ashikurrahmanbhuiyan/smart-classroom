@@ -202,6 +202,18 @@ body {
     margin-bottom: 10px;
 }
 
+
+.class-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.744);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
 .courses .course-item {
     display: flex;
     justify-content: space-between;
@@ -309,18 +321,42 @@ body {
 }
 
 .scheduleContainer {
+    width: 65%;
     top: 40%;
-    left: 20%;
+    left: 10%;
+    margin-top: 25px;
+}
+
+.scheduleList{
+    align-items: start;
+    justify-content: space-around;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.eachSchedule{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .formHeader{
     text-align: center;
-    margin-bottom: 0px;
 }
 
 .Addcourse, .AddSchudle {
     /* padding: 20px; */
     padding-right: 20px;
+}
+
+.AddSchudle{
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    margin-left: 15%;
 }
 
 .deleteButton {

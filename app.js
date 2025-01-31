@@ -4,6 +4,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const compression = require('compression');
+const cors = require("cors");
 
 // Initialize App
 const app = express();
@@ -27,6 +28,7 @@ mongoose
     .then(() => console.log('MongoDB Connected'))
     .catch((err) => console.log(err));
 
+
 // EJS
 app.set('view engine', 'ejs');
 
@@ -36,8 +38,12 @@ app.use( express.static('public') );
 // Compression in request and response
 app.use(compression());
 
+// used for send json data to the server
+app.use(express.json());
+app.use(cors());
 
-// Body Parser
+
+// Express Bodyparser
 app.use(express.urlencoded({ extended: false }));
 
 // Express Session Middleware

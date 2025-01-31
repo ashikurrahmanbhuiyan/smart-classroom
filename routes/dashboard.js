@@ -25,13 +25,34 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
                     department: course.department,
                     year_semester: department.year_semester,
                     course_name: c.course_name,
+                    schedule: c.course_schedule,
                 }))
         )
     );
     }else{
         coursesByTeacher = null;
     }
-     res.render('teacherDashboard/teacher_dashboard', { user: req.user, coursesByTeacher});
+
+    const today = new Date().toLocaleString('en-us', { weekday: 'long' });
+    let todayClass;
+    if (findCourses.length > 0) {
+        todayClass = findCourses.flatMap(course =>
+            course.sessionYear.flatMap(department =>
+                department.courses
+                    .filter(c => c.teacher_email === req.user.email && c.course_schedule.some(s => s.day === today))
+                    .map(c => ({
+                        department: course.department,
+                        year_semester: department.year_semester,
+                        course_name: c.course_name,
+                        start_time: c.course_schedule.find(s => s.day == today).start_time,
+                        end_time: c.course_schedule.find(s => s.day == today).end_time,
+                    }))
+            )
+        );
+    } else {
+        todayClass = null;
+    }
+    res.render('teacherDashboard/teacher_dashboard', { user: req.user, coursesByTeacher,today, todayClass: (todayClass.length > 0 ? todayClass : null) });
 });
 
 
@@ -55,7 +76,11 @@ router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) 
     }else{
         coursesByTeacher = null;
     }
-     res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher});
+
+    
+
+
+    res.render('teacherDashboard/edit_teacher_profile', { user: req.user, coursesByTeacher});
 });
 
 
