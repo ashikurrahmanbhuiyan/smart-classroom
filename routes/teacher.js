@@ -23,16 +23,16 @@ router.post('/register', checkNotAuthenticatedteacher, async (req, res) => {
     let error1, error2, error3;
 
     if (password.length < 6) {
-        return res.render('register', { error1: 'Password must be at least 6 characters', name, email });
+        return res.render('teacherAuth/teacher_register', { error1: 'Password must be at least 6 characters', name, email });
     }
     if (password !== password2) {
-        return res.render('register', { error2: 'Passwords do not match', name, email });
+        return res.render('teacherAuth/teacher_register', { error2: 'Passwords does not match', name, email });
     }
 
     try {
         const existingUser = await User_teacher.findOne({ email });
         if (existingUser) {
-            return res.render('register', { error3: 'Email already registered', name, email });
+            return res.render('teacherAuth/teacher_register', { error3: 'Email already registered', name, email });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);

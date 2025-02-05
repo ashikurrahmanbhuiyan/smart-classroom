@@ -16,21 +16,21 @@ router.post('/register', checkNotAuthenticatedstudent, async (req, res) => {
     let error1, error2, error3,error4;
 
     if (password.length < 6) {
-        return res.render('student_register', { error1: 'Password must be at least 6 characters', name, student_id , email });
+        return res.render('studentAuth/student_register', { error1: 'Password must be at least 6 characters', name, student_id , email });
     }
     if (password !== password2) {
-        return res.render('student_register', { error2: 'Passwords do not match', name, student_id, email });
+        return res.render('studentAuth/student_register', { error2: 'Passwords does not match', name, student_id, email });
     }
 
     try {
         const existingUser = await User_student.findOne({ email });
         if (existingUser) {
-            return res.render('student_register', { error3: 'Email already registered', name, student_id, email});
+            return res.render('studentAuth/student_register', { error3: 'Email already registered', name, student_id, email});
         }
 
         const existingUser1 = await User_student.findOne({ student_id });
         if (existingUser1) {
-            return res.render('student_register', { error4: 'Student is already exist', name, student_id, email });
+            return res.render('studentAuth/student_register', { error4: 'Student already exist', name, student_id, email });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
