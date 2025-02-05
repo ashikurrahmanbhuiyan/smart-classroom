@@ -195,48 +195,51 @@
          
         <div class="scheduleContainer" id="scheduleContainer" style="display: none;">
             <!-- fetch previous schedule from database -->
+            <div class="sC1">
+                <div id="ScheduleFromDatabase">
 
-            <div id="ScheduleFromDatabase">
+                </div>
+            
 
+                <div>
+                    <div class="formHeader">
+                        <h2 style="color:#4CAF50" id="scheduleHeaderH2"></h2>
+                        <button class="deleteButton" id="scheduleCancel">
+                            ❌
+                        </button>
+                    </div>
+
+                    <form class="AddSchudle" id="AddSchudle" method="post" action="/teacher/add-schedule">        
+                        <div>
+                            <label for="options">Select Day :</label>
+                            <select name="select_day" class="select_input" id="day_options" required>
+                                <option value="" disabled selected>Day</option>
+                                <option value="Sunday">Sunday</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label >Start Time :</label>
+                            <input type="time" name="start_time" class="input" required />
+
+                            <label >End Time :</label>
+                            <input type="time" name="end_time" class="input" required />
+                        </div>
+                
+                        <div>
+                            <input type="hidden" name="course_name" id="SchedulecourseName" value="">
+                            <input type="hidden" name="department" id="Scheduledepartment" value="">
+                            <input type="hidden" name="year_semester" id="Scheduleyear_semester" value="">
+                            <button type="submit" class="submit" id="scheduleSubmit"> Submit </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-
-            <div class="formHeader">
-                <h2 style="color:#4CAF50" id="scheduleHeaderH2"></h2>
-                <button class="deleteButton" id="scheduleCancel">
-                    ❌
-                </button>
-            </div>
-
-            <form class="AddSchudle" id="AddSchudle" method="post" action="/teacher/add-schedule">        
-                <div>
-                    <label for="options">Select Day :</label>
-                    <select name="select_day" class="select_input" id="day_options" required>
-                        <option value="" disabled selected>Day</option>
-                        <option value="Sunday">Sunday</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
-                    </select>
-                </div>
-                <div>
-                    <label >Start Time :</label>
-                    <input type="time" name="start_time" class="input" required />
-
-                    <label >End Time :</label>
-                    <input type="time" name="end_time" class="input" required />
-                </div>
-        
-                <div>
-                    <input type="hidden" name="course_name" id="SchedulecourseName" value="">
-                    <input type="hidden" name="department" id="Scheduledepartment" value="">
-                    <input type="hidden" name="year_semester" id="Scheduleyear_semester" value="">
-                    <button type="submit" class="submit" id="scheduleSubmit"> Submit </button>
-                </div>
-            </form>
         </div>
 
 </body>
@@ -363,8 +366,8 @@
             result.schedule.forEach(schedule => {
                 output += `<li class = "eachSchedule">
                         <p>Day: ${schedule.day} </p>
-                        <p>Start Time: ${schedule.start_time}  </p>
-                        <p>End Time: ${schedule.end_time} </p> 
+                        <p>Start: ${schedule.start_time}  </p>
+                        <p>End: ${schedule.end_time} </p> 
                 </li><hr>`;
             });
             output += "</ul>";

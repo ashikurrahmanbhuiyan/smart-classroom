@@ -308,7 +308,6 @@ router.post("/add-schedule", async (req, res) => {
     };
     schedule.push(newSchedule);
     course.save();
-
     res.redirect('/teacher/dashboard');
 });
 
