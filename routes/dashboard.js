@@ -39,7 +39,7 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
         todayClass = findCourses.flatMap(course =>
             course.sessionYear.flatMap(department =>
                 department.courses
-                    .filter(c => c.teacher_email === req.user.email && c.course_schedule.some(s => s.day === today))
+                    .filter(c => c.teacher_email === req.user.email && c.course_schedule.some(s => s.day === "Wednesday"))
                     .map(c => ({
                         department: course.department,
                         year_semester: department.year_semester,
@@ -52,7 +52,7 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
     } else {
         todayClass = null;
     }
-    res.render('teacherDashboard/teacher_dashboard', { user: req.user, coursesByTeacher,today, todayClass: (todayClass.length > 0 ? todayClass : null) });
+    res.render('teacherDashboard/teacher_dashboard', { user: req.user, coursesByTeacher,today, todayClass });
 });
 
 
