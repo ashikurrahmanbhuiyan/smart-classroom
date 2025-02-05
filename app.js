@@ -13,7 +13,7 @@ const app = express();
 require('./config/passport')(passport);
 
 
-// Mongodb on cloud
+// Mongodb on cloud 
 //  db_password = '6Lakak5cTioy3sSW';
 //  mongoose.connect('mongodb+srv://ashikurrahmanbhuiyan:6Lakak5cTioy3sSW@cluster0.89kxn.mongodb.net/smart_classroom?retryWrites=true&w=majority&appName=smart_classroom', {
 //     useNewUrlParser: true,
