@@ -37,7 +37,7 @@
             <%- include('partial_dashboard/profile_Info') %>
 
 
-            <!-- Course Section -->
+            <!-- Today Course Section -->
 
             <div class="course-contain">
 
@@ -84,8 +84,6 @@
 
 
 
-
-                
 
                 <!-- Courses Section -->
                 <div class="courses">
@@ -203,7 +201,7 @@
 
                 <div>
                     <div class="formHeader">
-                        <h2 style="color:#4CAF50" id="scheduleHeaderH2"></h2>
+                        <h2 style="color:#4CAF50" id="scheduleHeaderH2">Add Schedule</h2>
                         <button class="deleteButton" id="scheduleCancel">
                             ❌
                         </button>
@@ -343,8 +341,9 @@
 
     scheduleButton.forEach((button, index) => {
         button.addEventListener('click', async () => {
-            document.getElementById(`scheduleButton${index}`).style.display = 'none';
-            document.getElementById('scheduleHeaderH2').innerHTML = `Schedule ${button.value} course : `;
+            //document.getElementById(`scheduleButton${index}`).style.display = 'none';
+            document.getElementById("container").classList.add("blur");
+            // document.getElementById('scheduleHeaderH2').innerHTML = `Schedule ${button.value} course : `;
             document.getElementById('SchedulecourseName').value = button.value;
             document.getElementById('Scheduledepartment').value = document.getElementById(`department${index}`).value;
             document.getElementById('Scheduleyear_semester').value = document.getElementById(`year_semester${index}`).value;
@@ -386,14 +385,16 @@
     scheduleCancel.addEventListener('click', () => {
         scheduleContainer.style.display = 'none';
         scheduleButton.forEach((btn, index) => {
-            document.getElementById(`scheduleButton${index}`).style.display = 'block';
+        // document.getElementById(`scheduleButton${index}`).style.display = 'block';
+        document.getElementById("container").classList.remove("blur");
         });
     });
 
     scheduleSubmit.addEventListener('submit', async (event) => {
         event.preventDefault();
         scheduleContainer.style.display = 'none';
-        scheduleButton.style.display = 'block';
+        // scheduleButton.style.display = 'block';
+        document.getElementById("container").classList.remove("blur");
     });
 
 

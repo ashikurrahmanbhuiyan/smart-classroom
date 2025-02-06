@@ -329,9 +329,9 @@ body {
 .scheduleContainer {
     display: flex;
     flex-direction: row;
-    width: 65%;
-    top: 40%;
-    left: 10%;
+    width: 60%;
+    /* top: 40%;*/
+    left: 15%; 
     margin-top: 25px;
 }
 
