@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <!-- hidden input field to get the user email -->
         <!-- <input type="hidden" id="getUser" value="<%= user %>"> -->
         
@@ -217,7 +217,7 @@
                                 <option value="Sunday">Sunday</option>
                                 <option value="Monday">Monday</option>
                                 <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
+                                <option value="wednesday">Wednesday</option>
                                 <option value="Thursday">Thursday</option>
                                 <option value="Friday">Friday</option>
                                 <option value="Saturday">Saturday</option>
@@ -311,16 +311,19 @@
 
         courseButton.addEventListener('click', () => {
             courseForm.style.display = 'block';
-            courseButton.style.display = 'none';
+            // courseButton.style.display = 'none';
+            document.getElementById("container").classList.add("blur");
         });
         cancelButton.addEventListener('click', () => {
             courseForm.style.display = 'none';
             courseButton.style.display = 'block';
+            document.getElementById("container").classList.remove("blur");
         });
         courseSubmit.addEventListener('submit', async (event) => {
             event.preventDefault();
             courseForm.style.display = 'none';
             courseButton.style.display = 'block';
+            document.getElementById("container").classList.remove("blur");
         });
 
 

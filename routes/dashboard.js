@@ -39,7 +39,7 @@ router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => 
         todayClass = findCourses.flatMap(course =>
             course.sessionYear.flatMap(department =>
                 department.courses
-                    .filter(c => c.teacher_email === req.user.email && c.course_schedule.some(s => s.day === "Wednesday"))
+                    .filter(c => c.teacher_email === req.user.email && c.course_schedule.some(s => s.day === today))
                     .map(c => ({
                         department: course.department,
                         year_semester: department.year_semester,
