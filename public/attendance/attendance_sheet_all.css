@@ -1,5 +1,5 @@
 body {
-        font-family: monospace;
+        font-family: fantasy;
             font-size: 20px;
     margin: 20px;
     margin-top: 0px;
@@ -10,7 +10,15 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    background-color: #45a049;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color:darkslategray;
+    color: white;
+}
+.header a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 table {

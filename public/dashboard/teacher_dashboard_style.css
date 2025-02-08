@@ -1,5 +1,5 @@
 body {
-    background-color: gainsboro;
+    background-color: #d4dfeb;
     margin: 0px;
     padding: 0px;
     font-family:monospace;
@@ -43,7 +43,7 @@ body {
 }
 
 .profile,
-.course-contain {
+.courseAndschedule {
     padding: 10px;
     box-sizing: border-box;
 }
@@ -57,7 +57,7 @@ body {
     margin-bottom: 15px;
 }
 
-.course-contain {
+.courseAndschedule {
     background: hsl(0, 0%, 96%);
     flex: 1 1 100%;
     border-radius: 0 0 10px 10px;
@@ -70,7 +70,7 @@ body {
         border-radius: 10px 0 0 10px;
     }
 
-    .course-contain {
+    .courseAndschedule {
         flex: 1 1 65%;
         border-radius: 0 10px 10px 0;
     }
@@ -198,7 +198,7 @@ body {
 .new-course-btn,
 .research-interest button,
 .education button,
-.course-contain button {
+.courseAndschedule button {
     background-color: #007BFF;
     color: white;
     border: none;
@@ -314,7 +314,7 @@ body {
 
 /* course form */
 
-.formContainer, .scheduleContainer {
+.courseForm, .scheduleForm {
     background-color: #f4f4f4;
     border: 2px solid #4caf50;
     padding: 20px;
@@ -326,7 +326,7 @@ body {
     left: 35%;
 }
 
-.scheduleContainer {
+.scheduleForm {
     display: flex;
     flex-direction: row;
     width: 60%;

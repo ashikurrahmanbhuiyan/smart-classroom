@@ -23,7 +23,7 @@
                 RU logo
         -->
         
-        <%- include('partial_dashboard/profile_header') %>
+        <%- include('Dashboard_Component/profile_header') %>
 
         <!-- container1 cintain the section and course part -->
          
@@ -34,53 +34,16 @@
                     research interest, 
                     education background            
             -->
-            <%- include('partial_dashboard/profile_Info') %>
+            <%- include('Dashboard_Component/profile_Info') %>
 
 
             <!-- Today Course Section -->
 
-            <div class="course-contain">
+            <div class="courseAndschedule">
 
                 <!-- Today class Section -->
-                    <% if(todayClass && todayClass.length > 0) { %>
-                        <div class="today-class">
-                            <h2 class="section-header">Today's Class (<%=today %>) : </h2>
-                            <% todayClass.forEach((classItem,index)=> { %>
-                                <div class="class-item">
-                                    <div class="class-item1">
-                                        <div>
-                                            <span style="margin: 0px;">
-                                                Subject: <%= classItem.course_name %>  |
-                                            </span>
-                                            <span>
-                                                Dept : <%= classItem.department %>
-                                            </span></br>
-                                            <span>
-                                                Year : <%= classItem.year_semester[0] %> |
-                                                Semester : <%= classItem.year_semester[2]
-                                                %>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span>
-                                                Start Time : <%= classItem.start_time %> |
-                                                End Time : <%= classItem.end_time %>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <form method="post" action="/attendance_sheet/all">
-                                        <input type="hidden" name="course_name" value="<%= classItem.course_name %>">
-                                        <button style="font-family: fantasy;font-size: 24px;background-color: #4CAF50;">
-                                            open
-                                        </button>
-                                    </form>
-                                </div>
-                            <% }); %>
-                        </div>
-                    <% } else { %>
-                        <h4 style="background-color: seashell; color:red; width:auto; left : 55%; position : absolute">
-                            No class is scheduled for today</h4>
-                    <% } %>
+                
+                <%- include('Dashboard_Component/schedule.ejs') %>
 
 
 
@@ -130,19 +93,18 @@
                                     </button>
                                 </form>
                             </div>
-                                <% }); %>
-                                    <% } else { %>
-                                    <h4 style="background-color: seashell; color:red; width:auto; left : 55%; position : absolute">
-                                        No course is now available</h4>
-                                    <% } %>
-                            </div>
+                        <% }); %>
+                        <% } else { %>
+                    <h4 style="color:green;text-align: center;">
+                    No course is now available.</h4>
+                    <% } %>        
                 </div>
             </div>
         </div>
-
+    </div>
         <!-- Course form -->
 
-        <div class="formContainer" id="courseForm" style="display: none;">
+        <div class="courseForm" id="courseForm" style="display: none;">
             <div class="formHeader">
                 <h2 style="color:#4CAF50">Create a new course :</h2>
                 <button class="deleteButton" id="cousreCancel">
@@ -191,7 +153,7 @@
 
         <!-- schedule the classes -->
          
-        <div class="scheduleContainer" id="scheduleContainer" style="display: none;">
+        <div class="scheduleForm" id="scheduleForm" style="display: none;">
             <!-- fetch previous schedule from database -->
             <div class="sC1">
                 <div id="ScheduleFromDatabase">
@@ -332,7 +294,7 @@
     });
     // schedule section
     const scheduleButton = document.querySelectorAll('.scheduleButton');
-    const scheduleContainer = document.getElementById('scheduleContainer');
+    const scheduleForm = document.getElementById('scheduleForm');
     const scheduleCancel = document.getElementById('scheduleCancel');
     const scheduleSubmit = document.getElementById('scheduleSubmit');
 
@@ -347,7 +309,7 @@
             document.getElementById('SchedulecourseName').value = button.value;
             document.getElementById('Scheduledepartment').value = document.getElementById(`department${index}`).value;
             document.getElementById('Scheduleyear_semester').value = document.getElementById(`year_semester${index}`).value;
-            scheduleContainer.style.display = 'block';
+            scheduleForm.style.display = 'block';
 
             // fetch previous schedule from database
             const response = await fetch('/teacher/api/schedule', {
@@ -383,7 +345,7 @@
     });
 
     scheduleCancel.addEventListener('click', () => {
-        scheduleContainer.style.display = 'none';
+        scheduleForm.style.display = 'none';
         scheduleButton.forEach((btn, index) => {
         // document.getElementById(`scheduleButton${index}`).style.display = 'block';
         document.getElementById("container").classList.remove("blur");
@@ -392,7 +354,7 @@
 
     scheduleSubmit.addEventListener('submit', async (event) => {
         event.preventDefault();
-        scheduleContainer.style.display = 'none';
+        scheduleForm.style.display = 'none';
         // scheduleButton.style.display = 'block';
         document.getElementById("container").classList.remove("blur");
     });

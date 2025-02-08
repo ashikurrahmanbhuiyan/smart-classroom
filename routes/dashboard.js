@@ -10,8 +10,6 @@ const Teacher = require('../models/user_teacher');
 router.get('/', (req, res) => res.redirect('/teacher/login'));
 
 
-
-
 // teacher dashboard
 router.get('/teacher/dashboard', checkAuthenticatedteacher, async (req, res) => {
     const findCourses = await Course.find();

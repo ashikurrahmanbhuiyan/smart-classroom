@@ -70,9 +70,9 @@ router.post('/save', async (req, res) => {
 
 });
 
-router.get('/all', async (req, res) => {
-    res.redirect('/teacher/dashboard');
-});
+// router.get('/all', async (req, res) => {
+//     res.redirect('/teacher/dashboard');
+// });
 
 router.post('/all', async(req, res) => {
     try {
@@ -86,5 +86,20 @@ router.post('/all', async(req, res) => {
         res.redirect('/teacher/dashboard');
     }
 });
+
+
+router.get('/all', async (req, res) => {
+    try {
+        // this is not well done, this need to be change later because data will fetch from enroll collection
+        const users = await students.find({});
+        const course_name = req.body.course_name;
+        const attendances = await attendence_model.find({ course_name: course_name });
+        res.render('attendance/attendance_sheet_all', { users: users, attendances: attendances, course_name: course_name });
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.redirect('/teacher/dashboard');
+    }
+});
+
 
 module.exports = router;
