@@ -14,6 +14,7 @@ body {
     border-radius: 10px;
     background-color: darkslategray;
     color: white;
+    align-content: center;
 }
 
 .header a {
