@@ -41,51 +41,5 @@ body {
     background: #4cd4a2;
     transition: left 0.3s ease;
     z-index: 1;
-    left: 0;
-}
-
-
-
-table {
-    display:inline-block;
-    /* width: 100%; */
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-th,
-td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-th {
-    min-width:80px;
-    background-color: #f4f4f4;
-    font-size: 15px;
-}
-
-.form-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.add-attendance-btn,.return-btn {
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.return-btn a {
-    text-decoration: none;
-    color: white;
-}
-
-.add-attendance-btn:hover, .return-btn:hover {
-    background-color: #45a049;
+    left: 75%;
 }

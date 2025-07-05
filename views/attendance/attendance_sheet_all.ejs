@@ -10,13 +10,20 @@
 </head>
 
 <body>
-    <div class="header">
-        <div style="background-color: #45a049; border-radius: 10px;">
-            <h3 style="padding-left: 20px;padding-right: 20px;">Attendance Sheet</h3>
+    <div class="navbar">
+        <div class="nav-item" data-index="0">
+            <a href="/attendance_sheet/all">Attendance Sheet</a>
         </div>
-        <h3>Course Tracker</h3>
-        <h3>Assignment</h3>
-        <a href="/resource_sharing"><h3 style="padding-right: 20px;">resourse Sharing</h3></a>
+        <div class="nav-item" data-index="1">
+            <h4>Course Tracker</h4>
+        </div>
+        <div class="nav-item" data-index="2">
+            <h4>Assignment</h4>
+        </div>
+        <div class="nav-item" data-index="3">
+            <h4>resourse Sharing</h4>
+        </div>
+        <div class="slider"></div>
     </div>
 
 
@@ -38,8 +45,21 @@
         </tbody>
     </table>
 
-    <script>
+<script>
+    // Navigation bar functionality for slider and active state
+    const navItems = document.querySelectorAll('.nav-item');
+    const slider = document.querySelector('.slider');
 
+    navItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            slider.style.left = `${index * 25}%`;
+
+            navItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+
+    // Attendance sheet functionality
     const users = <%- JSON.stringify(users) -%>;
     const names = users.map(user => user.name);
 
@@ -119,7 +139,7 @@
 
     // Initialize the table on page load
     initializeTable();
-    </script>
+</script>
 </body>
 
 </html>

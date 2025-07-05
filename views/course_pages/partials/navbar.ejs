@@ -1,0 +1,17 @@
+<div class="navbar">
+    <a href="/" class="nav-item <%= page === 'home' ? 'active' : '' %>" data-index="0">
+        Home
+    </a>
+    <a href="/about" class="nav-item <%= page === 'about' ? 'active' : '' %>" data-index="1">
+        About
+    </a>
+    <a href="/services" class="nav-item <%= page === 'services' ? 'active' : '' %>" data-index="2">
+        Services
+    </a>
+    <a href="/contact" class="nav-item <%= page === 'contact' ? 'active' : '' %>" data-index="3">
+        Contact
+    </a>
+    <div class="slider"
+        style="left: <%= ['0%','25%','50%','75%'][['home','about','services','contact'].indexOf(page)] %>;">
+    </div>
+</div>

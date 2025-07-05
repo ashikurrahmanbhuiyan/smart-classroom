@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<head>
+    <title>
+        <%= page.charAt(0).toUpperCase() + page.slice(1) %>
+    </title>
+    <link rel="stylesheet" href="/course_pages_navbar.css">
+</head>
+
+<body>
+    <%- include('partials/navbar', { page: page }) %>
+        <main>
+            <%- include(`${page}`) %>
+        </main>
+</body>
+
+</html>
