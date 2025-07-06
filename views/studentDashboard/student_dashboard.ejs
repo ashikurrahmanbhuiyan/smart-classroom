@@ -1,163 +1,629 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Profile</title>
+    <title>Student Dashboard</title>
     <link rel="stylesheet" href="/dashboard/student_dashboard_style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="profile-header">
-                <div class="profile-picture">
-                    <%if(student_user.picture){%>
-                        <img src="/studentPics/<%=student_user.picture%>" alt="Theacher phto">
-                        <% } else{ %>
-                            <img src="/img/default.jpg" alt="Theacher phto">
-                            <% } %>
-                </div>
-                <div class="profile-details">
-                    <h1>
-                        <%= student_user.name %>
-                    </h1>
-                    <p>Student ID: <%= student_user.student_id %>
-                    </p>
-                    <p>Email: <%= student_user.email %>
-                    </p>
-                </div>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="student-profile">
+                <div class="profile-avatar"><i class="fas fa-user-graduate"></i></div>
+                <h2 class="profile-name" id="studentName">Jane Doe</h2>
+                <p class="profile-roll" id="studentRoll">Roll: 2021-045</p>
             </div>
-        </header>
 
-        <!-- profile pic -->
-        <button id="picButton" type="submit">Edit photo</button>
-        <div id="picForm" style="display: none;">
-            <form id="edit-form" method="post" action="/student/update-profile-pic" enctype="multipart/form-data">
-                <input type="file" name="updateProfilePic">
-                <input type="hidden" name="email" value=<%=student_user.email%> >
-                <button id="picSubmit" type="submit">Upload</button>
-            </form>
-        </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="menu-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#" class="menu-item" data-section="enrollment">
+                    <i class="fas fa-book"></i> Course Enrollment
+                </a>
+            </nav>
+        </aside>
 
-        <!--  -->
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1 id="mainHeader">Dashboard Overview</h1>
+            </div>
 
-        <div class="main-content">
-            <div class="section card">
-                <div style="text-align: center; font-weight: bold; margin-bottom: 15px;">
-                    Department : <%= student_user.department %> <br>
-                    <% if (year) { %>
-                        Class : Year-<%= year[0] %> | Semester-<%= year[2] %>
-                                <%}%>
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="active-section">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="dashboard-metric-box">
+                            <i class="fas fa-layer-group icon mb-3"></i>
+                            <h3 id="totalEnrolledCourses">0</h3>
+                            <p>Total Enrolled Courses</p>
+                        </div>
+                    </div>
+                    <!-- New Running Semester Box -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="dashboard-metric-box running-semester">
+                            <i class="fas fa-calendar-alt icon mb-3"></i>
+                            <h3>Fall 2023</h3>
+                            <p>Running Semester</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="courses">
-                    <% if (admmited_courses && admmited_courses.length> 0) { %>
-                        <% admmited_courses.forEach((course)=> { %>
-                            <div class="course-item">
-                                <div class="course-item1">
-                                    <div class="imag">
-                                        <%if(course.teacher_picture){%>
-                                            <img src="/profilePics/<%= course.teacher_picture %>" alt="Theacher phto">
-                                            <% } else{ %>
-                                                <img src="/img/default.jpg" alt="Theacher phto"><br>
-                                                <% } %>
-                                                    <button class="enroll">enroll</button>
-                                    </div>
-                                    <div class="course">
-                                        <h5>
-                                            Teacher Name: <%= course.teacher %>
-                                        </h5>
-                                        <p>
-                                            Teacher Email: <%= course.teacher_email %>
-                                        </p>
-                                        <p>Teacher Dept. <%= course.teacher_department %>
-                                        </p>
-                                        <p>
-                                            Subject: <%= course.course_name %>
-                                        </p>
-                                    </div>
-                                    
-                                    <div class="attendance">
-                                        <div class="attendance-bar">
-                                            <div class="attendance-progress" style="width: 85%;"></div>
-                                        </div>
-                                        <p>Attendance: <strong>85%</strong></p>
-                                    </div>
-                                    <div class="status online">
-                                        <p>online</p>
-                                    </div>
 
+                <div class="info-card">
+                    <h4 class="card-title">My Enrolled Courses</h4>
+                    <div id="enrolledCoursesList" class="row">
+                        <!-- Enrolled courses will be dynamically loaded here -->
+                        <div class="col-12 text-center text-muted py-4" id="noCoursesMessage">
+                            No courses enrolled yet. Go to 'Course Enrollment' to add some!
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Course Enrollment Section -->
+            <section id="enrollment-section" style="display:none;">
+                <div class="info-card">
+                    <h4 class="card-title">Enroll in New Courses</h4>
+                    <div id="availableCoursesList" class="row">
+                        <!-- Available courses for enrollment will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Course Detail Section (Hidden by default, shown when a course is clicked) -->
+            <section id="courseDetailSection" style="display:none;">
+                <div class="info-card mb-4">
+                    <h4 class="card-title" id="courseDetailTitle"></h4>
+                    <p class="text-muted" id="courseTeacherName"></p>
+                    <div class="d-flex align-items-center mb-4 mt-3">
+                        <span class="me-4 fs-5 fw-bold text-muted">Attendance:</span>
+                        <div class="progress-circle">
+                            <div class="bar"></div>
+                            <div class="fill"></div>
+                            <div class="inner-circle" id="courseAttendancePercentage">0%</div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-notifications-tab" data-bs-toggle="pill" data-bs-target="#pills-notifications" type="button" role="tab" aria-controls="pills-notifications" aria-selected="true">Notifications</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-submissions-tab" data-bs-toggle="pill" data-bs-target="#pills-submissions" type="button" role="tab" aria-controls="pills-submissions" aria-selected="false">Submissions</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-marks-tab" data-bs-toggle="pill" data-bs-target="#pills-marks" type="button" role="tab" aria-controls="pills-marks" aria-selected="false">Marks</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-notifications" role="tabpanel" aria-labelledby="pills-notifications-tab">
+                            <div id="notificationsBox">
+                                <!-- Notifications will be loaded here -->
+                                <p class="text-muted text-center py-3" id="noNotificationsMessage">No new notifications for this course.</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-submissions" role="tabpanel" aria-labelledby="pills-submissions-tab">
+                            <div id="submissionsBox">
+                                <h5 class="mb-4 text-center text-muted">Past Submissions</h5>
+                                <div id="pastSubmissionsList" class="mb-4">
+                                    <!-- Past submissions will be loaded here -->
+                                    <p class="text-muted text-center py-3" id="noPastSubmissionsMessage">No past submissions for this course.</p>
+                                </div>
+
+                                <div class="submission-card">
+                                    <h5 class="card-title">Submit New Assignment</h5>
+                                    <div class="file-upload-section mb-3">
+                                        <i class="fas fa-file-pdf file-icon mb-2"></i>
+                                        <p class="text-muted" id="selectedFileName">Drag & drop your PDF here, or</p>
+                                        <input type="file" id="pdfFileInput" accept=".pdf">
+                                        <label for="pdfFileInput" class="btn btn-outline-primary fw-bold rounded-pill px-4">Browse Files</label>
+                                    </div>
+                                    <button id="submitPdfBtn" class="btn btn-success w-100 fw-bold py-2 rounded-pill" disabled>
+                                        <i class="fas fa-upload me-2"></i> Submit PDF
+                                    </button>
                                 </div>
                             </div>
-                            <% }); %>
-                                <% } else { %>
-                                    <h4
-                                        style="background-color: seashell; color:red; width:auto; left : 55%; position : absolute">
-                                        No course is now available</h4>
-                                    <% } %>
+                        </div>
+                        <div class="tab-pane fade" id="pills-marks" role="tabpanel" aria-labelledby="pills-marks-tab">
+                            <div id="marksBox">
+                                <div class="table-responsive">
+                                    <table class="table table-hover marks-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Score</th>
+                                                <th>Max Score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="marksTableBody">
+                                            <!-- Marks will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="text-muted text-center py-3" id="noMarksMessage">No marks available for this course yet.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-
-
-        <div class="section card">
-            <h2>Class Test Marks</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Test</th>
-                        <th>Date</th>
-                        <th>Marks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Math Test 1</td>
-                        <td>01/01/2025</td>
-                        <td>10/15</td>
-                    </tr>
-                    <tr>
-                        <td>CSE Test 1</td>
-                        <td>10/01/2025</td>
-                        <td>9/10</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-      
-
-        <div class="section card">
-            <h2>Resources</h2>
-            <ul>
-                <li><a href="#">Lecture Notes - Week 1</a></li>
-                <li><a href="#">Math Practice Quiz</a></li>
-                <li><a href="#">Physics Study Guide</a></li>
-            </ul>
-        </div>
+        </main>
     </div>
-    </div>
+
+    <!-- Custom Alert Container -->
+    <div id="customAlert" class="py-2 px-4 shadow-lg rounded-pill" style="display: none;"></div>
+
+    <!-- Bootstrap JS (Popper.js and Bootstrap JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" xintegrity="sha384-I7E8VVD/ismYTFyMGUHv+zmBCEvFETvRoYxfEKdI3uD/goUwwyYkfdkjJmrFwFZV" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" xintegrity="sha384-0pUGZvbkm6XF6gxjEnlcoJoZ/z4YVEo7NsDz+EEFpW/rK7sFfFV7FD5uU" crossorigin="anonymous"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Sample Data (can be replaced with API calls in a real application)
+        const student = {
+            name: "Jane Doe",
+            roll: "2021-045"
+        };
+
+        const allCourses = [
+            {
+                id: 'c001',
+                name: 'Introduction to Programming',
+                teacher: 'Prof. Alice Smith',
+                isEnrolled: true,
+                attendance: 85, // percentage
+                marks: [
+                    { category: 'Assignment 1', score: 90, max: 100 },
+                    { category: 'Class Test 1', score: 75, max: 100 },
+                    { category: 'Midterm Exam', score: 80, max: 100 },
+                ],
+                notifications: [
+                    { date: '2023-10-26', message: 'Assignment 2 has been posted. Due next week.', attachmentUrl: 'https://www.africau.edu/images/default/sample.pdf' },
+                    { date: '2023-10-20', message: 'Midterm exam results are now available.' },
+                    { date: '2023-10-15', message: 'Guest lecture on Web Development next Monday.', attachmentUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }
+                ],
+                submissions: [
+                    { id: 'sub001_c1_a1', assignmentName: 'Assignment 1', submissionDate: '2023-09-15', status: 'Graded', fileName: 'assignment1_jane.pdf' },
+                    { id: 'sub001_c1_a2', assignmentName: 'Assignment 2', submissionDate: '2023-10-28', status: 'Submitted', fileName: 'assignment2_jane.pdf' }
+                ]
+            },
+            {
+                id: 'c002',
+                name: 'Data Structures & Algorithms',
+                teacher: 'Dr. Bob Johnson',
+                isEnrolled: true,
+                attendance: 70,
+                marks: [
+                    { category: 'Assignment 1', score: 85, max: 100 },
+                    { category: 'Quiz 1', score: 92, max: 100 },
+                    { category: 'Final Exam', score: 78, max: 100 }
+                ],
+                notifications: [
+                    { date: '2023-11-01', message: 'Lab session on Trees cancelled for this week.' },
+                    { date: '2023-10-28', message: 'Review session for Array concepts on Friday.' }
+                ],
+                submissions: []
+            },
+            {
+                id: 'c003',
+                name: 'Discrete Mathematics',
+                teacher: 'Dr. Carol White',
+                isEnrolled: false, // Not enrolled initially
+                attendance: 0,
+                marks: [],
+                notifications: [],
+                submissions: []
+            },
+            {
+                id: 'c004',
+                name: 'Operating Systems',
+                teacher: 'Prof. David Brown',
+                isEnrolled: false,
+                attendance: 0,
+                marks: [],
+                notifications: [],
+                submissions: []
+            },
+            {
+                id: 'c005',
+                name: 'Database Management Systems',
+                teacher: 'Dr. Emily Chen',
+                isEnrolled: false,
+                attendance: 0,
+                marks: [],
+                notifications: [],
+                submissions: []
+            }
+        ];
+
+        let currentSelectedCourseId = null; // To keep track of the currently viewed course
+
+        // DOM Elements
+        const studentNameElem = document.getElementById('studentName');
+        const studentRollElem = document.getElementById('studentRoll');
+        const mainHeaderElem = document.getElementById('mainHeader');
+        const totalEnrolledCoursesElem = document.getElementById('totalEnrolledCourses');
+        const enrolledCoursesListElem = document.getElementById('enrolledCoursesList');
+        const availableCoursesListElem = document.getElementById('availableCoursesList');
+        const noCoursesMessage = document.getElementById('noCoursesMessage');
+
+        const dashboardSection = document.getElementById('dashboard-section');
+        const enrollmentSection = document.getElementById('enrollment-section');
+        const courseDetailSection = document.getElementById('courseDetailSection');
+
+        const courseDetailTitle = document.getElementById('courseDetailTitle');
+        const courseTeacherName = document.getElementById('courseTeacherName');
+        const courseAttendancePercentageElem = document.getElementById('courseAttendancePercentage');
+        const notificationsBox = document.getElementById('notificationsBox');
+        const noNotificationsMessage = document.getElementById('noNotificationsMessage');
+        const marksTableBody = document.getElementById('marksTableBody');
+        const noMarksMessage = document.getElementById('noMarksMessage');
+
+        // Submission specific elements
+        const submissionsBox = document.getElementById('submissionsBox');
+        const pastSubmissionsList = document.getElementById('pastSubmissionsList');
+        const noPastSubmissionsMessage = document.getElementById('noPastSubmissionsMessage');
+        const pdfFileInput = document.getElementById('pdfFileInput');
+        const selectedFileName = document.getElementById('selectedFileName');
+        const submitPdfBtn = document.getElementById('submitPdfBtn');
+        const customAlert = document.getElementById('customAlert');
+
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStudentProfile();
+            renderEnrolledCourses();
+            renderAvailableCourses();
+            updateTotalEnrolledCourses();
+        });
+
+        // --- Core Functions ---
+
+        function renderStudentProfile() {
+            studentNameElem.textContent = student.name;
+            studentRollElem.textContent = `Roll: ${student.roll}`;
+        }
+
+        function updateTotalEnrolledCourses() {
+            const enrolledCount = allCourses.filter(course => course.isEnrolled).length;
+            totalEnrolledCoursesElem.textContent = enrolledCount;
+
+            if (enrolledCount > 0) {
+                noCoursesMessage.style.display = 'none';
+            } else {
+                noCoursesMessage.style.display = 'block';
+            }
+        }
+
+        function renderEnrolledCourses() {
+            enrolledCoursesListElem.innerHTML = ''; // Clear previous content
+            const enrolledCourses = allCourses.filter(course => course.isEnrolled);
+
+            if (enrolledCourses.length === 0) {
+                noCoursesMessage.style.display = 'block';
+                return;
+            } else {
+                noCoursesMessage.style.display = 'none';
+            }
+
+            enrolledCourses.forEach(course => {
+                const courseItem = document.createElement('div');
+                courseItem.className = 'col-lg-6 col-md-12 mb-4'; /* Adjusted margin */
+                courseItem.innerHTML = `
+                    <div class="course-item" data-course-id="${course.id}">
+                        <div class="course-item-info">
+                            <h5>${course.name}</h5>
+                            <p>${course.teacher}</p>
+                        </div>
+                        <div class="progress-circle">
+                            <div class="bar"></div>
+                            <div class="fill"></div>
+                            <div class="inner-circle">${course.attendance}%</div>
+                        </div>
+                    </div>
+                `;
+                enrolledCoursesListElem.appendChild(courseItem);
+
+                // Apply attendance progress styling
+                const circle = courseItem.querySelector('.progress-circle');
+                const percent = course.attendance;
+                setAttendanceProgress(circle, percent);
+
+                // Add click listener to show course details
+                courseItem.querySelector('.course-item').addEventListener('click', () => {
+                    displayCourseDetails(course.id);
+                });
+            });
+        }
+
+        function renderAvailableCourses() {
+            availableCoursesListElem.innerHTML = ''; // Clear previous content
+            const notEnrolledCourses = allCourses.filter(course => !course.isEnrolled);
+
+            if (notEnrolledCourses.length === 0) {
+                availableCoursesListElem.innerHTML = '<div class="col-12 text-center text-muted py-4">All available courses have been enrolled!</div>';
+                return;
+            }
+
+            notEnrolledCourses.forEach(course => {
+                const courseItem = document.createElement('div');
+                courseItem.className = 'col-lg-6 col-md-12 mb-4'; /* Adjusted margin */
+                courseItem.innerHTML = `
+                    <div class="course-item">
+                        <div class="course-item-info">
+                            <h5>${course.name}</h5>
+                            <p>${course.teacher}</p>
+                        </div>
+                        <button class="btn enroll-btn" data-course-id="${course.id}">Enroll</button>
+                    </div>
+                `;
+                availableCoursesListElem.appendChild(courseItem);
+
+                // Add event listener for enrollment button
+                courseItem.querySelector('.enroll-btn').addEventListener('click', (event) => {
+                    const courseId = event.target.dataset.courseId;
+                    enrollCourse(courseId);
+                });
+            });
+        }
+
+        function enrollCourse(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (course) {
+                course.isEnrolled = true;
+                alertMessage('Course enrolled successfully!', 'success');
+                renderEnrolledCourses();
+                renderAvailableCourses();
+                updateTotalEnrolledCourses();
+                showSection('dashboard'); // Go back to dashboard after enrolling
+            }
+        }
+
+        function displayCourseDetails(courseId) {
+            currentSelectedCourseId = courseId; // Set the current course ID
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) {
+                console.error('Course not found:', courseId);
+                return;
+            }
+
+            // Update header and active course item
+            mainHeaderElem.textContent = `Course: ${course.name}`;
+            document.querySelectorAll('.course-item').forEach(item => item.classList.remove('active'));
+            document.querySelector(`.course-item[data-course-id="${courseId}"]`)?.classList.add('active');
+
+
+            courseDetailTitle.textContent = course.name;
+            courseTeacherName.textContent = `Teacher: ${course.teacher}`;
+
+            // Update attendance progress
+            setAttendanceProgress(courseAttendancePercentageElem.closest('.progress-circle'), course.attendance);
+            courseAttendancePercentageElem.textContent = `${course.attendance}%`;
+
+
+            // Render notifications
+            renderNotifications(course);
+            // Render submissions
+            renderSubmissions(course);
+            // Render marks
+            renderMarks(course);
+
+            // Show course detail section and hide others
+            showSection('courseDetailSection');
+        }
+
+        function renderNotifications(course) {
+            notificationsBox.innerHTML = ''; // Clear previous
+            if (course.notifications && course.notifications.length > 0) {
+                noNotificationsMessage.style.display = 'none';
+                course.notifications.forEach(notif => {
+                    const notifItem = document.createElement('div');
+                    notifItem.className = 'notification-item';
+
+                    let attachmentHtml = '';
+                    if (notif.attachmentUrl) {
+                        // Added target="_blank" for new tab and download attribute for direct download
+                        attachmentHtml = `
+                            <a href="${notif.attachmentUrl}" class="notification-attachment" target="_blank" download>
+                                <i class="fas fa-file-pdf"></i>
+                                <span class="sr-only">Download PDF</span>
+                            </a>
+                        `;
+                    }
+
+                    notifItem.innerHTML = `
+                        <div class="notification-item-content">
+                            <span class="date">${new Date(notif.date).toLocaleDateString()}</span>
+                            <p class="message">${notif.message}</p>
+                        </div>
+                        ${attachmentHtml}
+                    `;
+                    notificationsBox.appendChild(notifItem);
+                });
+            } else {
+                noNotificationsMessage.style.display = 'block';
+            }
+        }
+
+        function renderSubmissions(course) {
+            pastSubmissionsList.innerHTML = ''; // Clear previous
+            if (course.submissions && course.submissions.length > 0) {
+                noPastSubmissionsMessage.style.display = 'none';
+                course.submissions.forEach(submission => {
+                    const submissionItem = document.createElement('div');
+                    submissionItem.className = 'submission-card d-flex justify-content-between align-items-center';
+                    submissionItem.innerHTML = `
+                        <div>
+                            <h6>${submission.assignmentName}</h6>
+                            <p class="text-muted mb-1">Submitted: ${new Date(submission.submissionDate).toLocaleDateString()} - ${submission.fileName}</p>
+                        </div>
+                        <span class="badge status-badge ${submission.status.toLowerCase()}">${submission.status}</span>
+                    `;
+                    pastSubmissionsList.appendChild(submissionItem);
+                });
+            } else {
+                noPastSubmissionsMessage.style.display = 'block';
+            }
+            // Reset file input and button state for new submission
+            pdfFileInput.value = '';
+            selectedFileName.textContent = 'Drag & drop your PDF here, or';
+            submitPdfBtn.disabled = true;
+        }
+
+        function renderMarks(course) {
+            marksTableBody.innerHTML = ''; // Clear previous
+            if (course.marks && course.marks.length > 0) {
+                noMarksMessage.style.display = 'none';
+                course.marks.forEach(mark => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${mark.category}</td>
+                        <td>${mark.score}</td>
+                        <td>${mark.max}</td>
+                    `;
+                    marksTableBody.appendChild(row);
+                });
+            } else {
+                noMarksMessage.style.display = 'block';
+            }
+        }
+
+
+        // --- UI Navigation ---
+        document.querySelectorAll('.sidebar .menu-item').forEach(item => {
+            item.addEventListener('click', (event) => {
+                event.preventDefault();
+                const sectionId = event.currentTarget.dataset.section;
+                showSection(sectionId);
+
+                // Update active state in sidebar
+                document.querySelectorAll('.sidebar .menu-item').forEach(menuItem => {
+                    menuItem.classList.remove('active');
+                });
+                event.currentTarget.classList.add('active');
+            });
+        });
+
+        function showSection(sectionId) {
+            dashboardSection.style.display = 'none';
+            enrollmentSection.style.display = 'none';
+            courseDetailSection.style.display = 'none';
+
+            let headerText = "Dashboard Overview"; // Default header
+
+            switch (sectionId) {
+                case 'dashboard':
+                    dashboardSection.style.display = 'block';
+                    headerText = "Dashboard Overview";
+                    break;
+                case 'enrollment':
+                    enrollmentSection.style.display = 'block';
+                    headerText = "Course Enrollment";
+                    break;
+                case 'courseDetailSection':
+                    courseDetailSection.style.display = 'block';
+                    // Header for course detail is set dynamically by displayCourseDetails
+                    break;
+            }
+            if (sectionId !== 'courseDetailSection') { // Only update if not navigating to course details
+                 mainHeaderElem.textContent = headerText;
+            }
+
+            // Remove active class from course items if navigating away from course detail
+            if (sectionId !== 'courseDetailSection') {
+                document.querySelectorAll('.course-item').forEach(item => item.classList.remove('active'));
+            }
+        }
+
+
+        // --- Helper for Attendance Progress Circle ---
+        function setAttendanceProgress(circleElement, percent) {
+            const bar = circleElement.querySelector('.bar');
+            const fill = circleElement.querySelector('.fill');
+
+            // Reset classes and transforms to ensure correct behavior on subsequent calls
+            bar.classList.remove('over50');
+            bar.style.transform = '';
+            fill.style.transform = '';
+
+            const rotationDegrees = (percent / 100) * 360;
+
+            if (percent <= 50) {
+                // For 0-50%, only the right half (fill) rotates
+                // The 'bar' (right half) starts at 0 rotation, its content is visible behind the 'fill'
+                fill.style.transform = `rotate(${rotationDegrees}deg)`;
+            } else {
+                // For >50%, both halves are involved
+                // The 'bar' (right half) is set to appear as a full half circle (180deg)
+                bar.classList.add('over50'); // This class will change its clip property
+                // The 'fill' (left half) rotates from 0 up to (percentage - 50%) * 3.6
+                const over50Percent = percent - 50;
+                fill.style.transform = `rotate(${over50Percent * 3.6}deg)`;
+            }
+        }
+
+
+        // --- Custom Alert/Message Box Function ---
+        function alertMessage(message, type = 'info') {
+            customAlert.textContent = message;
+            customAlert.className = `py-2 px-4 shadow-lg rounded-pill`; // Reset classes
+            customAlert.classList.add(type); // Add type class for styling (e.g., 'success', 'error')
+            customAlert.style.display = 'block';
+
+            setTimeout(() => {
+                customAlert.style.display = 'none';
+            }, 4000); // Hide after 4 seconds
+        }
+
+        // --- Submission Feature Logic ---
+        pdfFileInput.addEventListener('change', (event) => {
+            if (event.target.files.length > 0) {
+                const file = event.target.files[0];
+                if (file.type === 'application/pdf') {
+                    selectedFileName.textContent = `Selected: ${file.name}`;
+                    submitPdfBtn.disabled = false;
+                } else {
+                    selectedFileName.textContent = 'Please select a PDF file.';
+                    submitPdfBtn.disabled = true;
+                    alertMessage('Only PDF files are allowed.', 'error');
+                }
+            } else {
+                selectedFileName.textContent = 'Drag & drop your PDF here, or';
+                submitPdfBtn.disabled = true;
+            }
+        });
+
+        submitPdfBtn.addEventListener('click', () => {
+            const file = pdfFileInput.files[0];
+            if (file && currentSelectedCourseId) {
+                // Simulate file upload
+                const course = allCourses.find(c => c.id === currentSelectedCourseId);
+                if (course) {
+                    const newSubmission = {
+                        id: `sub${Date.now()}`, // Unique ID
+                        assignmentName: `New Assignment (${file.name.split('.')[0]})`, // Derive name from file
+                        submissionDate: new Date().toISOString().split('T')[0], // Current date
+                        status: 'Submitted',
+                        fileName: file.name
+                    };
+                    course.submissions.push(newSubmission);
+                    renderSubmissions(course); // Re-render submissions for the current course
+                    alertMessage('File submitted successfully!', 'success');
+                    pdfFileInput.value = ''; // Clear file input
+                    selectedFileName.textContent = 'Drag & drop your PDF here, or';
+                    submitPdfBtn.disabled = true;
+                } else {
+                    alertMessage('Could not find the course to submit to.', 'error');
+                }
+            } else {
+                alertMessage('No file selected or course not identified.', 'error');
+            }
+        });
+
+    </script>
 </body>
-
 </html>
-
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const picButton = document.getElementById('picButton');
-        const picForm = document.getElementById('picForm');
-        const picSubmit = document.getElementById('picSubmit')
-        picButton.addEventListener('click', () => {
-            picForm.style.display = 'block';
-            picButton.style.display = 'none';
-        });
-        picSubmit.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            picForm.style.display = 'none';
-            picButton.style.display = 'block'
-        });
-    });
-</script>
