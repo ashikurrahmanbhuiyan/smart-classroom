@@ -10,6 +10,8 @@
     <%- include('partials/navbar', { page: page }) %>
         <main>
             <%- include(`${page}`) %>
+            <% if (page==='attendance_sheet_all' ) { %>
+                <%- include('../attendance/attendance_sheet') %>     <% } %>
         </main>
 </body>
 

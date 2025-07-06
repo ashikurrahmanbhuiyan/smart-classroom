@@ -56,15 +56,15 @@ router.post('/save', async (req, res) => {
         // this is not well done, this need to be change later because data will fetch from enroll collection
         const users = await students.find({});
         const attendances = await attendence_model.find({ course_name: course_name });
-        res.render('attendance/attendance_sheet_all', { users: users, attendances: attendances, course_name: course_name });
+        res.render('course_pages/layout', { page: 'attendance/attendance_sheet_all', users: users, attendances: attendances, course_name: course_name });
     } catch (error) {
         try {
             // this is not well done, this need to be change later because data will fetch from enroll collection
             const users = await students.find({});
-            res.render('attendance/attendance_sheet', { users: users, problem: "Cann't update attendence", course_name: course_name });
+            res.render('course_pages/layout', { page: 'attendance/attendance_sheet_all', users: users, problem: "Cann't update attendence", course_name: course_name });
         } catch (error) {
             console.error("Error fetching data:", error);
-            res.render('attendance/attendance_sheet', { users: [],problem: error, course_name: "" });
+            res.render('course_pages/layout', { page: 'attendance/attendance_sheet_all', users: [],problem: error, course_name: "" });
         }
     }
 
@@ -80,7 +80,7 @@ router.post('/all', async(req, res) => {
         const users = await students.find({});
         const course_name = req.body.course_name;
         const attendances = await attendence_model.find({course_name: course_name});
-        res.render('attendance/attendance_sheet_all', { users: users , attendances: attendances, course_name: course_name});
+        res.render('course_pages/layout', { page: 'attendance/attendance_sheet_all', users: users , attendances: attendances, course_name: course_name});
     } catch (error) {
         console.error("Error fetching data:", error);
         res.redirect('/teacher/dashboard');
@@ -94,7 +94,7 @@ router.get('/all', async (req, res) => {
         const users = await students.find({});
         const course_name = req.body.course_name;
         const attendances = await attendence_model.find({ course_name: course_name });
-        res.render('attendance/attendance_sheet_all', { users: users, attendances: attendances, course_name: course_name });
+        res.render('course_pages/layout', { page: 'attendance/attendance_sheet_all', users: users, attendances: attendances, course_name: course_name });
     } catch (error) {
         console.error("Error fetching data:", error);
         res.redirect('/teacher/dashboard');

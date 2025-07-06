@@ -76,6 +76,8 @@ app.use('/teacher', require('./routes/teacher'));
 app.use('/student', require('./routes/student'));
 app.use('/attendance_sheet', require('./routes/attendance_sheet'));
 app.use('/resource_sharing', require('./routes/resource_sharing'));
+app.use('/assignments', require('./routes/assignments'));
+app.use('/course_tracker', require('./routes/course_tracker'));
 
 
 // Start Server
