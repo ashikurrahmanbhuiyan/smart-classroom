@@ -13,9 +13,28 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="student-profile">
-                <div class="profile-avatar"><i class="fas fa-user-graduate"></i></div>
+                
+                <div class="profile-picture">
+                    <%if(student_user.picture){%>
+                        <img src="/studentPics/<%=student_user.picture%>" alt="Theacher phto">
+                        <% } else{ %>
+                            <img src="/img/default.jpg" alt="Theacher phto">
+                            <% } %>
+                </div>
+            
                 <h2 class="profile-name" id="studentName">Jane Doe</h2>
                 <p class="profile-roll" id="studentRoll">Roll: 2021-045</p>
+                
+
+                <button id="picButton" type="submit" style="color: rgb(47, 127, 127); border: none; border-radius: 10;">Edit photo</button>
+                <div id="picForm" style="display: none;" class="pic-form">
+                    <form id="edit-form" class = "inner-form" method="post" action="/student/update-profile-pic" enctype="multipart/form-data">
+                        <input class = "file-input" type="file" name="updateProfilePic">
+                        <input type="hidden" name="email" value=<%=student_user.email%> >
+                        <button id="picSubmit" class="upload-button" type="submit">Upload</button>
+                    </form>
+                </div>
+
             </div>
 
             <nav class="sidebar-nav">
@@ -275,6 +294,21 @@
 
         // Initial setup
         document.addEventListener('DOMContentLoaded', () => {
+
+
+            const picButton = document.getElementById('picButton');
+        const picForm = document.getElementById('picForm');
+        const picSubmit = document.getElementById('picSubmit')
+        picButton.addEventListener('click', () => {
+            picForm.style.display = 'block';
+            picButton.style.display = 'none';
+        });
+        picSubmit.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            picForm.style.display = 'none';
+            picButton.style.display = 'block'
+        });
+
             renderStudentProfile();
             renderEnrolledCourses();
             renderAvailableCourses();
