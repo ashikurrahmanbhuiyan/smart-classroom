@@ -119,7 +119,7 @@ router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
         year = null;
     }
     
-    res.render('studentDashboard/student_dashboard', { student_user: req.user, year, admmited_courses : coursesByTeacher })
+    res.render('studentDashboard/student_dashboard', { student_user: req.user, year, available_courses : coursesByTeacher })
 });
 
 

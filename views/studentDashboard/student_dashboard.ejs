@@ -38,10 +38,10 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="#" class="menu-item active" data-section="dashboard">
+                <a href="#" class="menu-item active" data-section ="dashboard">
                     <i class="fas fa-chart-line"></i> Dashboard
                 </a>
-                <a href="#" class="menu-item" data-section="enrollment">
+                <a href="#" class="menu-item" data-section = "enrollment">
                     <i class="fas fa-book"></i> Course Enrollment
                 </a>
             </nav>
@@ -90,6 +90,20 @@
                     <h4 class="card-title">Enroll in New Courses</h4>
                     <div id="availableCoursesList" class="row">
                         <!-- Available courses for enrollment will be loaded here -->
+                                <% if(available_courses.length == 0){ %>
+                                    <h3>No more available courses</h3> 
+                                <% } else{ %>
+                                <% available_courses.forEach(course=>{ %>
+                                <div class = "col-lg-6 col-md-12 mb-4">
+                                <div class="course-item">
+                                    <div class="course-item-info">
+                                        <h5><%= course.course_name%></h5>
+                                        <p><%= course.teacher %></p>
+                                    </div>
+                                    <button class="btn enroll-btn">Enroll</button>
+                                    </div>
+                                </div>
+                            <% });} %>
                     </div>
                 </div>
             </section>
@@ -262,8 +276,7 @@
         let currentSelectedCourseId = null; // To keep track of the currently viewed course
 
         // DOM Elements
-        const studentNameElem = document.getElementById('studentName');
-        const studentRollElem = document.getElementById('studentRoll');
+      
         const mainHeaderElem = document.getElementById('mainHeader');
         const totalEnrolledCoursesElem = document.getElementById('totalEnrolledCourses');
         const enrolledCoursesListElem = document.getElementById('enrolledCoursesList');
@@ -292,23 +305,7 @@
         const customAlert = document.getElementById('customAlert');
 
 
-        // Initial setup
         document.addEventListener('DOMContentLoaded', () => {
-
-
-            const picButton = document.getElementById('picButton');
-        const picForm = document.getElementById('picForm');
-        const picSubmit = document.getElementById('picSubmit')
-        picButton.addEventListener('click', () => {
-            picForm.style.display = 'block';
-            picButton.style.display = 'none';
-        });
-        picSubmit.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            picForm.style.display = 'none';
-            picButton.style.display = 'block'
-        });
-
             renderStudentProfile();
             renderEnrolledCourses();
             renderAvailableCourses();
@@ -317,10 +314,21 @@
 
         // --- Core Functions ---
 
-        function renderStudentProfile() {
-            studentNameElem.textContent = student.name;
-            studentRollElem.textContent = `Roll: ${student.roll}`;
+        function renderStudentProfile(){
+            const picButton = document.getElementById('picButton');
+            const picForm = document.getElementById('picForm');
+            const picSubmit = document.getElementById('picSubmit')
+            picButton.addEventListener('click', () => {
+                picForm.style.display = 'block';
+                picButton.style.display = 'none';
+            });
+            picSubmit.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                picForm.style.display = 'none';
+                picButton.style.display = 'block'
+            });
         }
+
 
         function updateTotalEnrolledCourses() {
             const enrolledCount = allCourses.filter(course => course.isEnrolled).length;
@@ -375,6 +383,7 @@
         }
 
         function renderAvailableCourses() {
+            enrollmentSection.display = block;
             availableCoursesListElem.innerHTML = ''; // Clear previous content
             const notEnrolledCourses = allCourses.filter(course => !course.isEnrolled);
 
@@ -386,15 +395,15 @@
             notEnrolledCourses.forEach(course => {
                 const courseItem = document.createElement('div');
                 courseItem.className = 'col-lg-6 col-md-12 mb-4'; /* Adjusted margin */
-                courseItem.innerHTML = `
-                    <div class="course-item">
-                        <div class="course-item-info">
-                            <h5>${course.name}</h5>
-                            <p>${course.teacher}</p>
-                        </div>
-                        <button class="btn enroll-btn" data-course-id="${course.id}">Enroll</button>
-                    </div>
-                `;
+                // courseItem.innerHTML = `
+                //     <div class="course-item">
+                //         <div class="course-item-info">
+                //             <h5>${course.name}</h5>
+                //             <p>${course.teacher}</p>
+                //         </div>
+                //         <button class="btn enroll-btn" data-course-id="${course.id}">Enroll</button>
+                //     </div>
+                // `;
                 availableCoursesListElem.appendChild(courseItem);
 
                 // Add event listener for enrollment button
@@ -413,7 +422,7 @@
                 renderEnrolledCourses();
                 renderAvailableCourses();
                 updateTotalEnrolledCourses();
-                showSection('dashboard'); // Go back to dashboard after enrolling
+                showSection('dashboard');
             }
         }
 

@@ -33,6 +33,13 @@ const studentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    enrolled_courses : [
+        {
+            course_name : {
+                type : String
+            }
+        }
+    ]
     
 });
 
