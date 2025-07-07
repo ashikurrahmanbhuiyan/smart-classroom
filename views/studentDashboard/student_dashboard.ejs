@@ -38,12 +38,17 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="#" class="menu-item active" data-section ="dashboard">
+                <a href="#" class="menu-item active" id ="dashboard">
                     <i class="fas fa-chart-line"></i> Dashboard
                 </a>
-                <a href="#" class="menu-item" data-section = "enrollment">
+                <a href="#" class="menu-item" id = "enrollment">
                     <i class="fas fa-book"></i> Course Enrollment
                 </a>
+                <div class="d-flex justify-content-center">
+                    <a href="/student/logout" class="btn btn-danger align-items-center">
+                        <i class="fas fa-sign-out-alt"></i> Sign out
+                    </a>
+                </div>
             </nav>
         </aside>
 
@@ -54,12 +59,12 @@
             </div>
 
             <!-- Dashboard Section -->
-            <section id="dashboard-section" class="active-section">
+            <section id="dashboard-section" style="display: block;" class="active-section">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="dashboard-metric-box">
                             <i class="fas fa-layer-group icon mb-3"></i>
-                            <h3 id="totalEnrolledCourses">0</h3>
+                            <h3 id="totalEnrolledCourses"> <%= student_user.enrolled_courses.length %> </h3>
                             <p>Total Enrolled Courses</p>
                         </div>
                     </div>
@@ -72,18 +77,16 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="info-card">
+                <!-- Ennnrolled courses has beeb shown here -->
+                <div class="info-card" id = "enrolled-course">
                     <h4 class="card-title">My Enrolled Courses</h4>
                     <div class="row">
-                        <!-- Enrolled courses will be dynamically loaded here -->
-
                         <% if(student_user.enrolled_courses.length == 0){ %>
                                 <div class="col-12 text-center text-muted py-4">No course enrolled</div> 
                                 <% } else{ %>
                                 <% student_user.enrolled_courses.forEach(course=>{ %>
                                 <div class = "col-lg-6 col-md-12 mb-4">
-                                    <div class="course-item">
+                                    <div class="course-item item-course">
                                         <div class="course-item-info">
                                             <h5><%= course.course_name %></h5>
                                             <p><%= course.teacher_name %></p>
@@ -222,77 +225,7 @@
             roll: "2021-045"
         };
 
-        const allCourses = [
-            {
-                id: 'c001',
-                name: 'Introduction to Programming',
-                teacher: 'Prof. Alice Smith',
-                isEnrolled: true,
-                attendance: 85, // percentage
-                marks: [
-                    { category: 'Assignment 1', score: 90, max: 100 },
-                    { category: 'Class Test 1', score: 75, max: 100 },
-                    { category: 'Midterm Exam', score: 80, max: 100 },
-                ],
-                notifications: [
-                    { date: '2023-10-26', message: 'Assignment 2 has been posted. Due next week.', attachmentUrl: 'https://www.africau.edu/images/default/sample.pdf' },
-                    { date: '2023-10-20', message: 'Midterm exam results are now available.' },
-                    { date: '2023-10-15', message: 'Guest lecture on Web Development next Monday.', attachmentUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }
-                ],
-                submissions: [
-                    { id: 'sub001_c1_a1', assignmentName: 'Assignment 1', submissionDate: '2023-09-15', status: 'Graded', fileName: 'assignment1_jane.pdf' },
-                    { id: 'sub001_c1_a2', assignmentName: 'Assignment 2', submissionDate: '2023-10-28', status: 'Submitted', fileName: 'assignment2_jane.pdf' }
-                ]
-            },
-            {
-                id: 'c002',
-                name: 'Data Structures & Algorithms',
-                teacher: 'Dr. Bob Johnson',
-                isEnrolled: true,
-                attendance: 70,
-                marks: [
-                    { category: 'Assignment 1', score: 85, max: 100 },
-                    { category: 'Quiz 1', score: 92, max: 100 },
-                    { category: 'Final Exam', score: 78, max: 100 }
-                ],
-                notifications: [
-                    { date: '2023-11-01', message: 'Lab session on Trees cancelled for this week.' },
-                    { date: '2023-10-28', message: 'Review session for Array concepts on Friday.' }
-                ],
-                submissions: []
-            },
-            {
-                id: 'c003',
-                name: 'Discrete Mathematics',
-                teacher: 'Dr. Carol White',
-                isEnrolled: false, // Not enrolled initially
-                attendance: 0,
-                marks: [],
-                notifications: [],
-                submissions: []
-            },
-            {
-                id: 'c004',
-                name: 'Operating Systems',
-                teacher: 'Prof. David Brown',
-                isEnrolled: false,
-                attendance: 0,
-                marks: [],
-                notifications: [],
-                submissions: []
-            },
-            {
-                id: 'c005',
-                name: 'Database Management Systems',
-                teacher: 'Dr. Emily Chen',
-                isEnrolled: false,
-                attendance: 0,
-                marks: [],
-                notifications: [],
-                submissions: []
-            }
-        ];
-
+        
         let currentSelectedCourseId = null; // To keep track of the currently viewed course
 
         // DOM Elements
@@ -303,9 +236,6 @@
         const availableCoursesListElem = document.getElementById('availableCoursesList');
         const noCoursesMessage = document.getElementById('noCoursesMessage');
 
-        const dashboardSection = document.getElementById('dashboard-section');
-        const enrollmentSection = document.getElementById('enrollment-section');
-        const courseDetailSection = document.getElementById('courseDetailSection');
 
         const courseDetailTitle = document.getElementById('courseDetailTitle');
         const courseTeacherName = document.getElementById('courseTeacherName');
@@ -349,78 +279,57 @@
             });
         }
 
-
-        function updateTotalEnrolledCourses() {
-            const enrolledCount = allCourses.filter(course => course.isEnrolled).length;
-            totalEnrolledCoursesElem.textContent = enrolledCount;
-
-            if (enrolledCount > 0) {
-                noCoursesMessage.style.display = 'none';
-            } else {
-                noCoursesMessage.style.display = 'block';
-            }
-        }
-
         function renderEnrolledCourses() {
-            enrolledCoursesListElem.innerHTML = ''; // Clear previous content
-            const enrolledCourses = allCourses.filter(course => course.isEnrolled);
+            const courseDetailSection = document.getElementById('courseDetailSection');
+            const dashboardSection = document.getElementById('dashboard-section');
+            const courseItems = document.querySelectorAll('.item-course');
+            const dashboard = document.getElementById('dashboard');
+            const enrollment = document.getElementById("enrollment");
 
-            if (enrolledCourses.length === 0) {
-                noCoursesMessage.style.display = 'block';
-                return;
-            } else {
-                noCoursesMessage.style.display = 'none';
-            }
-
-            enrolledCourses.forEach(course => {
-                const courseItem = document.createElement('div');
-                enrolledCoursesListElem.appendChild(courseItem);
-
-                // Apply attendance progress styling
-                const circle = courseItem.querySelector('.progress-circle');
-                const percent = course.attendance;
-                setAttendanceProgress(circle, percent);
-
-                // Add click listener to show course details
-                courseItem.querySelector('.course-item').addEventListener('click', () => {
-                    displayCourseDetails(course.id);
+            courseItems.forEach(courseItem => {
+                courseItem.addEventListener('click', () => {
+                    dashboardSection.style.display = 'none'; 
+                    courseDetailSection.style.display = 'block';
                 });
+            });
+            dashboard.addEventListener('click', ()=>{
+                dashboardSection.style.display = 'block'; 
+                courseDetailSection.style.display = 'none';
+            });
+            enrollment.addEventListener('click', ()=>{
+                dashboardSection.style.display = 'block';
+                courseDetailSection.style.display = 'none';
+                enrollmentSection.style.display = 'block';
+                enrolledCourse.style.display = 'none';
+                enrollment.classList.add('active');
+                dashboard.classList.remove('active');
             });
         }
 
         function renderAvailableCourses() {
-            enrollmentSection.display = block;
-            availableCoursesListElem.innerHTML = ''; // Clear previous content
-            const notEnrolledCourses = allCourses.filter(course => !course.isEnrolled);
+            const enrollmentSection = document.getElementById('enrollment-section');
+            const enrollment = document.getElementById("enrollment");
+            const enrolledCourse = document.getElementById('enrolled-course');
+            const dashboard = document.getElementById('dashboard');
 
-            if (notEnrolledCourses.length === 0) {
-                availableCoursesListElem.innerHTML = '<div class="col-12 text-center text-muted py-4">All available courses have been enrolled!</div>';
-                return;
-            }
+            enrollment.addEventListener('click', ()=>{
+                enrollmentSection.style.display = 'block';
+                enrolledCourse.style.display = 'none';
+                enrollment.classList.add('active');
+                dashboard.classList.remove('active');
 
-            notEnrolledCourses.forEach(course => {
-                const courseItem = document.createElement('div');
-                availableCoursesListElem.appendChild(courseItem);
+            });
 
-                // Add event listener for enrollment button
-                courseItem.querySelector('.enroll-btn').addEventListener('click', (event) => {
-                    const courseId = event.target.dataset.courseId;
-                    enrollCourse(courseId);
-                });
+            dashboard.addEventListener('click', ()=>{
+                enrollmentSection.style.display = 'none';
+                enrolledCourse.style.display = 'block';
+                dashboard.classList.add('active');
+                enrollment.classList.remove('active');
+
             });
         }
 
-        function enrollCourse(courseId) {
-            const course = allCourses.find(c => c.id === courseId);
-            if (course) {
-                course.isEnrolled = true;
-                alertMessage('Course enrolled successfully!', 'success');
-                renderEnrolledCourses();
-                renderAvailableCourses();
-                updateTotalEnrolledCourses();
-                showSection('dashboard');
-            }
-        }
+        
 
         function displayCourseDetails(courseId) {
             currentSelectedCourseId = courseId; // Set the current course ID
