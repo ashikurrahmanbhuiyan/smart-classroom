@@ -35,7 +35,13 @@ const studentSchema = new mongoose.Schema({
     },
     enrolled_courses : [
         {
+            teacher_email : {
+                type : String 
+            },
             course_name : {
+                type : String
+            },
+            teacher_name : {
                 type : String
             }
         }

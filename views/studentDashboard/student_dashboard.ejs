@@ -22,8 +22,8 @@
                             <% } %>
                 </div>
             
-                <h2 class="profile-name" id="studentName">Jane Doe</h2>
-                <p class="profile-roll" id="studentRoll">Roll: 2021-045</p>
+                <h2 class="profile-name" id="studentName"><%= student_user.name %></h2>
+                <p class="profile-roll" id="studentRoll"><%= student_user.student_id %></p>
                 
 
                 <button id="picButton" type="submit" style="color: rgb(47, 127, 127); border: none; border-radius: 10;">Edit photo</button>
@@ -75,11 +75,27 @@
 
                 <div class="info-card">
                     <h4 class="card-title">My Enrolled Courses</h4>
-                    <div id="enrolledCoursesList" class="row">
+                    <div class="row">
                         <!-- Enrolled courses will be dynamically loaded here -->
-                        <div class="col-12 text-center text-muted py-4" id="noCoursesMessage">
-                            No courses enrolled yet. Go to 'Course Enrollment' to add some!
-                        </div>
+
+                        <% if(student_user.enrolled_courses.length == 0){ %>
+                                <div class="col-12 text-center text-muted py-4">No course enrolled</div> 
+                                <% } else{ %>
+                                <% student_user.enrolled_courses.forEach(course=>{ %>
+                                <div class = "col-lg-6 col-md-12 mb-4">
+                                    <div class="course-item">
+                                        <div class="course-item-info">
+                                            <h5><%= course.course_name %></h5>
+                                            <p><%= course.teacher_name %></p>
+                                        </div>
+                                        <div class="progress-circle">
+                                            <div class="bar"></div>
+                                            <div class="fill"></div>
+                                            <div class="inner-circle">85</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% });} %>
                     </div>
                 </div>
             </section>
@@ -91,16 +107,20 @@
                     <div id="availableCoursesList" class="row">
                         <!-- Available courses for enrollment will be loaded here -->
                                 <% if(available_courses.length == 0){ %>
-                                    <h3>No more available courses</h3> 
+                                    <div class="col-12 text-center text-muted py-4">All available courses have been enrolled!</div> 
                                 <% } else{ %>
                                 <% available_courses.forEach(course=>{ %>
                                 <div class = "col-lg-6 col-md-12 mb-4">
                                 <div class="course-item">
                                     <div class="course-item-info">
                                         <h5><%= course.course_name%></h5>
-                                        <p><%= course.teacher %></p>
+                                        <p><%= course.teacher_name %></p>
                                     </div>
-                                    <button class="btn enroll-btn">Enroll</button>
+                                        <form id="edit-form" class = "inner-form" method="post" action="/student/enroll">
+                                            <input type="hidden" name="student_email" value = <%= student_user.email %> >
+                                            <input type= "hidden" name="course" value='<%= JSON.stringify(course) %>' >
+                                            <button class="upload-button" type="submit"> Enroll </button>
+                                        </form>
                                     </div>
                                 </div>
                             <% });} %>
@@ -354,20 +374,6 @@
 
             enrolledCourses.forEach(course => {
                 const courseItem = document.createElement('div');
-                courseItem.className = 'col-lg-6 col-md-12 mb-4'; /* Adjusted margin */
-                courseItem.innerHTML = `
-                    <div class="course-item" data-course-id="${course.id}">
-                        <div class="course-item-info">
-                            <h5>${course.name}</h5>
-                            <p>${course.teacher}</p>
-                        </div>
-                        <div class="progress-circle">
-                            <div class="bar"></div>
-                            <div class="fill"></div>
-                            <div class="inner-circle">${course.attendance}%</div>
-                        </div>
-                    </div>
-                `;
                 enrolledCoursesListElem.appendChild(courseItem);
 
                 // Apply attendance progress styling
@@ -394,16 +400,6 @@
 
             notEnrolledCourses.forEach(course => {
                 const courseItem = document.createElement('div');
-                courseItem.className = 'col-lg-6 col-md-12 mb-4'; /* Adjusted margin */
-                // courseItem.innerHTML = `
-                //     <div class="course-item">
-                //         <div class="course-item-info">
-                //             <h5>${course.name}</h5>
-                //             <p>${course.teacher}</p>
-                //         </div>
-                //         <button class="btn enroll-btn" data-course-id="${course.id}">Enroll</button>
-                //     </div>
-                // `;
                 availableCoursesListElem.appendChild(courseItem);
 
                 // Add event listener for enrollment button

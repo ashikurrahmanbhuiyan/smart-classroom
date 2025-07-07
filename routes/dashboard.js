@@ -5,7 +5,8 @@ const { checkAuthenticatedstudent } = require('../config/auth');
 const { authenticate } = require('passport');
 const Course = require('../models/course');
 const Teacher = require('../models/user_teacher');
-
+const Student = require('../models/user_student');
+const course = require('../models/course');
 // Home Page (public)
 router.get('/', (req, res) => res.redirect('/teacher/login'));
 
@@ -88,7 +89,6 @@ router.get('/teacher/edit_profile', checkAuthenticatedteacher, async (req, res) 
 // student dashboard
 
 
-
 router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
 
 
@@ -107,9 +107,8 @@ router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
                     coursesByTeacher.push({
                         teacher_email : course.teacher_email,
                         course_name : course.course_name,
-                        year_semester : d.year_semester,
-                        teacher : teacher.name,
-                        teacher_picture : teacher.picture
+                        teacher_name : teacher.name,
+                        isEnrolled : false
                     });
                 } 
             }
@@ -122,6 +121,28 @@ router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
     res.render('studentDashboard/student_dashboard', { student_user: req.user, year, available_courses : coursesByTeacher })
 });
 
+// Course Enrollment
+router.post('/student/enroll', async(req, res, next) => {
+    const {student_email, course} = req.body;
+    try {
+        const student = await Student.findOne({ email: student_email});
+        if (!student) {
+            console.log("Student not found.");
+            return;
+        }
+        const parsedCourse = JSON.parse(course);
+        const newCourse = {
+            teacher_email: parsedCourse.teacher_email,
+            course_name: parsedCourse.course_name,
+            teacher_name: parsedCourse.teacher_name
+        };
+        student.enrolled_courses.push(newCourse); 
+        await student.save(); 
+    } catch (err) {
+        console.error("Error adding course:", err);
+    }
+    res.redirect('/student/dashboard');
+});
 
 
 
