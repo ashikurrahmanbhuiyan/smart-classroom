@@ -108,7 +108,6 @@ router.get('/student/dashboard', checkAuthenticatedstudent, async(req, res) =>{
                         teacher_email : course.teacher_email,
                         course_name : course.course_name,
                         teacher_name : teacher.name,
-                        isEnrolled : false
                     });
                 } 
             }

@@ -98,7 +98,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            <% });} %>
+                        <% });} %>
                     </div>
                 </div>
             </section>
@@ -109,16 +109,21 @@
                     <h4 class="card-title">Enroll in New Courses</h4>
                     <div id="availableCoursesList" class="row">
                         <!-- Available courses for enrollment will be loaded here -->
-                                <% if(available_courses.length == 0){ %>
+                                <% if(available_courses === null){ %>
                                     <div class="col-12 text-center text-muted py-4">All available courses have been enrolled!</div> 
                                 <% } else{ %>
+                                    <% var course_count = 0;%>
                                 <% available_courses.forEach(course=>{ %>
+                                <%const c = student_user.enrolled_courses.filter((d) => d.teacher_email === course.teacher_email 
+                                    && d.course_name === course.course_name && d.teacher_name === course.teacher_name) %>
+                                <% if(c.length == 0){ %>
+                                <%course_count = course_count + 1;%>
                                 <div class = "col-lg-6 col-md-12 mb-4">
-                                <div class="course-item">
-                                    <div class="course-item-info">
-                                        <h5><%= course.course_name%></h5>
-                                        <p><%= course.teacher_name %></p>
-                                    </div>
+                                    <div class="course-item">
+                                        <div class="course-item-info">
+                                            <h5><%= course.course_name%></h5>
+                                            <p><%= course.teacher_name %></p>
+                                        </div>
                                         <form id="edit-form" class = "inner-form" method="post" action="/student/enroll">
                                             <input type="hidden" name="student_email" value = <%= student_user.email %> >
                                             <input type= "hidden" name="course" value='<%= JSON.stringify(course) %>' >
@@ -126,7 +131,11 @@
                                         </form>
                                     </div>
                                 </div>
+                                <%}%>
                             <% });} %>
+                        <% if(course_count === 0){ %>
+                            <div class="col-12 text-center text-muted py-4">All available courses have been enrolled!</div> 
+                        <% } %>
                     </div>
                 </div>
             </section>
