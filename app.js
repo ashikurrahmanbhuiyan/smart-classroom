@@ -70,6 +70,9 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/uploads', express.static('uploads'));
+
+
 // Routes
 app.use('/', require('./routes/dashboard'));
 app.use('/teacher', require('./routes/teacher'));
