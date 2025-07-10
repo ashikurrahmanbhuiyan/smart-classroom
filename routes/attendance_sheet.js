@@ -1,3 +1,4 @@
+const { checkAuthenticatedteacher } = require('../config/auth');
 const attendence_model = require('../models/attendance_model');
 const students = require('../models/user_student');
 const express = require('express');
@@ -5,27 +6,30 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 
-router.get('/', async (req, res) => {
-    res.redirect('/teacher/dashboard');
-});
-
-//no need for authentication those post method because it is only accessible by teacher by button click
-router.post('/', async(req, res) => {
+router.get('/', checkAuthenticatedteacher, async (req, res) => {
     try {
-        const course_name = req.body.course_name;
+        const course_name = req.query.course_name;
         // this is not well done, this need to be change later because data will fetch from enroll collection
-        const users = await students.find({ });
+        const users = await students.find({});
         res.render('course_pages/attendance/attendance_sheet', { users: users, course_name: course_name });
     } catch (error) {
         console.error("Error fetching data:", error);
-        res.render('course_pages/attendance/attendance_sheet',{users:[], course_name: ""});
+        res.render('course_pages/attendance/attendance_sheet', { users: [], course_name: "" });
     }
 });
 
+// router.post('/',checkAuthenticatedteacher, async(req, res) => {
+//     try {
+//         const course_name = req.body.course_name;
+//         // this is not well done, this need to be change later because data will fetch from enroll collection
+//         const users = await students.find({ });
+//         res.render('course_pages/attendance/attendance_sheet', { users: users, course_name: course_name });
+//     } catch (error) {
+//         console.error("Error fetching data:", error);
+//         res.render('course_pages/attendance/attendance_sheet',{users:[], course_name: ""});
+//     }
+// });
 
-router.get('/save', async (req, res) => {
-    res.redirect('/teacher/dashboard');
-});
 
 router.post('/save', async (req, res) => {
     const attendanceArray = req.body.attendanceArray;
@@ -74,25 +78,26 @@ router.post('/save', async (req, res) => {
 //     res.redirect('/teacher/dashboard');
 // });
 
-router.post('/all', async(req, res) => {
+
+//this method is not used because  we are using get method to fetch all attendence
+// router.post('/all', async(req, res) => {
+//     try {
+//         // this is not well done, this need to be change later because data will fetch from enroll collection
+//         const users = await students.find({});
+//         const course_name = req.body.course_name;
+//         const attendances = await attendence_model.find({course_name: course_name});
+//         res.render('course_pages/layout', { page: 'attendance/attendance_sheet_all', users: users , attendances: attendances, course_name: course_name});
+//     } catch (error) {
+//         console.error("Error fetching data:", error);
+//         res.redirect('/teacher/dashboard');
+//     }
+// });
+
+router.get('/all',checkAuthenticatedteacher, async (req, res) => {
     try {
         // this is not well done, this need to be change later because data will fetch from enroll collection
         const users = await students.find({});
-        const course_name = req.body.course_name;
-        const attendances = await attendence_model.find({course_name: course_name});
-        res.render('course_pages/layout', { page: 'attendance/attendance_sheet_all', users: users , attendances: attendances, course_name: course_name});
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        res.redirect('/teacher/dashboard');
-    }
-});
-
-
-router.get('/all', async (req, res) => {
-    try {
-        // this is not well done, this need to be change later because data will fetch from enroll collection
-        const users = await students.find({});
-        const course_name = req.body.course_name;
+        const course_name = req.query.course_name;
         const attendances = await attendence_model.find({ course_name: course_name });
         res.render('course_pages/layout', { page: 'attendance/attendance_sheet_all', users: users, attendances: attendances, course_name: course_name });
     } catch (error) {

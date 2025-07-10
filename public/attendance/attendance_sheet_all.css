@@ -5,45 +5,6 @@ body {
     margin-top: 0px;
 }
 
-.navbar {
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: darkslategray;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    border-radius: 10px;
-    height: 60px;
-    overflow: hidden;
-}
-
-.nav-item {
-    position: relative;
-    color: #fff;
-    text-decoration: none;
-    padding: 20px;
-    font-size: 24px;
-    z-index: 2;
-    cursor: pointer;
-}
-
-.nav-item:hover {
-    color: #00d1ff;
-}
-
-.slider {
-    border-radius: 10px;
-    position: absolute;
-    bottom: 0;
-    height: 60px;
-    width: 25%;
-    background: #4cd4a2;
-    transition: left 0.3s ease;
-    z-index: 1;
-    left: 0;
-}
-
 
 
 table {

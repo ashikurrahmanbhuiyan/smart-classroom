@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<head>
+<!-- <head>
     <title>
         <%= page.charAt(0).toUpperCase() + page.slice(1) %>
     </title>
     <link rel="stylesheet" href="/course_pages_navbar.css">
-</head>
+</head> -->
 
 <body>
     <div class="navbar">
-        <a href="/attendance_sheet/all" class="nav-item <%= page === 'attendance_sheet_all' ? 'active' : '' %>" data-index="0">
+        <a href="/attendance_sheet/all?course_name=<%= course_name %>" class="nav-item <%= page === 'attendance_sheet_all' ? 'active' : '' %>" data-index="0">
             Attendace Sheet
         </a>
-        <a href="/course_tracker" class="nav-item <%= page === 'course_tracker' ? 'active' : '' %>" data-index="1">
+        <a href="/course_tracker?course_name=<%= course_name %>" class="nav-item <%= page === 'course_tracker' ? 'active' : '' %>" data-index="1">
             Tracker
         </a>
-        <a href="/assignments" class="nav-item <%= page === 'assignments' ? 'active' : '' %>" data-index="2">
+        <a href="/assignments?course_name=<%= course_name %>" class="nav-item <%= page === 'assignments' ? 'active' : '' %>" data-index="2">
             Assignment
         </a>
-        <a href="/resource_sharing" class="nav-item <%= page === 'resource_sharing' ? 'active' : '' %>" data-index="3">
+        <a href="/resource_sharing?course_name=<%= course_name %>" class="nav-item <%= page === 'resource_sharing' ? 'active' : '' %>" data-index="3">
             Resource
         </a>
         <div class="slider"
