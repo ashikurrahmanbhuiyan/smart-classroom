@@ -2,9 +2,9 @@ const express = require('express');
 const { checkAuthenticatedteacher } = require('../config/auth');
 const router = express.Router();
 const multer = require('multer');
-const Resource = require('../models/resources');
+const Resource = require('../models/resources_model');
 
-router.get('/', async (req, res) => {
+router.get('/',checkAuthenticatedteacher, async (req, res) => {
     // console.log(req.user.name);
     course_name = req.query.course_name;
     res.render('course_pages/resource_sharing', { page: 'resource_sharing', course_name: course_name });
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // POST route to add a resource
-router.post('/resources', upload.single('resourceFile'), (req, res) => {
+router.post('/saveResources', upload.single('resourceFile'), (req, res) => {
     try {
         const { resourceTitle, resourceDescription, resourceType, resourceUrl } = req.body;
 
@@ -37,16 +37,7 @@ router.post('/resources', upload.single('resourceFile'), (req, res) => {
             file: uploadedFile || null,
             uploadDate: new Date().toISOString().split('T')[0]
         };
-
-        // For now, just log it and send back as if it was saved
-        // console.log("New Resource:", newResource);
-
-        // // Send fake saved object
-        // res.status(201).json({
-        //     ...newResource,
-        //     _id: Date.now().toString() // Simulated DB ID
-        // });
-        // Save the resource to the database
+        
         const resource = new Resource(newResource);
         resource.save()
             .then(savedResource => {
@@ -63,6 +54,22 @@ router.post('/resources', upload.single('resourceFile'), (req, res) => {
         res.status(500).json({ message: "Server error while saving resource." });
     }
 });
+
+
+
+
+// GET route to fetch all resources
+router.get('/resources',checkAuthenticatedteacher, async (req, res) => {
+    try {
+        const resources = await Resource.find();
+        res.status(200).json(resources);
+    } catch (err) {
+        console.error("Error fetching resources:", err);
+        res.status(500).json({ message: "Server error while fetching resources." });
+    }
+}); 
+
+
   
 
 module.exports = router;

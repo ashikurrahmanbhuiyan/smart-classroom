@@ -1,4 +1,8 @@
-<div class="navbar">
+<div class="navbar w-full bg-gradient-to-r from-green-500 to-teal-600 shadow-lg ">
+    <a href="/teacher/dashboard"class="nav-item <%= page === 'attendance_sheet_all' ? 'active' : '' %>" data-index="0">
+        Home
+    </a>
+
     <a href="/attendance_sheet/all?course_name=<%= course_name %>" class="nav-item <%= page === 'attendance_sheet_all' ? 'active' : '' %>" data-index="0">
         Attendace Sheet
     </a>
@@ -12,6 +16,6 @@
         Resource
     </a>
     <div class="slider"
-        style="left: <%= ['0%','25%','50%','75%'][['attendance_sheet_all','course_tracker','assignments','resource_sharing'].indexOf(page)] %>;">
+        style="left: <%= ['20%','40%','60%','80%'][['attendance_sheet_all','course_tracker','assignments','resource_sharing'].indexOf(page)] %>;">
     </div>
 </div>

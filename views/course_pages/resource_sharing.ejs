@@ -8,10 +8,10 @@
         xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        body {
+        .body {
             font-family: 'Inter', sans-serif;
+            margin: 20px;
         }
-
         .modal-backdrop {
             background-color: rgba(0, 0, 0, 0.5);
         }
@@ -19,18 +19,19 @@
         .modal {
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
+        
     </style>
 </head>
 
-<body class="bg-gray-100 text-gray-800">
+<body class="text-gray-800" style="margin: 1.5%;">
 
     <%- include('navbar.ejs') %>
 
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="bg-gray-100 container mx-auto p-4 sm:p-6 lg:p-8">
         <!-- Header Section -->
         <header class="mb-8">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Class Resources</h1>
-            <p class="text-gray-600 mt-2">Manage and share learning materials with your students.</p>
+            <p class="text-gray-600 mt-2">Manage and share learning materials with students.</p>
         </header>
 
         <!-- Controls: Search, Filter, and Add New -->
@@ -101,7 +102,7 @@
                             Type</label>
                         <select id="resourceType" name="resourceType"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="pdf">File (PDF)</option>
+                            <option value="pdf">File </option>
                             <option value="link">Link</option>
                             <option value="video">Video (URL)</option>
                         </select>
@@ -147,14 +148,6 @@
             const noResultsMessage = document.getElementById('noResultsMessage');
             const searchInput = document.getElementById('searchInput');
 
-            // --- MOCK INITIAL DATA (this would come from a GET /api/resources call) ---
-            const initialResources = [
-                { _id: '1', title: 'Introduction to Algebra', description: 'A comprehensive guide to the fundamental concepts of algebra.', type: 'pdf', uploadDate: '2024-07-09' },
-                { _id: '2', title: 'The Water Cycle', description: 'An engaging animated video explaining the water cycle process.', type: 'video', uploadDate: '2024-07-08' },
-                { _id: '3', title: 'History Timeline', description: 'An interactive website to explore key events in world history.', type: 'link', uploadDate: '2024-07-07' },
-                { _id: '4', title: 'Periodic Table Chart', description: 'A high-resolution printable periodic table for chemistry students.', type: 'pdf', uploadDate: '2024-07-06' }
-            ];
-
             // --- DYNAMICALLY CREATE RESOURCE CARD ---
             const createResourceCard = (resource) => {
                 const typeDetails = {
@@ -164,7 +157,7 @@
                 };
 
                 const card = document.createElement('div');
-                card.className = 'resource-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300';
+                card.className = 'resource-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 trasition-all transform hover:scale-110';
                 card.dataset.type = resource.type;
                 card.dataset.name = resource.title;
                 card.dataset.id = resource._id;
@@ -191,13 +184,18 @@
                 resourceGrid.appendChild(card);
             };
 
-            // --- FETCH AND RENDER RESOURCES ON PAGE LOAD ---
+            // --- FETCH AND RENDER RESOURCES FROM THE SERVER ---
             const fetchAndRenderResources = () => {
                 resourceGrid.innerHTML = ''; // Clear existing
-                // In a real app, you would fetch from your API:
-                // fetch('/api/resources').then(res => res.json()).then(resources => { ... })
+                fetch('resource_sharing/resources')
+                    .then(response => response.json())
+                    .then(resources => {
+                        resources.forEach(createResourceCard);
+                    })
+                    .catch(error => {
+                        console.error("Failed to fetch resources:", error);
+                    });
                 initialResources.forEach(createResourceCard);
-                performSearchAndFilter();
             };
 
             // --- ADD NEW RESOURCE FORM SUBMISSION ---
@@ -205,7 +203,6 @@
             addResourceForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                // In a real application, you would use FormData to handle file uploads
                 const formData = new FormData(addResourceForm);
                 const newResourceData = {
                     title: formData.get('resourceTitle'),
@@ -219,9 +216,9 @@
 
                 // --- SIMULATING API CALL ---
                 // This block simulates sending data to your backend and getting a response.
-                // Replace this with a real fetch call to your '/api/resources' endpoint.
+                //  fetch call to your '/api/resources' endpoint.
                 try {
-                    const response = await fetch('resource_sharing/resources/', {
+                    const response = await fetch('resource_sharing/saveResources/', {
                         method: 'POST',
                         body: formData // Send the whole form data
                     });
@@ -249,7 +246,7 @@
             });
 
 
-            // --- ALL OTHER MODAL, ALERT, and FILTER LOGIC (mostly unchanged) ---
+            // --- ALL OTHER MODAL, ALERT, and FILTER LOGIC ---
             const addResourceModal = document.getElementById('addResourceModal');
             const addResourceBtn = document.getElementById('addResourceBtn');
             const closeModalBtn = document.getElementById('closeModalBtn');

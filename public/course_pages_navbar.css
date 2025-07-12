@@ -1,16 +1,14 @@
 body {
-    font-family: fantasy;
-    font-size: 20px;
-    margin: 20px;
-    margin-top: 0px;
+    font-family: sans-serif;
+    margin: 1.5%;
 }
 
 .navbar {
     position: relative;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    background-color: darkslategray;
+    background-color: rgb(163, 156, 156);
     margin-bottom: 20px;
     margin-top: 20px;
     border-radius: 10px;
@@ -22,14 +20,17 @@ body {
     position: relative;
     color: #fff;
     text-decoration: none;
-    padding: 20px;
-    font-size: 24px;
+    padding-left: 60px;
+    padding-right: 60px;
+    font-size: 20px;
     z-index: 2;
     cursor: pointer;
 }
 
 .nav-item:hover {
-    color: #00d1ff;
+    color: #272626;
+    transform: scale(1.15);
+    transition: 0.3s ease, transform 0.3s ease;
 }
 
 .slider {
@@ -37,8 +38,7 @@ body {
     position: absolute;
     bottom: 0;
     height: 60px;
-    width: 25%;
+    width: 20%;
     background: #4cd4a2;
-    transition: left 0.3s ease;
-    z-index: 1;
+    /* transition: left 0.3s ease; */
 }

@@ -1,9 +1,454 @@
 <!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <link rel="stylesheet" href="/course_pages_navbar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Class - Assignments</title>
+    <link rel="stylesheet" href="course_pages_navbar.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+        }
+
+        .status-graded {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-due {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+    </style>
 </head>
-<body>
+
+<body class="bg-gray-100 text-gray-800">
+
     <%- include('navbar.ejs') %>
-    <h1>this is assignment</h1>
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- Header Section -->
+        <header class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Assignments</h1>
+            <p class="text-gray-600 mt-2">Create, track, and grade student assignments.</p>
+        </header>
+
+        <!-- Controls: Filter and Add New -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center space-x-2 bg-white p-1 rounded-lg border">
+                    <button onclick="filterAssignments('all')"
+                        class="filter-btn active px-4 py-1.5 text-sm font-medium rounded-md bg-indigo-600 text-white">All</button>
+                    <button onclick="filterAssignments('active')"
+                        class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">Active</button>
+                    <button onclick="filterAssignments('graded')"
+                        class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">Graded</button>
+                    <button onclick="filterAssignments('due')"
+                        class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">Past
+                        Due</button>
+                </div>
+            </div>
+            <button id="addAssignmentBtn"
+                class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105">
+                <i class="fas fa-plus"></i>
+                <span>Create Assignment</span>
+            </button>
+        </div>
+
+        <!-- Assignments List -->
+        <div id="assignmentList" class="space-y-4">
+            <!-- Assignment items will be dynamically inserted here -->
+        </div>
+        <div id="noResultsMessage" class="hidden text-center py-12">
+            <i class="fas fa-clipboard-question text-4xl text-gray-400 mb-4"></i>
+            <p class="text-gray-500">No assignments found for this filter.</p>
+        </div>
+    </div>
+
+    <!-- Add New Assignment Modal -->
+    <div id="addAssignmentModal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden">
+        <div
+            class="modal bg-white rounded-lg shadow-2xl w-11/12 md:max-w-lg mx-auto opacity-0 transform -translate-y-10">
+            <form id="addAssignmentForm" class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold">Create New Assignment</h2>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="assignmentTitle" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                        <input type="text" id="assignmentTitle" name="title"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            required>
+                    </div>
+                    <div>
+                        <label for="assignmentSubject"
+                            class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                        <input type="text" id="assignmentSubject" name="subject"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            required>
+                    </div>
+                    <div>
+                        <label for="assignmentDescription"
+                            class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea id="assignmentDescription" name="description" rows="4"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div>
+                        <label for="assignmentDueDate" class="block text-sm font-medium text-gray-700 mb-1">Due
+                            Date</label>
+                        <input type="date" id="assignmentDueDate" name="dueDate"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            required>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button"
+                        class="cancel-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Create
+                        Assignment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mark Submissions Modal -->
+    <div id="markSubmissionsModal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden">
+        <div
+            class="modal bg-white rounded-lg shadow-2xl w-11/12 md:max-w-3xl mx-auto opacity-0 transform -translate-y-10">
+            <form id="markSubmissionsForm" class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="markModalTitle" class="text-2xl font-bold">Mark Submissions</h2>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+                </div>
+                <div class="max-h-96 overflow-y-auto pr-2">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="py-2">Student Name</th>
+                                <th class="py-2">Submission Status</th>
+                                <th class="py-2 text-center">View Submission</th>
+                                <th class="py-2 text-center">Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentListBody">
+                            <!-- Student rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button"
+                        class="cancel-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Save
+                        Grades</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Submission Modal -->
+    <div id="viewSubmissionModal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden">
+        <div
+            class="modal bg-white rounded-lg shadow-2xl w-11/12 md:max-w-xl mx-auto opacity-0 transform -translate-y-10">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="viewSubmissionTitle" class="text-2xl font-bold">Student Submission</h2>
+                    <button type="button"
+                        class="close-modal-btn text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+                </div>
+                <div id="submissionContentArea"
+                    class="bg-gray-50 p-4 rounded-lg max-h-80 overflow-y-auto text-gray-700 prose">
+                    <!-- Submission content will be injected here -->
+                </div>
+                <div class="flex justify-end mt-6">
+                    <button type="button"
+                        class="close-modal-btn px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Custom Alert Modal -->
+    <div id="customAlertModal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden">
+        <div
+            class="modal bg-white rounded-lg shadow-2xl w-11/12 md:max-w-sm mx-auto opacity-0 transform -translate-y-10 p-6">
+            <h3 id="alertTitle" class="text-lg font-bold mb-4">Alert</h3>
+            <p id="alertMessage" class="text-gray-700 mb-6">Message goes here.</p>
+            <div id="alertButtons" class="flex justify-end space-x-3"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const assignmentList = document.getElementById('assignmentList');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+
+            // --- MOCK DATA ---
+            let assignments = [
+                { id: 1, title: 'Algebra Homework 1', subject: 'Mathematics', dueDate: '2025-07-15', status: 'active', submissions: 28, totalStudents: 30 },
+                { id: 2, title: 'Essay on World War II', subject: 'History', dueDate: '2025-07-10', status: 'graded', submissions: 30, totalStudents: 30 },
+                { id: 3, title: 'Photosynthesis Lab Report', subject: 'Biology', dueDate: '2025-07-08', status: 'due', submissions: 25, totalStudents: 30 },
+                { id: 4, title: 'Poetry Analysis', subject: 'Literature', dueDate: '2025-07-20', status: 'active', submissions: 15, totalStudents: 30 },
+            ];
+            
+            const mockStudents = [
+                { id: 101, name: 'Alice Johnson', submitted: true, grade: 'A', submissionContent: 'https://example.com/path/to/alice_submission.pdf' },
+                { id: 102, name: 'Bob Williams', submitted: true, grade: 'B+', submissionContent: 'This is my essay text. It is about the major causes and consequences of the Second World War...' },
+                { id: 103, name: 'Charlie Brown', submitted: false, grade: '', submissionContent: null },
+                { id: 104, name: 'Diana Miller', submitted: true, grade: 'A-', submissionContent: 'https://example.com/path/to/diana_report.docx' }
+            ];
+
+            // --- DYNAMICALLY CREATE ASSIGNMENT ITEM ---
+            const createAssignmentItem = (assignment) => {
+                const item = document.createElement('div');
+                item.className = 'assignment-item bg-white rounded-lg shadow p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4';
+                item.dataset.id = assignment.id;
+                item.dataset.status = assignment.status;
+
+                const statusInfo = {
+                    active: { text: 'Active', class: 'status-active' },
+                    graded: { text: 'Graded', class: 'status-graded' },
+                    due: { text: 'Past Due', class: 'status-due' }
+                };
+
+                const submissionPercentage = (assignment.submissions / assignment.totalStudents) * 100;
+
+                item.innerHTML = `
+                <div class="flex-grow">
+                    <div class="flex items-center gap-3 mb-2">
+                        <h3 class="text-lg font-semibold text-gray-800">${assignment.title}</h3>
+                        <span class="status-badge ${statusInfo[assignment.status].class}">${statusInfo[assignment.status].text}</span>
+                    </div>
+                    <p class="text-sm text-gray-500">
+                        <span class="font-medium">${assignment.subject}</span> &bull; Due: ${new Date(assignment.dueDate).toLocaleDateString()}
+                    </p>
+                </div>
+                <div class="w-full sm:w-auto flex flex-col sm:items-end gap-3">
+                     <div class="w-full sm:w-48">
+                        <p class="text-sm text-gray-600 mb-1 text-right">${assignment.submissions}/${assignment.totalStudents} Submitted</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-indigo-600 h-2.5 rounded-full" style="width: ${submissionPercentage}%"></div>
+                        </div>
+                    </div>
+                    <button class="mark-btn bg-green-100 text-green-800 font-semibold py-2 px-4 rounded-lg hover:bg-green-200 transition text-sm w-full sm:w-auto">
+                        <i class="fas fa-marker mr-2"></i>Mark Submissions
+                    </button>
+                </div>
+            `;
+                assignmentList.appendChild(item);
+            };
+
+            const renderAssignments = () => {
+                assignmentList.innerHTML = '';
+                const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+                const filtered = assignments.filter(a => activeFilter === 'all' || a.status === activeFilter);
+
+                if (filtered.length > 0) {
+                    filtered.forEach(createAssignmentItem);
+                    noResultsMessage.classList.add('hidden');
+                } else {
+                    noResultsMessage.classList.remove('hidden');
+                }
+            };
+
+            fetch('assignments/get-assignments')
+                .then(response => response.json())
+                .then(data => {
+                    // Assuming data is an array of assignment objects
+                    console.log('Assignments fetched:', data);
+                    assignments = data; // Update assignments with fetched data
+                    // reverse the assignments to show the latest first
+                    assignments.reverse();
+                    renderAssignments();
+                })
+                .catch(error => {
+                    console.error('Error fetching assignments:', error);
+                    showAppAlert('Error', 'Failed to load assignments. Please try again later.');
+                });
+
+            // --- MODAL HANDLING ---
+            const addAssignmentModal = document.getElementById('addAssignmentModal');
+            const markSubmissionsModal = document.getElementById('markSubmissionsModal');
+            const viewSubmissionModal = document.getElementById('viewSubmissionModal');
+            const customAlertModal = document.getElementById('customAlertModal');
+
+            const openModal = (modalEl) => {
+                modalEl.classList.remove('hidden');
+                setTimeout(() => modalEl.querySelector('.modal').classList.remove('opacity-0', '-translate-y-10'), 10);
+            };
+            const closeModal = (modalEl) => {
+                if (!modalEl) return;
+                modalEl.querySelector('.modal').classList.add('opacity-0', '-translate-y-10');
+                setTimeout(() => modalEl.classList.add('hidden'), 300);
+            };
+
+            document.getElementById('addAssignmentBtn').addEventListener('click', () => openModal(addAssignmentModal));
+
+            document.querySelectorAll('.close-modal-btn, .cancel-btn').forEach(btn => {
+                btn.addEventListener('click', () => closeModal(btn.closest('.fixed')));
+            });
+
+            // --- ADD ASSIGNMENT FORM ---
+            document.getElementById('addAssignmentForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const newAssignment = {
+                    // id: Date.now(),
+                    title: formData.get('title'),
+                    subject: formData.get('subject'),
+                    description: formData.get('description'),
+                    dueDate: formData.get('dueDate'),
+                    status: 'active',
+                    submissions: 0,
+                    totalStudents: 30 // Mock total later need to change this to dynamic value
+                };
+
+                //send new assignment to server
+                fetch('assignments/add-assignment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newAssignment)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // show the new assignment in the list without reloading the page
+                        assignments.unshift(newAssignment);
+                        renderAssignments();
+                        closeModal(addAssignmentModal);
+                        e.target.reset();
+                        showAppAlert('Success', 'New assignment has been created.');
+                    } else {
+                        showAppAlert('Error', 'Failed to create assignment. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAppAlert('Error', 'Failed to add assignment. Please try again.');  
+                });
+
+
+            });
+
+            // --- MARK SUBMISSIONS ---
+            assignmentList.addEventListener('click', (e) => {
+                if (e.target.closest('.mark-btn')) {
+                    const assignmentId = e.target.closest('.assignment-item').dataset._id;
+                    const assignment = assignments.find(a => a.id == assignmentId);
+                    document.getElementById('markModalTitle').textContent = `Mark: ${assignment.title}`;
+
+                    const studentListBody = document.getElementById('studentListBody');
+                    studentListBody.innerHTML = '';
+                    mockStudents.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.className = 'border-b hover:bg-gray-50';
+                        row.innerHTML = `
+                        <td class="py-3 px-2">${student.name}</td>
+                        <td class="py-3 px-2">${student.submitted ? '<span class="text-green-600 font-semibold">Submitted</span>' : '<span class="text-red-600">Not Submitted</span>'}</td>
+                        <td class="py-3 px-2 text-center">
+                            <button type="button" class="view-submission-btn text-indigo-600 hover:underline disabled:text-gray-400 disabled:no-underline" data-name="${student.name}" data-content="${student.submissionContent}" ${!student.submitted ? 'disabled' : ''}>
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </td>
+                        <td class="py-3 px-2 text-center">
+                            <input type="text" value="${student.grade}" class="w-20 text-center border rounded-md px-2 py-1 disabled:bg-gray-100" ${!student.submitted ? 'disabled' : ''}>
+                        </td>
+                    `;
+                        studentListBody.appendChild(row);
+                    });
+                    openModal(markSubmissionsModal);
+                }
+            });
+
+            // --- VIEW SUBMISSION LOGIC ---
+            document.getElementById('studentListBody').addEventListener('click', (e) => {
+                const viewBtn = e.target.closest('.view-submission-btn');
+                if (viewBtn) {
+                    const studentName = viewBtn.dataset.name;
+                    const content = viewBtn.dataset.content;
+
+                    document.getElementById('viewSubmissionTitle').textContent = `Submission from ${studentName}`;
+                    const contentArea = document.getElementById('submissionContentArea');
+
+                    // Check if content is a URL
+                    if (content.startsWith('http')) {
+                        contentArea.innerHTML = `<p>Student submitted a link:</p><a href="${content}" target="_blank" class="text-indigo-600 font-bold hover:underline break-all">${content}</a>`;
+                    } else {
+                        contentArea.innerHTML = `<p>${content}</p>`;
+                    }
+
+                    openModal(viewSubmissionModal);
+                }
+            });
+
+            document.getElementById('markSubmissionsForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                // In a real app, you would collect and save the grades here.
+                closeModal(markSubmissionsModal);
+                showAppAlert('Grades Saved', 'Student grades have been updated successfully.');
+            });
+
+            // --- FILTERING ---
+            window.filterAssignments = (status) => {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active', 'bg-indigo-600', 'text-white');
+                    btn.classList.add('text-gray-600', 'hover:bg-gray-200');
+                });
+                const selectedBtn = document.querySelector(`.filter-btn[onclick="filterAssignments('${status}')"]`);
+                selectedBtn.classList.add('active', 'bg-indigo-600', 'text-white');
+                selectedBtn.classList.remove('text-gray-600', 'hover:bg-gray-200');
+                selectedBtn.dataset.filter = status;
+                renderAssignments();
+            };
+            document.querySelector('.filter-btn').dataset.filter = 'all';
+
+            // --- CUSTOM ALERT ---
+            const showAppAlert = (title, message) => {
+                const alertModalEl = document.getElementById('customAlertModal');
+                document.getElementById('alertTitle').textContent = title;
+                document.getElementById('alertMessage').textContent = message;
+                document.getElementById('alertButtons').innerHTML = `<button id="alertOkBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">OK</button>`;
+                openModal(alertModalEl);
+                document.getElementById('alertOkBtn').addEventListener('click', () => closeModal(alertModalEl));
+            };
+
+            // Initial Render
+            // renderAssignments();
+        });
+    </script>
 </body>
+
 </html>

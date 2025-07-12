@@ -2,30 +2,34 @@
 <head>
     <link rel="icon" href="https://e7.pngegg.com/pngimages/617/177/png-clipart-university-of-rajshahi-beauty-parlour-logo-others-miscellaneous-text-thumbnail.png" type="image/x-icon" />
     <title>Attendance Sheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/course_pages_navbar.css">
     <link rel="stylesheet" href="/attendance/attendance_sheet_all.css">
+    
 </head>
 
-<body>
+<body style="margin: 1.5%;" >
     <%- include('../navbar.ejs') %>
-
-    <form method="get" action="/attendance_sheet">
-        <input type="hidden" name="course_name" value="<%= course_name %>">
-        <div class="form-buttons">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 bg-gray-100">
+        <form method="get" action="/attendance_sheet">
+            <input type="hidden" name="course_name" value="<%= course_name %>">
+            <div class="form-buttons">
                 <a href="/"><button type="button" class="return-btn">Return Home ⤶</button></a>
-            <button class="add-attendance-btn">Add New Attendance</button>
-        </div>
-    </form>
-    <table id="attendanceTable">
-        <thead>
+                <button class="add-attendance-btn">Add New Attendance</button>
+            </div>
+        </form>
+        <table id="attendanceTable">
+            <thead>
                 <th>Names</th>
                 <!-- Dates will be dynamically added here -->
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Names will be dynamically added here -->
-        </tbody>
-    </table>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Names will be dynamically added here -->
+            </tbody>
+            </table>
+    </div>
+    
 
 <script>
     // Navigation bar functionality for slider and active state
