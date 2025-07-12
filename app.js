@@ -15,25 +15,18 @@ require('./config/passport')(passport);
 
 
 
+dotenv.config();
 
-
-if (process.env.NODE_ENV !== 'production') {
-    dotenv.config();
-}
-
-// Determine MongoDB connection string based on environment
-const mongoURI = process.env.NODE_ENV === 'production'
-    ? process.env.MONGO_URI_PROD // e.g., MongoDB Atlas URI
-    : process.env.MONGO_URI_LOCAL || 'mongodb://localhost:27017/smart-classroom';
+const isProduction = process.env.NODE_ENV === 'production';
+const mongoURI = isProduction ? process.env.PROD_MONGO_URI : process.env.LOCAL_MONGO_URI;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
 })
-    .then(() => console.log('Connected to MongoDB:', mongoURI))
+    .then(() => console.log(`MongoDB Connected: ${isProduction ? 'Production DB' : 'Local DB'}`))
     .catch((err) => console.error('MongoDB connection error:', err));
-
 
 
 // Mongodb on cloud 
