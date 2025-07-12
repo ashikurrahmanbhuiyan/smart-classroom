@@ -5,12 +5,35 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const compression = require('compression');
 const cors = require("cors");
+const dotenv = require('dotenv');
 
 // Initialize App
 const app = express();
 
 // Passport Config
 require('./config/passport')(passport);
+
+
+
+
+
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config();
+}
+
+// Determine MongoDB connection string based on environment
+const mongoURI = process.env.NODE_ENV === 'production'
+    ? process.env.MONGO_URI_PROD // e.g., MongoDB Atlas URI
+    : process.env.MONGO_URI_LOCAL || 'mongodb://localhost:27017/smart-classroom';
+
+// Connect to MongoDB
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log('Connected to MongoDB:', mongoURI))
+    .catch((err) => console.error('MongoDB connection error:', err));
+
 
 
 // Mongodb on cloud 
@@ -23,10 +46,10 @@ require('./config/passport')(passport);
 
 
 // MongoDB Connection locally
-mongoose
-    .connect('mongodb://localhost:27017/smart-classroom')
-    .then(() => console.log('MongoDB Connected'))
-    .catch((err) => console.log(err));
+// mongoose
+//     .connect('mongodb://localhost:27017/smart-classroom')
+//     .then(() => console.log('MongoDB Connected'))
+//     .catch((err) => console.log(err));
 
 
 // EJS
