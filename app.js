@@ -20,29 +20,12 @@ dotenv.config();
 const isProduction = process.env.NODE_ENV === 'production';
 const mongoURI = isProduction ? process.env.PROD_MONGO_URI : process.env.LOCAL_MONGO_URI;
 
-// Connect to MongoDB
-mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+// Connect to MongoDB is now awosome because it uses environment variables 
+// to shift between local and production databases
+mongoose.connect(mongoURI)
     .then(() => console.log(`MongoDB Connected: ${isProduction ? 'Production DB' : 'Local DB'}`))
     .catch((err) => console.error('MongoDB connection error:', err));
 
-
-// Mongodb on cloud 
-//  db_password = '6Lakak5cTioy3sSW';
-//  mongoose.connect('mongodb+srv://ashikurrahmanbhuiyan:6Lakak5cTioy3sSW@cluster0.89kxn.mongodb.net/smart_classroom?retryWrites=true&w=majority&appName=smart_classroom', {
-//     useNewUrlParser: true,
-//      useUnifiedTopology: true })
-// .then(() => console.log('MongoDB Connected'))
-// .catch((err) => console.log(err));
-
-
-// MongoDB Connection locally
-// mongoose
-//     .connect('mongodb://localhost:27017/smart-classroom')
-//     .then(() => console.log('MongoDB Connected'))
-//     .catch((err) => console.log(err));
 
 
 // EJS
