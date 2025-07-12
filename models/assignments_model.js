@@ -24,8 +24,26 @@ const assignmentSchema = new mongoose.Schema({
     totalStudents: {
         type: String,
         required: true,
-    }
-    
+    },
+    submissionsDetails: [{
+        studentId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'students',
+            default: null
+        }, 
+        submissionDate: {
+            type: Date,
+            default: Date.now
+        },
+        marks: {
+            type: Number,
+            default: 0
+        },
+        feedback: {
+            type: String,
+            default: ''
+        }
+    }],
     
 });
 
