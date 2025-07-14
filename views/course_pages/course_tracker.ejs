@@ -1,18 +1,360 @@
 <!DOCTYPE html>
-<head>
-    <title>Course Tracker</title>
-    <link rel="stylesheet" href="/course_pages_navbar.css">
-    <link rel="stylesheet" href="/course_tracker.css">
-</head>
-<body>
-    <%- include('navbar.ejs') %>
-    
-    <div class="course-tracker">
-        <h2>Course Tracker</h2>
-        <p>Course Name: <%= course_name %></p>
-        <p>Here you can track the progress of your course.</p>
-    </div>
-</body>
-</html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Course Tracker</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom styles for a polished look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            /* A light grey background for a modern feel */
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+
+        .progress-bar-container {
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 9999px;
+            background-color: #3b82f6;
+            /* Blue for progress */
+            transition: width 1.5s ease-in-out;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="flex h-screen">
+
+        <%- include('navbar.ejs') %>
+
+        <main class="flex-1 p-8 overflow-y-auto">
+
+            <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Header Section -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Teacher Dashboard</h1>
+            <p class="text-lg text-gray-600" id="course-title">Loading course details...</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Left Column: Main Stats & Student List -->
+            <div class="lg:col-span-2 space-y-8">
+
+                <!-- Overall Course Progress -->
+                <section class="card p-6">
+                    <h2 class="text-xl font-semibold mb-4">Overall Course Progress</h2>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative w-24 h-24">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <path class="text-gray-200" d="M18 2.0845
+                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                    a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor"
+                                    stroke-width="3" />
+                                <path id="progress-circle" class="text-blue-500" stroke-dasharray="0, 100" d="M18 2.0845
+                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                    a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round"
+                                    style="transition: stroke-dasharray 1.5s ease-in-out;" />
+                            </svg>
+                            <div id="progress-text"
+                                class="absolute inset-0 flex items-center justify-center text-2xl font-bold">0%</div>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 font-medium">The course is <span
+                                    id="progress-percentage-text"></span> complete.</p>
+                            <p class="text-gray-500">Next Milestone: <span id="next-milestone"></span></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Performance Indicators -->
+                <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="card p-5 flex flex-col justify-between">
+                        <h3 class="font-semibold text-gray-600">Average Attendance</h3>
+                        <p id="avg-attendance" class="text-3xl font-bold text-green-500">0%</p>
+                    </div>
+                    <div class="card p-5 flex flex-col justify-between">
+                        <h3 class="font-semibold text-gray-600">Average Score</h3>
+                        <p id="avg-score" class="text-3xl font-bold text-blue-500">0%</p>
+                    </div>
+                    <div class="card p-5 flex flex-col justify-between">
+                        <h3 class="font-semibold text-gray-600">Assignments Due</h3>
+                        <p id="assignments-due" class="text-3xl font-bold text-yellow-500">0</p>
+                    </div>
+                </section>
+
+                <!-- Student Progress Table -->
+                <section class="card overflow-hidden">
+                    <div class="p-6 border-b">
+                        <h2 class="text-xl font-semibold">Student Progress</h2>
+                        <p class="text-gray-500">Overview of individual student performance.</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="p-4 font-semibold">Student Name</th>
+                                    <th class="p-4 font-semibold">Overall Score</th>
+                                    <th class="p-4 font-semibold">Attendance</th>
+                                    <th class="p-4 font-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-table-body" class="divide-y">
+                                <!-- Student rows will be injected here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Performance & Syllabus -->
+            <div class="lg:col-span-1 space-y-8">
+
+                <!-- Performance Distribution Chart -->
+                <section class="card p-6">
+                    <h2 class="text-xl font-semibold mb-4">Performance Distribution</h2>
+                    <div class="relative h-64">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Syllabus Progress -->
+                <section class="card p-6">
+                    <h2 class="text-xl font-semibold mb-3">Syllabus Tracker</h2>
+                    <ul id="syllabus-list" class="space-y-4">
+                        <!-- Syllabus items will be injected here -->
+                    </ul>
+                </section>
+
+            </div>
+        </main>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- MOCK DATA ---
+        const courseData = {
+            courseName: "Introduction to Web Development",
+            courseCode: "CS101",
+            progress: 72, // Overall course completion percentage
+            nextMilestone: "Mid-term Project Submission",
+            avgAttendance: 92,
+            avgScore: 85,
+            assignmentsDue: 2,
+            performance: {
+                excellent: 12, // 90-100%
+                good: 18,      // 75-89%
+                average: 7,    // 60-74%
+                needsAttention: 3, // <60%
+            },
+            syllabus: [
+                { topic: "HTML Fundamentals", status: "completed" },
+                { topic: "CSS Styling", status: "completed" },
+                { topic: "Responsive Design with Flexbox & Grid", status: "completed" },
+                { topic: "JavaScript Basics", status: "in-progress" },
+                { topic: "DOM Manipulation", status: "upcoming" },
+                { topic: "Introduction to React", status: "upcoming" },
+            ],
+            students: [
+                { id: "S001", name: "Alice Johnson", score: 95, attendance: 98, status: "excellent" },
+                { id: "S002", name: "Bob Williams", score: 88, attendance: 95, status: "good" },
+                { id: "S003", name: "Charlie Brown", score: 72, attendance: 85, status: "average" },
+                { id: "S004", name: "Diana Miller", score: 98, attendance: 100, status: "excellent" },
+                { id: "S005", name: "Ethan Davis", score: 55, attendance: 70, status: "needs-attention" },
+                { id: "S006", name: "Fiona Garcia", score: 82, attendance: 91, status: "good" },
+                { id: "S007", name: "George Rodriguez", score: 78, attendance: 88, status: "average" },
+                { id: "S008", name: "Hannah Smith", score: 48, attendance: 65, status: "needs-attention" },
+            ]
+        };
+
+        // --- UTILITY FUNCTIONS ---
+        const statusConfig = {
+            'excellent': { text: 'Excellent', color: 'bg-green-500', textColor: 'text-green-700', progressColor: 'bg-green-500' },
+            'good': { text: 'Good', color: 'bg-blue-500', textColor: 'text-blue-700', progressColor: 'bg-blue-500' },
+            'average': { text: 'Average', color: 'bg-yellow-500', textColor: 'text-yellow-700', progressColor: 'bg-yellow-500' },
+            'needs-attention': { text: 'Needs Attention', color: 'bg-red-500', textColor: 'text-red-700', progressColor: 'bg-red-500' },
+            'completed': { icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', color: 'text-green-500' },
+            'in-progress': { icon: 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.181-3.183m-4.991-2.695v-2.695A8.25 8.25 0 005.68 9.348v2.695l3.181 3.183', color: 'text-blue-500' },
+            'upcoming': { icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z', color: 'text-gray-400' }
+        };
+
+        // --- DOM MANIPULATION & DATA BINDING ---
+        window.onload = function () {
+            // Set a timeout to simulate data fetching and allow animations to be visible
+            setTimeout(() => {
+                populateDashboard(courseData);
+                initializeChart(courseData.performance);
+            }, 200);
+        };
+
+        function populateDashboard(data) {
+            // Header
+            document.getElementById('course-title').textContent = `${data.courseName} (${data.courseCode})`;
+
+            // Overall Progress Circle
+            const progressCircle = document.getElementById('progress-circle');
+            const progressText = document.getElementById('progress-text');
+            const progressPercentageText = document.getElementById('progress-percentage-text');
+            progressCircle.style.strokeDasharray = `${data.progress}, 100`;
+            progressText.textContent = `${data.progress}%`;
+            progressPercentageText.textContent = `${data.progress}%`;
+            document.getElementById('next-milestone').textContent = data.nextMilestone;
+
+            // KPIs
+            document.getElementById('avg-attendance').textContent = `${data.avgAttendance}%`;
+            document.getElementById('avg-score').textContent = `${data.avgScore}%`;
+            document.getElementById('assignments-due').textContent = data.assignmentsDue;
+
+            // Student Table
+            const studentTableBody = document.getElementById('student-table-body');
+            studentTableBody.innerHTML = ''; // Clear existing
+            data.students.forEach(student => {
+                const config = statusConfig[student.status];
+                const row = `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="p-4 font-medium">${student.name}</td>
+                        <td class="p-4">
+                            <div class="flex items-center">
+                                <span class="font-medium ${config.textColor} w-12">${student.score}%</span>
+                                <div class="progress-bar-container w-full">
+                                    <div class="progress-bar ${config.progressColor}" style="width: ${student.score}%;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-4">${student.attendance}%</td>
+                        <td class="p-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color} text-white">
+                                ${config.text}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+                studentTableBody.innerHTML += row;
+            });
+
+            // Syllabus Tracker
+            const syllabusList = document.getElementById('syllabus-list');
+            syllabusList.innerHTML = ''; // Clear existing
+            data.syllabus.forEach(item => {
+                const config = statusConfig[item.status];
+                const listItem = `
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 ${config.color}">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="${config.icon}" />
+                        </svg>
+                        <span class="font-medium ${item.status === 'completed' ? 'line-through text-gray-500' : ''}">${item.topic}</span>
+                    </li>
+                `;
+                syllabusList.innerHTML += listItem;
+            });
+        }
+
+        // --- CHART INITIALIZATION ---
+        function initializeChart(performanceData) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Excellent', 'Good', 'Average', 'Needs Attention'],
+                    datasets: [{
+                        label: 'Student Performance',
+                        data: [
+                            performanceData.excellent,
+                            performanceData.good,
+                            performanceData.average,
+                            performanceData.needsAttention
+                        ],
+                        backgroundColor: [
+                            '#22c55e', // green-500
+                            '#3b82f6', // blue-500
+                            '#f59e0b', // yellow-500
+                            '#ef4444'  // red-500
+                        ],
+                        borderColor: '#ffffff',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + ' students';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
+ 
 

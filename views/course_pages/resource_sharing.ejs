@@ -23,112 +23,118 @@
     </style>
 </head>
 
-<body class="text-gray-800" style="margin: 1.5%;">
+<body class="bg-gray-100 text-gray-800">
 
-    <%- include('navbar.ejs') %>
+    <div class="flex h-screen">
 
-    <div class="bg-gray-100 container mx-auto p-4 sm:p-6 lg:p-8">
-        <!-- Header Section -->
-        <header class="mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Class Resources</h1>
-            <p class="text-gray-600 mt-2">Manage and share learning materials with students.</p>
-        </header>
+        <%- include('navbar.ejs') %>
 
-        <!-- Controls: Search, Filter, and Add New -->
-        <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
-            <div class="w-full md:w-1/2 lg:w-1/3">
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <i class="fas fa-search text-gray-400"></i>
-                    </span>
-                    <input id="searchInput" type="text" placeholder="Search by resource name..."
-                        class="w-full pl-10 pr-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <main class="flex-1 p-8 overflow-y-auto">
+
+            <div class="bg-gray-100 container mx-auto p-4 sm:p-6 lg:p-8">
+                <!-- Header Section -->
+                <header class="mb-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Class Resources</h1>
+                    <p class="text-gray-600 mt-2">Manage and share learning materials with students.</p>
+                </header>
+
+                <!-- Controls: Search, Filter, and Add New -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+                    <div class="w-full md:w-1/2 lg:w-1/3">
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </span>
+                            <input id="searchInput" type="text" placeholder="Search by resource name..."
+                                class="w-full pl-10 pr-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center space-x-2 bg-white p-1 rounded-lg border">
+                            <button onclick="filterResources('all')"
+                                class="filter-btn active px-4 py-1.5 text-sm font-medium rounded-md bg-indigo-600 text-white">All</button>
+                            <button onclick="filterResources('pdf')"
+                                class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">PDFs</button>
+                            <button onclick="filterResources('video')"
+                                class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">Videos</button>
+                            <button onclick="filterResources('link')"
+                                class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">Links</button>
+                        </div>
+                        <button id="addResourceBtn"
+                            class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 flex items-center gap-2">
+                            <i class="fas fa-plus"></i>
+                            <span>Add New</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resources Grid -->
+                <div id="resourceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Resource cards will be dynamically inserted here from JavaScript -->
+                </div>
+                <div id="noResultsMessage" class="hidden text-center py-12">
+                    <i class="fas fa-folder-open text-4xl text-gray-400 mb-4"></i>
+                    <p class="text-gray-500">No resources found. Try adjusting your search or filter.</p>
                 </div>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="flex items-center space-x-2 bg-white p-1 rounded-lg border">
-                    <button onclick="filterResources('all')"
-                        class="filter-btn active px-4 py-1.5 text-sm font-medium rounded-md bg-indigo-600 text-white">All</button>
-                    <button onclick="filterResources('pdf')"
-                        class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">PDFs</button>
-                    <button onclick="filterResources('video')"
-                        class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">Videos</button>
-                    <button onclick="filterResources('link')"
-                        class="filter-btn px-4 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-200">Links</button>
-                </div>
-                <button id="addResourceBtn"
-                    class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 flex items-center gap-2">
-                    <i class="fas fa-plus"></i>
-                    <span>Add New</span>
-                </button>
-            </div>
-        </div>
 
-        <!-- Resources Grid -->
-        <div id="resourceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Resource cards will be dynamically inserted here from JavaScript -->
-        </div>
-        <div id="noResultsMessage" class="hidden text-center py-12">
-            <i class="fas fa-folder-open text-4xl text-gray-400 mb-4"></i>
-            <p class="text-gray-500">No resources found. Try adjusting your search or filter.</p>
-        </div>
-    </div>
-
-    <!-- Add New Resource Modal -->
-    <div id="addResourceModal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden">
-        <div
-            class="modal bg-white rounded-lg shadow-2xl w-11/12 md:max-w-md mx-auto opacity-0 transform -translate-y-10">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold">Add New Resource</h2>
-                    <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            <!-- Add New Resource Modal -->
+            <div id="addResourceModal" class="fixed inset-0 z-50 flex items-center justify-center modal-backdrop hidden">
+                <div
+                    class="modal bg-white rounded-lg shadow-2xl w-11/12 md:max-w-md mx-auto opacity-0 transform -translate-y-10">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold">Add New Resource</h2>
+                            <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+                        </div>
+                        <form id="addResourceForm">
+                            <div class="mb-4">
+                                <label for="resourceTitle" class="block text-sm font-medium text-gray-700 mb-1">Resource
+                                    Title</label>
+                                <input type="text" id="resourceTitle" name="resourceTitle"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="resourceDescription"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <textarea id="resourceDescription" name="resourceDescription" rows="3"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label for="resourceType" class="block text-sm font-medium text-gray-700 mb-1">Resource
+                                    Type</label>
+                                <select id="resourceType" name="resourceType"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="pdf">File </option>
+                                    <option value="link">Link</option>
+                                    <option value="video">Video (URL)</option>
+                                </select>
+                            </div>
+                            <div id="fileInputContainer" class="mb-4">
+                                <label for="resourceFile" class="block text-sm font-medium text-gray-700 mb-1">Upload
+                                    File</label>
+                                <input type="file" id="resourceFile" name="resourceFile"
+                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100">
+                            </div>
+                            <div id="urlInputContainer" class="mb-4 hidden">
+                                <label for="resourceUrl" class="block text-sm font-medium text-gray-700 mb-1">URL</label>
+                                <input type="url" id="resourceUrl" name="resourceUrl"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="https://example.com">
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" id="cancelBtn"
+                                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
+                                <button type="submit"
+                                    class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Add
+                                    Resource</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <form id="addResourceForm">
-                    <div class="mb-4">
-                        <label for="resourceTitle" class="block text-sm font-medium text-gray-700 mb-1">Resource
-                            Title</label>
-                        <input type="text" id="resourceTitle" name="resourceTitle"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="resourceDescription"
-                            class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea id="resourceDescription" name="resourceDescription" rows="3"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                    </div>
-                    <div class="mb-4">
-                        <label for="resourceType" class="block text-sm font-medium text-gray-700 mb-1">Resource
-                            Type</label>
-                        <select id="resourceType" name="resourceType"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="pdf">File </option>
-                            <option value="link">Link</option>
-                            <option value="video">Video (URL)</option>
-                        </select>
-                    </div>
-                    <div id="fileInputContainer" class="mb-4">
-                        <label for="resourceFile" class="block text-sm font-medium text-gray-700 mb-1">Upload
-                            File</label>
-                        <input type="file" id="resourceFile" name="resourceFile"
-                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100">
-                    </div>
-                    <div id="urlInputContainer" class="mb-4 hidden">
-                        <label for="resourceUrl" class="block text-sm font-medium text-gray-700 mb-1">URL</label>
-                        <input type="url" id="resourceUrl" name="resourceUrl"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="https://example.com">
-                    </div>
-                    <div class="flex justify-end space-x-3">
-                        <button type="button" id="cancelBtn"
-                            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancel</button>
-                        <button type="submit"
-                            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Add
-                            Resource</button>
-                    </div>
-                </form>
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- Custom Alert/Confirm Modal -->

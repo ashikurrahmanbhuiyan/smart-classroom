@@ -19,13 +19,16 @@ router.get('/', async (req, res) => {
 router.post('/add-assignment', checkAuthenticatedteacher, (req, res) => {
     const { title, subject, description, dueDate } = req.body;
     const newAssignment =  new Assignment({
-        title,
         subject,
-        description,
-        dueDate,
-        status: 'active',
-        submissions: 0,
-        totalStudents: 30 // Mock total, later need to change this to dynamic value
+        assignment_details: [{
+            title,
+            description,
+            dueDate,
+            status: 'active',
+            submissions: 0,
+            totalStudents: 30, // Mock total, later need to change this to dynamic value
+            submissionsDetails: []
+        }],
     });
     newAssignment.save()
         .then(() => {

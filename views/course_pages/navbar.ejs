@@ -1,4 +1,4 @@
-<div class="navbar w-full bg-gradient-to-r from-green-500 to-teal-600 shadow-lg ">
+<!-- <div class="navbar w-full bg-gradient-to-r from-green-500 to-teal-600 shadow-lg ">
     <a href="/teacher/dashboard"class="nav-item <%= page === 'attendance_sheet_all' ? 'active' : '' %>" data-index="0">
         Home
     </a>
@@ -18,4 +18,48 @@
     <div class="slider"
         style="left: <%= ['20%','40%','60%','80%'][['attendance_sheet_all','course_tracker','assignments','resource_sharing'].indexOf(page)] %>;">
     </div>
-</div>
+</div> -->
+
+
+<aside class="w-64 bg-white shadow-md flex flex-col">
+    <div class="p-6 text-2xl font-bold text-blue-600 border-b">
+        SmartClass
+    </div>
+    <nav class="flex-1 p-4 space-y-2">
+        <a href="/teacher/dashboard"
+            class="flex items-center px-4 py-2 rounded-lg <%= page === 'dashboard' ? 'text-white bg-blue-600' : 'text-gray-600 hover:bg-gray-100' %>">
+            <i data-lucide="layout-dashboard"></i><span class="ml-3">Home</span>
+        </a>
+        <a href="/attendance_sheet/all?course_name=<%= course_name %>"
+            class="flex items-center px-4 py-2 rounded-lg <%= page === 'attendance_sheet_all' ? 'text-white bg-blue-600' : 'text-gray-600 hover:bg-gray-100' %>">
+            <i data-lucide="book-open"></i><span class="ml-3">Attendance Sheet</span>
+        </a>
+        <a href="/course_tracker?course_name=<%= course_name %>"
+            class="flex items-center px-4 py-2 rounded-lg <%= page === 'course_tracker' ? 'text-white bg-blue-600' : 'text-gray-600 hover:bg-gray-100' %>">
+            <i data-lucide="users"></i><span class="ml-3">Course Tracker</span>
+        </a>
+        <a href="/assignments?course_name=<%= course_name %>"
+            class="flex items-center px-4 py-2 rounded-lg <%= page === 'assignments' ? 'text-white bg-blue-600' : 'text-gray-600 hover:bg-gray-100' %>">
+            <i data-lucide="file-text"></i><span class="ml-3">Assignment</span>
+        </a>
+        <a href="/resource_sharing?course_name=<%= course_name %>"
+            class="flex items-center px-4 py-2 rounded-lg <%= page === 'resource_sharing' ? 'text-white bg-blue-600' : 'text-gray-600 hover:bg-gray-100' %>">
+            <i data-lucide="calendar"></i><span class="ml-3">Resource</span>
+        </a>
+        <a href="#"
+            class="flex items-center px-4 py-2 rounded-lg <%= page === 'student' ? 'text-white bg-blue-600' : 'text-gray-600 hover:bg-gray-100' %>">
+            <i data-lucide="settings"></i><span class="ml-3">Student</span>
+        </a>
+    </nav>
+    <div class="p-4 border-t">
+        <div class="flex items-center">
+            <img src="https://placehold.co/40x40/93C5FD/1E40AF?text=ER" alt="Teacher Avatar" class="rounded-full">
+            <div class="ml-3">
+                <p class="text-sm font-semibold">
+                    <%= "courseData.teacher" %>
+                </p>
+                <p class="text-xs text-gray-500">Teacher</p>
+            </div>
+        </div>
+    </div>
+</aside>

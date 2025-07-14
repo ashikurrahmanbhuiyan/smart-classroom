@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom styles if needed, though Tailwind handles most */
+        body {
+            font-family: "Inter", sans-serif;
+        }
+        /* Ensure Lucide icons are rendered */
+        [data-lucide] {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-200 font-inter text-gray-800 flex flex-col lg:flex-row">
+
+    <!-- Sidebar Navigation -->
+    <aside class="bg-white shadow-lg p-6 lg:w-64 flex flex-col items-center lg:items-start lg:min-h-screen rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none">
+        <div class="flex items-center space-x-3 mb-8 w-full justify-center lg:justify-start">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book text-indigo-600"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+            <h1 class="text-2xl font-bold text-indigo-800 hidden lg:block">Teacher Hub</h1>
+        </div>
+        <nav class="w-full">
+            <ul class="flex flex-row lg:flex-col justify-around lg:justify-start space-x-4 lg:space-x-0 lg:space-y-3">
+                <li>
+                    <button id="nav-dashboard" class="flex items-center space-x-3 p-3 rounded-lg w-full transition-all duration-200 bg-indigo-600 text-white shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        <span class="font-medium hidden lg:block">Dashboard</span>
+                    </button>
+                </li>
+                <li>
+                    <button id="nav-profile" class="flex items-center space-x-3 p-3 rounded-lg w-full transition-all duration-200 text-gray-700 hover:bg-indigo-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span class="font-medium hidden lg:block">Profile</span>
+                    </button>
+                </li>
+                <li>
+                    <button id="nav-courses" class="flex items-center space-x-3 p-3 rounded-lg w-full transition-all duration-200 text-gray-700 hover:bg-indigo-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                        <span class="font-medium hidden lg:block">Courses</span>
+                    </button>
+                </li>
+                <li>
+                    <button id="nav-schedule" class="flex items-center space-x-3 p-3 rounded-lg w-full transition-all duration-200 text-gray-700 hover:bg-indigo-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
+                        <span class="font-medium hidden lg:block">Schedule</span>
+                    </button>
+                </li>
+                <li>
+                    <button id="nav-announcements" class="flex items-center space-x-3 p-3 rounded-lg w-full transition-all duration-200 text-gray-700 hover:bg-indigo-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+                        <span class="font-medium hidden lg:block">Notes</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-6 lg:p-10 overflow-auto">
+        <h2 id="main-title" class="text-3xl font-extrabold text-indigo-900 mb-8 capitalize">Teacher Dashboard</h2>
+        <div id="content-area">
+            <!-- Content will be rendered here by JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // --- Global State ---
+        let teacherInfo = {
+            name: 'Dr. Emily Carter',
+            subject: 'Computer Science',
+            email: 'emily.carter@example.com',
+            profilePic: 'https://placehold.co/150x150/A78BFA/ffffff?text=EC',
+        };
+
+        let courses = [
+            { id: 'c1', name: 'Introduction to Programming', code: 'CS101', description: 'Fundamentals of programming using Python.' },
+            { id: 'c2', name: 'Data Structures & Algorithms', code: 'CS201', description: 'Advanced data structures and algorithm design.' },
+            { id: 'c3', name: 'Web Development Basics', code: 'WD101', description: 'Introduction to HTML, CSS, and JavaScript.' },
+        ];
+
+        let schedule = [
+            { id: 's1', courseId: 'c1', day: 'Monday', startTime: '09:00', endTime: '10:30', room: 'Room 301' },
+            { id: 's2', courseId: 'c2', day: 'Tuesday', startTime: '11:00', endTime: '12:30', room: 'Online (Zoom)' },
+            { id: 's3', courseId: 'c1', day: 'Wednesday', startTime: '09:00', endTime: '10:30', room: 'Room 301' },
+            { id: 's4', courseId: 'c3', day: 'Thursday', startTime: '14:00', endTime: '15:30', room: 'Lab 205' },
+        ];
+
+        let announcements = [
+            'Remember to submit grades by Friday.',
+            'Office hours moved to 3 PM on Tuesday.',
+        ];
+
+        let currentView = 'dashboard'; // 'dashboard', 'profile', 'courses', 'schedule', 'announcements'
+
+        const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+        // --- DOM Elements ---
+        const contentArea = document.getElementById('content-area');
+        const mainTitle = document.getElementById('main-title');
+        const navButtons = {
+            dashboard: document.getElementById('nav-dashboard'),
+            profile: document.getElementById('nav-profile'),
+            courses: document.getElementById('nav-courses'),
+            schedule: document.getElementById('nav-schedule'),
+            announcements: document.getElementById('nav-announcements'),
+        };
+
+        // --- Helper Functions ---
+
+        /**
+         * Renders Lucide icons dynamically.
+         * Call this after adding new HTML content that contains data-lucide attributes.
+         */
+        function renderLucideIcons() {
+            lucide.createIcons();
+        }
+
+        /**
+         * Gets the course name from its ID.
+         * @param {string} courseId - The ID of the course.
+         * @returns {string} The name of the course or 'Unknown Course'.
+         */
+        function getCourseName(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            return course ? course.name : 'Unknown Course';
+        }
+
+        /**
+         * Updates the active navigation button styling.
+         */
+        function updateNavActiveState() {
+            Object.values(navButtons).forEach(button => {
+                button.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
+                button.classList.add('text-gray-700', 'hover:bg-indigo-100');
+            });
+            const activeButton = navButtons[currentView];
+            if (activeButton) {
+                activeButton.classList.remove('text-gray-700', 'hover:bg-indigo-100');
+                activeButton.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+            }
+        }
+
+        /**
+         * Sets the main title of the content area.
+         * @param {string} title - The title to set.
+         */
+        function setMainTitle(title) {
+            mainTitle.textContent = title;
+        }
+
+        // --- Render Functions for Each Section ---
+
+        /**
+         * Renders the Teacher Profile section.
+         */
+        function renderTeacherProfile() {
+            setMainTitle('Profile');
+            contentArea.innerHTML = `
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-indigo-200">
+                    <h3 class="text-2xl font-semibold text-indigo-700 mb-6 flex items-center">
+                        <svg data-lucide="user" class="mr-3 text-indigo-500" size="24"></svg> My Profile
+                    </h3>
+                    <div class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+                        <div class="flex-shrink-0">
+                            <img src="${teacherInfo.profilePic}" alt="Profile" class="w-32 h-32 rounded-full object-cover border-4 border-indigo-300 shadow-md" />
+                        </div>
+                        <div class="flex-grow w-full" id="profile-details-area">
+                            <!-- Profile details or form will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            `;
+            renderLucideIcons();
+            renderProfileDetails();
+        }
+
+        /**
+         * Renders the profile details or edit form.
+         */
+        function renderProfileDetails() {
+            const profileDetailsArea = document.getElementById('profile-details-area');
+            if (!profileDetailsArea) return;
+
+            if (teacherInfo.isEditing) {
+                profileDetailsArea.innerHTML = `
+                    <form id="profile-edit-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" id="name" name="name" value="${teacherInfo.name}" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                            <input type="text" id="subject" name="subject" value="${teacherInfo.subject}" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" name="email" value="${teacherInfo.email}" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                        </div>
+                        <div class="flex space-x-3">
+                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-200">
+                                Save Changes
+                            </button>
+                            <button type="button" id="cancel-profile-edit" class="px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition duration-200">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                `;
+                document.getElementById('profile-edit-form').addEventListener('submit', handleProfileSubmit);
+                document.getElementById('cancel-profile-edit').addEventListener('click', () => {
+                    teacherInfo.isEditing = false;
+                    renderProfileDetails();
+                });
+            } else {
+                profileDetailsArea.innerHTML = `
+                    <div class="space-y-3">
+                        <p class="text-3xl font-bold text-indigo-900">${teacherInfo.name}</p>
+                        <p class="text-xl text-gray-700">${teacherInfo.subject}</p>
+                        <p class="text-lg text-gray-600">${teacherInfo.email}</p>
+                        <button id="edit-profile-button" class="mt-4 px-5 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-600 transition duration-200 flex items-center">
+                            <svg data-lucide="edit" size="18" class="mr-2"></svg> Edit Profile
+                        </button>
+                    </div>
+                `;
+                renderLucideIcons();
+                document.getElementById('edit-profile-button').addEventListener('click', () => {
+                    teacherInfo.isEditing = true;
+                    renderProfileDetails();
+                });
+            }
+        }
+
+        /**
+         * Handles the submission of the profile edit form.
+         * @param {Event} e - The submit event.
+         */
+        function handleProfileSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            teacherInfo.name = form.name.value;
+            teacherInfo.subject = form.subject.value;
+            teacherInfo.email = form.email.value;
+            teacherInfo.isEditing = false;
+            renderProfileDetails();
+        }
+
+        /**
+         * Renders the Dashboard Overview section.
+         */
+        function renderDashboardOverview() {
+            setMainTitle('Teacher Dashboard');
+            contentArea.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-indigo-200">
+                        <h3 class="text-2xl font-semibold text-indigo-700 mb-6 flex items-center">
+                            <svg data-lucide="home" class="mr-3 text-indigo-500" size="24"></svg> Dashboard Overview
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                            <div class="bg-indigo-50 p-5 rounded-lg shadow-sm">
+                                <p class="text-4xl font-bold text-indigo-700">${courses.length}</p>
+                                <p class="text-lg text-gray-600">Total Courses</p>
+                            </div>
+                            <div class="bg-purple-50 p-5 rounded-lg shadow-sm">
+                                <p class="text-4xl font-bold text-purple-700">${schedule.length}</p>
+                                <p class="text-lg text-gray-600">Scheduled Classes</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2" id="upcoming-classes-area">
+                        <!-- Upcoming classes will be rendered here -->
+                    </div>
+                    <div class="lg:col-span-3" id="announcements-compact-area">
+                        <!-- Announcements (compact) will be rendered here -->
+                    </div>
+                </div>
+            `;
+            renderLucideIcons();
+            renderUpcomingClasses(true); // Render in compact mode for dashboard
+            renderAnnouncements(true); // Render in compact mode for dashboard
+        }
+
+        /**
+         * Renders the Course Management section.
+         */
+        function renderCourseManagement() {
+            setMainTitle('Courses');
+            contentArea.innerHTML = `
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-indigo-200">
+                    <h3 class="text-2xl font-semibold text-indigo-700 mb-6 flex items-center">
+                        <svg data-lucide="book" class="mr-3 text-indigo-500" size="24"></svg> Course Management
+                    </h3>
+
+                    <!-- Add New Course Form -->
+                    <div class="mb-8 p-6 bg-indigo-50 rounded-lg shadow-sm border border-indigo-100">
+                        <h4 class="text-xl font-medium text-indigo-800 mb-4 flex items-center">
+                            <svg data-lucide="plus-circle" size="20" class="mr-2 text-indigo-600"></svg> Add New Course
+                        </h4>
+                        <form id="add-course-form" class="space-y-4">
+                            <div>
+                                <label for="newCourseName" class="block text-sm font-medium text-gray-700">Course Name</label>
+                                <input type="text" id="newCourseName" name="name" placeholder="e.g., Advanced Calculus" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required />
+                            </div>
+                            <div>
+                                <label for="newCourseCode" class="block text-sm font-medium text-gray-700">Course Code</label>
+                                <input type="text" id="newCourseCode" name="code" placeholder="e.g., MA301" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required />
+                            </div>
+                            <div>
+                                <label for="newCourseDescription" class="block text-sm font-medium text-gray-700">Description (Optional)</label>
+                                <textarea id="newCourseDescription" name="description" rows="3" placeholder="Brief description of the course content." class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                            </div>
+                            <button type="submit" class="px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-200 flex items-center">
+                                <svg data-lucide="plus-circle" size="18" class="mr-2"></svg> Add Course
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- My Courses List -->
+                    <h4 class="text-xl font-medium text-indigo-800 mb-4 flex items-center">
+                        <svg data-lucide="list" size="20" class="mr-2 text-indigo-600"></svg> My Courses
+                    </h4>
+                    <ul id="courses-list" class="space-y-4">
+                        <!-- Courses will be rendered here -->
+                    </ul>
+                </div>
+            `;
+            renderLucideIcons();
+            document.getElementById('add-course-form').addEventListener('submit', handleAddCourse);
+            renderCoursesList();
+        }
+
+        /**
+         * Renders the list of courses.
+         */
+        function renderCoursesList() {
+            const coursesList = document.getElementById('courses-list');
+            if (!coursesList) return;
+
+            coursesList.innerHTML = ''; // Clear existing list
+
+            if (courses.length === 0) {
+                coursesList.innerHTML = '<p class="text-gray-600 italic">No courses added yet.</p>';
+                return;
+            }
+
+            courses.forEach(course => {
+                const li = document.createElement('li');
+                li.className = 'bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center';
+                li.setAttribute('data-course-id', course.id);
+
+                if (course.isEditing) {
+                    li.innerHTML = `
+                        <form data-course-id="${course.id}" class="flex-grow space-y-2 w-full edit-course-form">
+                            <input type="text" name="name" value="${course.name}" class="block w-full p-2 border border-gray-300 rounded-md" required />
+                            <input type="text" name="code" value="${course.code}" class="block w-full p-2 border border-gray-300 rounded-md" required />
+                            <textarea name="description" rows="2" class="block w-full p-2 border border-gray-300 rounded-md">${course.description || ''}</textarea>
+                            <div class="flex space-x-2 mt-2">
+                                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm">Save</button>
+                                <button type="button" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 text-sm cancel-edit-course">Cancel</button>
+                            </div>
+                        </form>
+                    `;
+                } else {
+                    li.innerHTML = `
+                        <div class="flex-grow">
+                            <p class="text-lg font-semibold text-indigo-800">${course.name} <span class="text-sm text-gray-500">(${course.code})</span></p>
+                            <p class="text-gray-600 text-sm">${course.description || 'No description provided.'}</p>
+                        </div>
+                        <div class="flex space-x-2 mt-3 md:mt-0">
+                            <button class="p-2 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition duration-200 edit-course-button" title="Edit Course">
+                                <svg data-lucide="edit" size="18"></svg>
+                            </button>
+                            <button class="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200 delete-course-button" title="Delete Course">
+                                <svg data-lucide="trash-2" size="18"></svg>
+                            </button>
+                        </div>
+                    `;
+                }
+                coursesList.appendChild(li);
+            });
+            renderLucideIcons(); // Render icons for new elements
+
+            // Add event listeners for edit/delete buttons
+            coursesList.querySelectorAll('.edit-course-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const courseId = e.currentTarget.closest('li').getAttribute('data-course-id');
+                    const courseToEdit = courses.find(c => c.id === courseId);
+                    if (courseToEdit) {
+                        courseToEdit.isEditing = true;
+                        renderCoursesList();
+                    }
+                });
+            });
+
+            coursesList.querySelectorAll('.delete-course-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const courseId = e.currentTarget.closest('li').getAttribute('data-course-id');
+                    deleteCourse(courseId);
+                });
+            });
+
+            coursesList.querySelectorAll('.edit-course-form').forEach(form => {
+                form.addEventListener('submit', handleUpdateCourse);
+            });
+
+            coursesList.querySelectorAll('.cancel-edit-course').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const courseId = e.currentTarget.closest('li').getAttribute('data-course-id');
+                    const courseToCancel = courses.find(c => c.id === courseId);
+                    if (courseToCancel) {
+                        courseToCancel.isEditing = false;
+                        renderCoursesList();
+                    }
+                });
+            });
+        }
+
+        /**
+         * Handles adding a new course.
+         * @param {Event} e - The submit event.
+         */
+        function handleAddCourse(e) {
+            e.preventDefault();
+            const form = e.target;
+            const newCourse = {
+                id: `c${Date.now()}`,
+                name: form.name.value,
+                code: form.code.value,
+                description: form.description.value,
+            };
+            if (newCourse.name && newCourse.code) {
+                courses.push(newCourse);
+                form.reset(); // Clear form
+                renderCoursesList();
+            }
+        }
+
+        /**
+         * Handles updating an existing course.
+         * @param {Event} e - The submit event.
+         */
+        function handleUpdateCourse(e) {
+            e.preventDefault();
+            const form = e.target;
+            const courseId = form.getAttribute('data-course-id');
+            const courseIndex = courses.findIndex(c => c.id === courseId);
+            if (courseIndex !== -1) {
+                courses[courseIndex].name = form.name.value;
+                courses[courseIndex].code = form.code.value;
+                courses[courseIndex].description = form.description.value;
+                courses[courseIndex].isEditing = false; // Exit editing mode
+                renderCoursesList();
+            }
+        }
+
+        /**
+         * Deletes a course and its associated schedules.
+         * @param {string} courseId - The ID of the course to delete.
+         */
+        function deleteCourse(courseId) {
+            courses = courses.filter(course => course.id !== courseId);
+            schedule = schedule.filter(s => s.courseId !== courseId); // Also remove related schedules
+            renderCoursesList();
+            // If in schedule view, re-render schedule as well
+            if (currentView === 'schedule') {
+                renderScheduleManagement();
+            }
+        }
+
+        /**
+         * Renders the Schedule Management section.
+         */
+        function renderScheduleManagement() {
+            setMainTitle('Schedule');
+            contentArea.innerHTML = `
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-indigo-200">
+                    <h3 class="text-2xl font-semibold text-indigo-700 mb-6 flex items-center">
+                        <svg data-lucide="calendar" class="mr-3 text-indigo-500" size="24"></svg> Schedule Management
+                    </h3>
+
+                    <!-- Add New Schedule Form -->
+                    <div class="mb-8 p-6 bg-indigo-50 rounded-lg shadow-sm border border-indigo-100">
+                        <h4 class="text-xl font-medium text-indigo-800 mb-4 flex items-center">
+                            <svg data-lucide="plus-circle" size="20" class="mr-2 text-indigo-600"></svg> Schedule New Class
+                        </h4>
+                        ${courses.length === 0 ? `
+                            <p class="text-red-600">Please add courses first before scheduling classes.</p>
+                        ` : `
+                            <form id="add-schedule-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="scheduleCourse" class="block text-sm font-medium text-gray-700">Course</label>
+                                    <select id="scheduleCourse" name="courseId" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                                        ${courses.map(course => `<option value="${course.id}">${course.name} (${course.code})</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="scheduleDay" class="block text-sm font-medium text-gray-700">Day</label>
+                                    <select id="scheduleDay" name="day" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                                        ${daysOfWeek.map(day => `<option value="${day}">${day}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="scheduleStartTime" class="block text-sm font-medium text-gray-700">Start Time</label>
+                                    <input type="time" id="scheduleStartTime" name="startTime" value="09:00" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required />
+                                </div>
+                                <div>
+                                    <label for="scheduleEndTime" class="block text-sm font-medium text-gray-700">End Time</label>
+                                    <input type="time" id="scheduleEndTime" name="endTime" value="10:00" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="scheduleRoom" class="block text-sm font-medium text-gray-700">Room / Platform</label>
+                                    <input type="text" id="scheduleRoom" name="room" placeholder="e.g., Room 301 or Online (Zoom)" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <button type="submit" class="px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-200 flex items-center">
+                                        <svg data-lucide="plus-circle" size="18" class="mr-2"></svg> Add Schedule
+                                    </button>
+                                </div>
+                            </form>
+                        `}
+                    </div>
+
+                    <!-- Course Schedule Display -->
+                    <h4 class="text-xl font-medium text-indigo-800 mb-4 flex items-center">
+                        <svg data-lucide="list" size="20" class="mr-2 text-indigo-600"></svg> My Schedule
+                    </h4>
+                    <div id="schedule-display-area" class="space-y-6">
+                        <!-- Schedule will be rendered here -->
+                    </div>
+                </div>
+            `;
+            renderLucideIcons();
+            if (courses.length > 0) {
+                document.getElementById('add-schedule-form').addEventListener('submit', handleAddSchedule);
+            }
+            renderScheduleDisplay();
+        }
+
+        /**
+         * Renders the schedule grouped by day.
+         */
+        function renderScheduleDisplay() {
+            const scheduleDisplayArea = document.getElementById('schedule-display-area');
+            if (!scheduleDisplayArea) return;
+
+            scheduleDisplayArea.innerHTML = ''; // Clear existing schedule
+
+            if (schedule.length === 0) {
+                scheduleDisplayArea.innerHTML = '<p class="text-gray-600 italic">No classes scheduled yet.</p>';
+                return;
+            }
+
+            const groupedSchedule = daysOfWeek.reduce((acc, day) => {
+                acc[day] = schedule.filter(s => s.day === day).sort((a, b) => a.startTime.localeCompare(b.startTime));
+                return acc;
+            }, {});
+
+            daysOfWeek.forEach(day => {
+                const dayDiv = document.createElement('div');
+                dayDiv.innerHTML = `
+                    <h5 class="text-lg font-semibold text-indigo-700 mb-3 border-b-2 border-indigo-300 pb-1">${day}</h5>
+                    <ul class="space-y-3 ml-4" data-day="${day}">
+                        <!-- Classes for this day will be here -->
+                    </ul>
+                `;
+                scheduleDisplayArea.appendChild(dayDiv);
+
+                const ul = dayDiv.querySelector(`ul[data-day="${day}"]`);
+                if (groupedSchedule[day].length === 0) {
+                    ul.innerHTML = '<p class="text-gray-600 text-sm italic">No classes scheduled for ' + day + '.</p>';
+                } else {
+                    groupedSchedule[day].forEach(s => {
+                        const li = document.createElement('li');
+                        li.className = 'bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center';
+                        li.setAttribute('data-schedule-id', s.id);
+
+                        if (s.isEditing) {
+                            li.innerHTML = `
+                                <form data-schedule-id="${s.id}" class="flex-grow space-y-2 w-full edit-schedule-form">
+                                    <select name="courseId" class="block w-full p-2 border border-gray-300 rounded-md" required>
+                                        ${courses.map(course => `<option value="${course.id}" ${s.courseId === course.id ? 'selected' : ''}>${course.name}</option>`).join('')}
+                                    </select>
+                                    <div class="flex space-x-2">
+                                        <input type="time" name="startTime" value="${s.startTime}" class="block w-1/2 p-2 border border-gray-300 rounded-md" required />
+                                        <input type="time" name="endTime" value="${s.endTime}" class="block w-1/2 p-2 border border-gray-300 rounded-md" required />
+                                    </div>
+                                    <input type="text" name="room" value="${s.room}" class="block w-full p-2 border border-gray-300 rounded-md" required />
+                                    <div class="flex space-x-2 mt-2">
+                                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm">Save</button>
+                                        <button type="button" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 text-sm cancel-edit-schedule">Cancel</button>
+                                    </div>
+                                </form>
+                            `;
+                        } else {
+                            li.innerHTML = `
+                                <div class="flex-grow">
+                                    <p class="font-medium text-indigo-800">${getCourseName(s.courseId)}</p>
+                                    <div class="flex items-center text-gray-600 text-sm space-x-3 mt-1">
+                                        <svg data-lucide="clock" size="16"></svg> <span>${s.startTime} - ${s.endTime}</span>
+                                        <svg data-lucide="map-pin" size="16"></svg> <span>${s.room}</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2 mt-3 sm:mt-0">
+                                    <button class="p-2 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition duration-200 edit-schedule-button" title="Edit Schedule">
+                                        <svg data-lucide="edit" size="18"></svg>
+                                    </button>
+                                    <button class="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200 delete-schedule-button" title="Delete Schedule">
+                                        <svg data-lucide="trash-2" size="18"></svg>
+                                    </button>
+                                </div>
+                            `;
+                        }
+                        ul.appendChild(li);
+                    });
+                }
+            });
+            renderLucideIcons();
+
+            // Add event listeners for schedule edit/delete buttons
+            scheduleDisplayArea.querySelectorAll('.edit-schedule-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const scheduleId = e.currentTarget.closest('li').getAttribute('data-schedule-id');
+                    const scheduleToEdit = schedule.find(s => s.id === scheduleId);
+                    if (scheduleToEdit) {
+                        scheduleToEdit.isEditing = true;
+                        renderScheduleDisplay();
+                    }
+                });
+            });
+
+            scheduleDisplayArea.querySelectorAll('.delete-schedule-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const scheduleId = e.currentTarget.closest('li').getAttribute('data-schedule-id');
+                    deleteSchedule(scheduleId);
+                });
+            });
+
+            scheduleDisplayArea.querySelectorAll('.edit-schedule-form').forEach(form => {
+                form.addEventListener('submit', handleUpdateSchedule);
+            });
+
+            scheduleDisplayArea.querySelectorAll('.cancel-edit-schedule').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const scheduleId = e.currentTarget.closest('li').getAttribute('data-schedule-id');
+                    const scheduleToCancel = schedule.find(s => s.id === scheduleId);
+                    if (scheduleToCancel) {
+                        scheduleToCancel.isEditing = false;
+                        renderScheduleDisplay();
+                    }
+                });
+            });
+        }
+
+        /**
+         * Handles adding a new schedule entry.
+         * @param {Event} e - The submit event.
+         */
+        function handleAddSchedule(e) {
+            e.preventDefault();
+            const form = e.target;
+            const newSchedule = {
+                id: `s${Date.now()}`,
+                courseId: form.courseId.value,
+                day: form.day.value,
+                startTime: form.startTime.value,
+                endTime: form.endTime.value,
+                room: form.room.value,
+            };
+            if (newSchedule.courseId && newSchedule.day && newSchedule.startTime && newSchedule.endTime && newSchedule.room) {
+                schedule.push(newSchedule);
+                form.reset(); // Clear form
+                // Set default values for new schedule form after reset
+                form.courseId.value = courses.length > 0 ? courses[0].id : '';
+                form.day.value = 'Monday';
+                form.startTime.value = '09:00';
+                form.endTime.value = '10:00';
+                renderScheduleDisplay();
+            }
+        }
+
+        /**
+         * Handles updating an existing schedule entry.
+         * @param {Event} e - The submit event.
+         */
+        function handleUpdateSchedule(e) {
+            e.preventDefault();
+            const form = e.target;
+            const scheduleId = form.getAttribute('data-schedule-id');
+            const scheduleIndex = schedule.findIndex(s => s.id === scheduleId);
+            if (scheduleIndex !== -1) {
+                schedule[scheduleIndex].courseId = form.courseId.value;
+                schedule[scheduleIndex].day = form.day.value; // Day cannot be changed in edit form, but keep for consistency
+                schedule[scheduleIndex].startTime = form.startTime.value;
+                schedule[scheduleIndex].endTime = form.endTime.value;
+                schedule[scheduleIndex].room = form.room.value;
+                schedule[scheduleIndex].isEditing = false; // Exit editing mode
+                renderScheduleDisplay();
+            }
+        }
+
+        /**
+         * Deletes a schedule entry.
+         * @param {string} scheduleId - The ID of the schedule entry to delete.
+         */
+        function deleteSchedule(scheduleId) {
+            schedule = schedule.filter(s => s.id !== scheduleId);
+            renderScheduleDisplay();
+        }
+
+        /**
+         * Renders the Upcoming Classes section.
+         * @param {boolean} isCompact - If true, renders in a compact form for the dashboard.
+         */
+        function renderUpcomingClasses(isCompact = false) {
+            const targetElement = isCompact ? document.getElementById('upcoming-classes-area') : contentArea;
+            if (!targetElement) return;
+
+            const today = new Date();
+            const currentDayIndex = today.getDay(); // 0 for Sunday, 1 for Monday, etc.
+
+            const upcoming = schedule.filter(s => {
+                const dayIndex = daysOfWeek.indexOf(s.day);
+                if (dayIndex === -1) return false;
+
+                // Simple logic: check if the day is today or in the future
+                // For a real app, you'd need more complex date comparisons
+                return dayIndex >= currentDayIndex;
+            }).sort((a, b) => {
+                const dayA = daysOfWeek.indexOf(a.day);
+                const dayB = daysOfWeek.indexOf(b.day);
+                if (dayA !== dayB) return dayA - dayB;
+                return a.startTime.localeCompare(b.startTime);
+            }).slice(0, 5); // Show top 5 upcoming
+
+            targetElement.innerHTML = `
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-indigo-200">
+                    <h3 class="text-2xl font-semibold text-indigo-700 mb-6 flex items-center">
+                        <svg data-lucide="calendar" class="mr-3 text-indigo-500" size="24"></svg> Upcoming Classes
+                    </h3>
+                    ${upcoming.length === 0 ? `
+                        <p class="text-gray-600 italic">No upcoming classes in the next few days.</p>
+                    ` : `
+                        <ul class="space-y-3">
+                            ${upcoming.map(s => `
+                                <li class="bg-indigo-50 p-3 rounded-lg shadow-sm flex items-center space-x-4">
+                                    <div class="flex-shrink-0 bg-indigo-200 text-indigo-800 rounded-full w-10 h-10 flex items-center justify-center font-bold">
+                                        ${s.day.substring(0, 3)}
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-indigo-800">${getCourseName(s.courseId)}</p>
+                                        <p class="text-gray-600 text-sm">
+                                            ${s.startTime} - ${s.endTime} <span class="mx-1">•</span> ${s.room}
+                                        </p>
+                                    </div>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    `}
+                </div>
+            `;
+            renderLucideIcons();
+            if (!isCompact) {
+                setMainTitle('Upcoming Classes'); // Set title only if not compact
+            }
+        }
+
+        /**
+         * Renders the Announcements and Notes section.
+         * @param {boolean} isCompact - If true, renders in a compact form (without add form).
+         */
+        function renderAnnouncements(isCompact = false) {
+            const targetElement = isCompact ? document.getElementById('announcements-compact-area') : contentArea;
+            if (!targetElement) return;
+
+            targetElement.innerHTML = `
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-indigo-200">
+                    <h3 class="text-2xl font-semibold text-indigo-700 mb-6 flex items-center">
+                        <svg data-lucide="bell" class="mr-3 text-indigo-500" size="24"></svg> Announcements & Notes
+                    </h3>
+
+                    ${!isCompact ? `
+                        <div class="mb-6 p-4 bg-purple-50 rounded-lg shadow-sm border border-purple-100">
+                            <h4 class="text-lg font-medium text-purple-800 mb-3">Add a New Note</h4>
+                            <form id="add-note-form" class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                                <input type="text" id="newNoteInput" placeholder="Type your note or announcement here..." class="flex-grow p-2 border border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500" />
+                                <button type="submit" class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-200">
+                                    Add Note
+                                </button>
+                            </form>
+                        </div>
+                    ` : ''}
+
+                    <ul id="announcements-list" class="space-y-3">
+                        <!-- Announcements will be rendered here -->
+                    </ul>
+                </div>
+            `;
+            renderLucideIcons();
+            if (!isCompact) {
+                setMainTitle('Notes'); // Set title only if not compact
+                document.getElementById('add-note-form').addEventListener('submit', handleAddNote);
+            }
+            renderAnnouncementsList();
+        }
+
+        /**
+         * Renders the list of announcements.
+         */
+        function renderAnnouncementsList() {
+            const announcementsList = document.getElementById('announcements-list');
+            if (!announcementsList) return;
+
+            announcementsList.innerHTML = ''; // Clear existing list
+
+            if (announcements.length === 0) {
+                announcementsList.innerHTML = '<p class="text-gray-600 italic">No announcements or notes yet.</p>';
+                return;
+            }
+
+            announcements.forEach((note, index) => {
+                const li = document.createElement('li');
+                li.className = 'bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex justify-between items-center';
+                li.innerHTML = `
+                    <p class="text-gray-700 flex-grow">${note}</p>
+                    <button class="ml-4 p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200 delete-note-button" data-index="${index}" title="Delete Note">
+                        <svg data-lucide="trash-2" size="16"></svg>
+                    </button>
+                `;
+                announcementsList.appendChild(li);
+            });
+            renderLucideIcons();
+
+            announcementsList.querySelectorAll('.delete-note-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.currentTarget.getAttribute('data-index'));
+                    deleteAnnouncement(index);
+                });
+            });
+        }
+
+        /**
+         * Handles adding a new announcement.
+         * @param {Event} e - The submit event.
+         */
+        function handleAddNote(e) {
+            e.preventDefault();
+            const input = document.getElementById('newNoteInput');
+            const newNote = input.value.trim();
+            if (newNote) {
+                announcements.push(newNote);
+                input.value = ''; // Clear input
+                renderAnnouncementsList();
+            }
+        }
+
+        /**
+         * Deletes an announcement.
+         * @param {number} index - The index of the announcement to delete.
+         */
+        function deleteAnnouncement(index) {
+            announcements.splice(index, 1);
+            renderAnnouncementsList();
+        }
+
+        // --- Main Render Function and Event Listeners ---
+
+        /**
+         * Renders the appropriate content based on the current view.
+         */
+        function renderContent() {
+            switch (currentView) {
+                case 'profile':
+                    renderTeacherProfile();
+                    break;
+                case 'courses':
+                    renderCourseManagement();
+                    break;
+                case 'schedule':
+                    renderScheduleManagement();
+                    break;
+                case 'announcements':
+                    renderAnnouncements();
+                    break;
+                case 'dashboard':
+                default:
+                    renderDashboardOverview();
+                    break;
+            }
+            updateNavActiveState();
+        }
+
+        // Add event listeners to navigation buttons
+        navButtons.dashboard.addEventListener('click', () => { currentView = 'dashboard'; renderContent(); });
+        navButtons.profile.addEventListener('click', () => { currentView = 'profile'; renderContent(); });
+        navButtons.courses.addEventListener('click', () => { currentView = 'courses'; renderContent(); });
+        navButtons.schedule.addEventListener('click', () => { currentView = 'schedule'; renderContent(); });
+        navButtons.announcements.addEventListener('click', () => { currentView = 'announcements'; renderContent(); });
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', renderContent);
+    </script>
+</body>
+</html>
